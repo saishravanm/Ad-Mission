@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../Models/usermodel.js");
+const Event = require("../Models/eventmodel.js");
 const bcrypt = require("bcrypt");
 
 router.get("/", async(req, res) => {
@@ -22,6 +23,17 @@ router.post("/registration", async (req, res) => {
     });
     res.status(200).json({"message": "User registered successfully!"});
 });
+
+router.post("/event_creation", async(req, res) => {
+    await Event.create({
+        eventName: req.body.eventName,
+        eventLocation: req.body.eventLocation,
+        eventDate: req.body.eventDate,
+        eventTime: req.body.eventTime,
+        eventDescription: req.body.eventDescription,
+    });
+    res.status(200).json({"message": "Event created successfully!"})
+})
 
 router.post("/login", async (req, res) => {
     try {
