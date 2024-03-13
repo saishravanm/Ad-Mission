@@ -15,6 +15,13 @@ router.get("/accountinfo/:useremail", async(req,res) => {
     res.status(200).json({"userId":user.id, "userEmail":user.userEmail, "Phone Number":user.phoneNumber});
 });
 
+router.get("/get_event/:eventid"), async(req, res) =>{
+    const event = await Event.findOne({
+        eventID: req.params.useremail
+    });
+    res.status(200).json({"eventName":event.eventName,"eventDate":event.eventDate,"eventVenue":event.eventLocation,"eventTime":event.eventTime})
+}
+
 router.post("/registration", async (req, res) => {
     await User.create({
         userEmail: req.body.userEmail,
