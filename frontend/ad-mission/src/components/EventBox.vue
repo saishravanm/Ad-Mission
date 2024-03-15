@@ -11,22 +11,36 @@ h1{
 }
 
 </style>
-<template>
-<div style ="width: 1000px; height: auto; background-color: hex(CED4DA);">
-<h1>Event Name:{{ eventName }}</h1>
-<h1>Date:{{ date }}</h1>
-<h1>Venue:{{ eventVenue }}</h1>
-<h1>Time:{{ time }}</h1>
-</div>
-</template>
-
-
 <script>
-const eventName = "bgfhhf";
-const date = "";
-const venue = "";
-const time = "";
 export default{
-    name: 'EventBox',
+    name: 'Event',
+    props:{
+        eventName: {
+            type: String, 
+            required: true
+        },
+        eventDate: {
+            type: String,
+            required: true
+        },
+        eventVenue:{
+            type: String, 
+            required: true
+        },
+        eventTime:{
+            type: String, 
+            required: true
+        }
+    }
 }
 </script>
+<template>
+<div style ="width: 1000px; height: 150px; background-color: #DEE2E6;">
+<h1>Event Name:{{ eventName }}</h1>
+<h1>Date:{{ eventDate }}</h1>
+<h1>Venue:{{ eventVenue }}</h1>
+<h1>Time:{{ evenTime }}</h1>
+</div>
+
+</template>
+

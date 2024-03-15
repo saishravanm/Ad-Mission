@@ -15,12 +15,22 @@ router.get("/accountinfo/:useremail", async(req,res) => {
     res.status(200).json({"userId":user.id, "userEmail":user.userEmail, "Phone Number":user.phoneNumber});
 });
 
-router.get("/get_event/:eventid"), async(req, res) =>{
+router.get("/get_event/:eventname"), async(req, res) =>{
     const event = await Event.findOne({
-        eventID: req.params.useremail
+        eventName: req.params.eventName
     });
     res.status(200).json({"eventName":event.eventName,"eventDate":event.eventDate,"eventVenue":event.eventLocation,"eventTime":event.eventTime})
 }
+
+router.get('/getevents', async (req, res) => {
+    try {
+      var results = []
+      const eventList = await Event.find({});
+      res.json(eventList);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
 
 router.post("/registration", async (req, res) => {
     await User.create({
