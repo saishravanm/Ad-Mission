@@ -1,0 +1,10 @@
+@font-face {
+    font-family: Jaffna;
+    src: url('frontend\\ad-mission\\src\\assets\\fonts\\PostNoBillsJaffna-Regular.ttf') format('truetype');
+    
+}
+h1{
+    color: black;
+    font-family: Jaffna;
+    font-size: x-large;
+}
