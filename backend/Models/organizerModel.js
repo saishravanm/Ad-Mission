@@ -2,6 +2,15 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const organizerSchema = mongoose.Schema({
+    email: {
+        type: String
+    },
+    password: {
+        type: String
+    },
+    phoneNumber: {
+        type: Number
+    },
     organizationName: {
         type: String,
         required: true
