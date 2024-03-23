@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="form-container">
+    <h1 class="form-title">Ad Mission</h1>
     <form @submit.prevent="submitForm">
       <div>
         <label for="cardNumber">Card Number:</label>
@@ -14,13 +15,14 @@
         <input type="text" id="cvv" v-model="cvv" required>
       </div>
       <div>
-        <label for="name">Cardholder's Name:</label>
+        <label for="name">Cardholder Name:</label>
         <input type="text" id="name" v-model="cardholderName" required>
       </div>
       <button type="submit">Submit Payment</button>
     </form>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -94,11 +96,12 @@ button[type="submit"] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 button[type="submit"]:hover {
   background-color: #4ca6e8; /* Darker blue on hover */
+  transform: scale(1.1); /* Enlarge the button on hover */
 }
 </style>
 
