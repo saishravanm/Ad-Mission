@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const paymentSchema = mongoose.Schema({
+    paymentProvider: {
+        type: String,
+        required: true
+    },
     cardNumber: {
         type: String,
         required: true
