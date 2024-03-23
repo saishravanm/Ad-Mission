@@ -52,6 +52,54 @@
   </script>
   
   <style scoped>
-  /* Add your custom CSS styles here */
-  </style>
+  /* Form container */
+  .form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Form labels */
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+  }
+
+  /* Form input fields */
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="text"]:focus {
+    outline: none;
+    border-color: #5cb3fd; /* Light blue border color */
+  }
+
+  /* Submit button */
+  button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #5cb3fd; /* Light blue button background */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #4ca6e8; /* Darker blue on hover */
+  }
+</style>
+
   
