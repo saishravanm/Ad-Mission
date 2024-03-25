@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../Models/usermodel.js");
 const Event = require("../Models/eventmodel.js");
 const bcrypt = require("bcrypt");
+const standarduser = require("../Models/standarduser.js");
 
 router.get("/", async(req, res) => {
     res.status(200).json({"test": "This is a test"});
@@ -20,6 +21,27 @@ router.post("/registration", async (req, res) => {
         userEmail: req.body.userEmail,
         password: req.body.password,
         phoneNumber: req.body.phoneNumber,
+    });
+    res.status(200).json({"message": "User registered successfully!"});
+});
+
+router.get("/accountinfo/:useremail", async(req,res) => {
+    const user = await standarduser.findOne({
+        userEmail: req.params.useremail
+    });
+    res.status(200).json({"userId":user.id, "userEmail":user.userEmail, "Phone Number":user.phoneNumber, "Birthday":user.birthday, "Address Street":user.addressStreet, "Address City":user.addressCity, "Address State":user.addressState, "Address ZIP":user.addressZIP});
+});
+
+router.post("/registration/standarduser", async (req, res) => {
+    await standarduser.create({
+        userEmail: req.body.userEmail,
+        password: req.body.password,
+        phoneNumber: req.body.phoneNumber,
+        birthday: req.body.birthday,
+        addressStreet: req.body.addressStreet,
+        addressCity: req.body.addressCity,
+        addressState: req.body.addressState,
+        addressZIP: req.body.addressZIP,
     });
     res.status(200).json({"message": "User registered successfully!"});
 });
