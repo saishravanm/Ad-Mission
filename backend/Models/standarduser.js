@@ -30,6 +30,9 @@ const standarduserSchema = mongoose.Schema({
     },
     birthday: {
         type: Number
+    },
+    id: {
+        type: Number
     }
 
 });
@@ -48,4 +51,4 @@ standarduserSchema.pre("save", async function (next) {
     }
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("standarduser", userSchema);
