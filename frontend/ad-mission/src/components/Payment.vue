@@ -36,13 +36,30 @@ export default {
   },
   methods: {
     submitForm() {
-      // You can handle form submission here, e.g., send data to server, validate, etc.
+      // Input validation
+      if (!/^\d{16}$/.test(this.cardNumber)) {
+        alert('Please enter a valid 16-digit card number.');
+        return;
+      }
+
+      if (!/\d{2}\/\d{4}/.test(this.expiry)) {
+        alert('Please enter a valid expiry date in MM/YYYY format.');
+        return;
+      }
+
+      if (!/^\d{3}$/.test(this.cvv)) {
+        alert('Please enter a valid 3-digit CVV.');
+        return;
+      }
+
+      // Form submission logic
       console.log('Form submitted with data:', {
         cardNumber: this.cardNumber,
         expiry: this.expiry,
         cvv: this.cvv,
         cardholderName: this.cardholderName
       });
+
       // Reset form fields after submission if needed
       this.cardNumber = '';
       this.expiry = '';
@@ -52,6 +69,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 /* Form container */
