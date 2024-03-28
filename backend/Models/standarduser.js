@@ -58,27 +58,27 @@ standarduserSchema.pre("save", async function (next) {
     {
         throw new Error("Must be 18 or older to create account");
     }
-    if(user.firstName !== null)
+    if(user.firstName == null)
     {
         throw new Error("First name can not be empty");
     }
-    if(user.lastName !== null)
+    if(user.lastName == null)
     {
         throw new Error("Last name can not be empty");
     }
-    if(user.addressStreet !== null)
+    if(user.addressStreet == null)
     {
         throw new Error("Address can not be empty");
     }
-    if(user.addressCity !== null)
+    if(user.addressCity == null)
     {
         throw new Error("City can not be empty");
     }
-    if(user.addressState !== null)
+    if(user.addressState == null)
     {
         throw new Error("State can not be empty");
     }
-    if(user.addresszZIP !== 'undefined')
+    if(user.addresszZIP == 'undefined')
     {   
         throw new Error("ZIP can not be empty");
     }

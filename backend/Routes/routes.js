@@ -42,6 +42,8 @@ router.post("/registration/standarduser", async (req, res) => {
         addressCity: req.body.addressCity,
         addressState: req.body.addressState,
         addressZIP: req.body.addressZIP,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
     });
     res.status(200).json({"message": "User registered successfully!"});
 });
