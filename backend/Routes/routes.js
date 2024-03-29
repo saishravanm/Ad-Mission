@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../Models/usermodel.js");
 const Event = require("../Models/eventmodel.js");
+const Seat = require("../Models/seatmodel.js");
 const bcrypt = require("bcrypt");
 
 router.get("/", async(req, res) => {
@@ -32,6 +33,23 @@ router.get('/getevents', async (req, res) => {
     }
   });
 
+  router.get("/get_seat/:seatNum"), async(req, res) =>{
+    const seat = await Seat.findOne({
+        seatNum: req.params.seatNum
+    });
+    res.status(200).json({"seatNum":seat.seatNum,"seatRow":seat.seatRow,"seatColumn":seat.seatColumn,"seatPrice":seat.seatPrice,"isFilled":seat.isFilled})
+}
+
+router.get('/getseats', async (req, res) => {
+    try {  
+      var results = []
+      const seatList = await Seat.find({});
+      res.json(seatList);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+
 router.post("/registration", async (req, res) => {
     await User.create({
         userEmail: req.body.userEmail,
@@ -50,6 +68,18 @@ router.post("/event_creation", async(req, res) => {
         eventDescription: req.body.eventDescription,
     });
     res.status(200).json({"message": "Event created successfully!"})
+})
+
+router.post("/seat_reservation", async(req, res) => {
+    await Seat.create({
+        seatNum: req.body.seatName,
+        seatRow: req.body.seatRow,
+        seatColumn: req.body.seatColumn,
+        seatPrice: req.body.seatPrice,
+        isFilled: req.body.isFilled,
+        associatedUser: req.body.associatedUser
+    });
+    res.status(200).json({"message": "Seat created successfully!"})
 })
 
 router.post("/login", async (req, res) => {
