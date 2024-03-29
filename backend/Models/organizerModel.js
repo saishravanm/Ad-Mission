@@ -1,47 +1,29 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-
+const standardUser = require("./standarduser.js");
 const organizerSchema = mongoose.Schema({
-    email: {
-        type: String
-    },
-    password: {
-        type: String
-    },
-    phoneNumber: {
-        type: Number
-    },
     organizationName: {
         type: String,
         required: true
     },
-    organizationType: {
+    organizationType:{
         type: String,
         required: true
     },
-    address: {
-        type: String
+    eventsOrganized:{
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Event'
     },
-    website: {
-        type: String
-    },
-    contactPerson: {
-        type: String
-    }
     // Add more organizer-specific fields as needed
 });
-organizerSchema.pre("save", async function (next) {
-    const organizer = this;
-    if (!organizer.isModified("password")) return next();
 
-    try {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(organizer.password, salt);
-        organizer.password = hashedPassword;
-        next();
-    } catch (error) {
-        return next(error);
+organizerSchema.pre("save", async function (next) {
+    if(this.organizationName == null){
+        throw new Error("Organization Name cannot be empty.");
+    }
+    if (this.organizationType == null){
+        throw new Error("Organization Type cannot be empty.");
     }
 });
-
-module.exports = mongoose.model("Organizer", organizerSchema);
+const organizer = standardUser.discriminator("organizer", organizerSchema);
+module.exports = organizer;
