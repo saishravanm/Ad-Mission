@@ -53,10 +53,38 @@ router.post("/login", async (req, res) => {
             return res.status(400).json({ message: "Username/Password error!" });
         }
     } catch (error) {
-        // Handle other potential errors, e.g., database connection issues
         console.error(error);
         return res.status(500).json({ message: "Internal server error" });
     }
+});
+
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    const user = await User.findOne({ userEmail: req.body.userEmail });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const isOldPasswordValid = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isOldPasswordValid) {
+      return res.status(400).json({ message: 'Incorrect old password' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+    user.password = hashedNewPassword;
+    await user.save();
+
+    return res.status(200).json({ message: 'Password reset successful' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 

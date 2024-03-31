@@ -1,0 +1,194 @@
+<template>
+    <div class="div">
+      <div class="div-2">
+        <div class="div-3">
+          <div class="div-4">Email:</div>
+          <div class="div-5">AD-MISSION</div>
+        </div>
+        <input
+          class="input-field"
+          type="email"
+          placeholder="Enter your email"
+          v-model="email"
+        />
+        <div class="div-7">Password:</div>
+        <input
+          class="input-field"
+          type="password"
+          placeholder="Enter your password"
+          v-model="password"
+        />
+        <div class="div-9">
+          <button class="button" @click="handleLogin">Login</button>
+          <button class="button" @click="$parent.toggleComponent('Registration')">Registration</button>
+          <button class="button" @click="$parent.toggleComponent('ResetPassword')">Reset Password</button>
+
+        </div>
+        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  import axios from 'axios';
+  
+  export default {
+    data() {
+      return {
+        email: '',
+        password: '',
+        errorMessage: '',
+      };
+    },
+    methods: {
+      async handleLogin() {
+        try {
+          const response = await axios.post('http://localhost:8000/api/login', {
+            userEmail: this.email,
+            password: this.password,
+          });
+  
+          console.log(response.data.message);
+          // Redirect or handle successful login
+        } catch (error) {
+          console.error(error);
+          this.errorMessage = error.response.data.message;
+        }
+      },
+    },
+  };
+  </script>
+  
+  <style scoped>
+  .div {
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    font-weight: 200;
+    white-space: nowrap;
+    justify-content: center;
+    padding: 80px 60px;
+  }
+  @media (max-width: 991px) {
+    .div {
+      white-space: initial;
+      padding: 0 20px;
+    }
+  }
+  .div-2 {
+    border-color: rgba(217, 217, 217, 1);
+    border-style: solid;
+    border-width: 1px;
+    background-color: #000;
+    display: flex;
+    margin-top: 189px;
+    width: 718px;
+    max-width: 100%;
+    flex-direction: column;
+    align-items: start;
+    padding: 61px;
+  }
+  @media (max-width: 991px) {
+    .div-2 {
+      margin-top: 40px;
+      white-space: initial;
+      padding: 0 20px;
+    }
+  }
+  .div-3 {
+    display: flex;
+    width: 339px;
+    max-width: 100%;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  @media (max-width: 991px) {
+    .div-3 {
+      white-space: initial;
+    }
+  }
+  .div-4 {
+    color: #d9d9d9;
+    align-self: end;
+    margin-top: 106px;
+    font: 40px Oswald, sans-serif;
+  }
+  @media (max-width: 991px) {
+    .div-4 {
+      margin-top: 40px;
+    }
+  }
+  .div-5 {
+    position: center;
+    height: auto;
+    align-self: start;
+    font-size: 40px;
+    color: #fff;
+    flex: 1;
+    padding-bottom: 43px;
+  }
+  @media (max-width: 991px) {
+    .div-5 {
+      white-space: initial;
+    }
+  }
+  .input-field {
+    border-color: rgba(255, 255, 255, 1);
+    border-style: solid;
+    border-width: 1px;
+    background-color: #000;
+    margin-top: 10px;
+    width: 100%;
+    height: 54px;
+    padding: 0 10px;
+    font-size: 16px;
+    color: #d9d9d9;
+  }
+  .div-7 {
+    color: #d9d9d9;
+    align-self: stretch;
+    margin-top: 47px;
+    font: 40px Oswald, sans-serif;
+  }
+  @media (max-width: 991px) {
+    .div-7 {
+      max-width: 100%;
+      margin-top: 40px;
+    }
+  }
+  .div-9 {
+    align-self: stretch;
+    display: flex;
+    margin-top: 31px;
+    gap: 20px;
+    font-size: 40px;
+    color: #fff;
+    justify-content: space-between;
+    padding: 0 2px;
+  }
+  @media (max-width: 991px) {
+    .div-9 {
+      max-width: 100%;
+      flex-wrap: wrap;
+      white-space: initial;
+    }
+  }
+  .button {
+    font-family: Oswald, sans-serif;
+    border-color: rgba(255, 255, 255, 1);
+    border-style: solid;
+    border-width: 1px;
+    background-color: #000;
+    align-items: start;
+    padding: 16px 38px 9px;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+  }
+  @media (max-width: 991px) {
+    .button {
+      white-space: initial;
+      padding: 0 20px;
+    }
+  }
+  </style>
