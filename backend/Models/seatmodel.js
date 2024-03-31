@@ -7,7 +7,7 @@ const seatSchema = mongoose.Schema({
     seatColumn: {
         type: Number 
     },
-    //Available or not
+    //Whether seat is available or not
     isFilled:{
         type: Boolean
     },

@@ -23,8 +23,8 @@
     <div v-else class="div-black"></div>
   </div>
 </template>
-<!--Prop: Instance Variable
-  Constructor: export default-->
+
+  
 
     <script>
 export default{

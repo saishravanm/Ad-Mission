@@ -1,11 +1,11 @@
 <template>
-    <!-- Main container for displaying events -->
+    <!-- Main container for displaying seats -->
     <div>
-      <!-- Conditional rendering based on whether events data is available -->
+      <!-- Conditional rendering based on whether seats data is available -->
       <div v-if="seats">
-        <!-- Display total number of events -->
+        <!-- Display total number of seats -->
         <p>Total Seats: {{ seats.length }}</p>
-        <!-- Iterate over each event to render EventBox component -->
+        <!-- Iterate over each seat to render seats component -->
         <Seat
           v-for="seat in seats"
           :key="seat.id"
@@ -16,7 +16,7 @@
           :isFilled="seat.isFilled"
         />
       </div>
-      <!-- Display a message indicating events are loading if events data is not available yet -->
+      <!-- Display a message indicating seats are loading if seats data is not available yet -->
       <div v-else>
         Loading seats...
       </div>
@@ -26,32 +26,32 @@
 <script>
 // Importing Axios library for making HTTP requests
 import axios from 'axios';
-// Importing EventBox component for rendering individual events
+// Importing seats component for rendering individual seats
 import Seat from './Seat.vue';
 
 export default {
-  // Registering EventBox component for use within this component
+  // Registering seats component for use within this component
   components: {
     Seat
   },
-  // Data property to hold the events fetched from the server
+  // Data property to hold the seats fetched from the server
   data() {
     return {
       seats: null
     };
   },
-  // Lifecycle hook called after the component has been mounted to the DOM
+
   mounted() {
-    // Making an HTTP GET request to fetch events data from the server
+    // Making an HTTP GET request to fetch seats data from the server
     axios.get("http://localhost:8000/api/getseats")
-      // Handling the successful response from the server
+
       .then(response => {
-        // Storing the fetched events data in the 'events' data property
+        // Storing the fetched seats data in the 'seats' data property
         this.seats = response.data;
       })
-      // Handling any errors that occur during the HTTP request
+    
       .catch(error => {
-        // Logging the error to the console
+        
         console.error('Error fetching seats:', error);
       });
   }
