@@ -1,19 +1,26 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const standardUser = require("./standarduser.js");
+
 const organizerSchema = mongoose.Schema({
-    organizationName: {
+    organizationName: { //holds organization name
         type: String,
         required: true
     },
-    organizationType:{
+    organizationType:{ //holds organization type
         type: String,
         required: true
     },
-    eventsOrganized:{
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Event'
+    eventsOrganized:{ //holds list of events organized by user 
+        type: [mongoose.Schema.Types.ObjectID],
+        ref: 'eventSchema' //reference eventSchema to get data
     },
+    canCreateEvent:{ //boolean for permissions to create event
+        type: true,
+    },
+    canManageUsers:{ //boolean for permissions to manage users
+        type: true,
+    }
     // Add more organizer-specific fields as needed
 });
 
