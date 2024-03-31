@@ -21,37 +21,37 @@ const organizerSchema = mongoose.Schema({
     canManageUsers:{ //boolean for permissions to manage users
         type: Boolean,
     },
-    organizerKey:{
+    organizerKey:{ //unique key for each organizer
         type: Number,
         unique: true,
     }
 },
 {
-    disciminatorKey: 'userType',
+    disciminatorKey: 'userType', //differentiate between organizer and standard user
     timestamps: true,
 });
 
 organizerSchema.pre("save", async function (next) {
-    if(this.organizationName == null){
+    if(this.organizationName == null){ //name test case
         throw new Error("Organization Name cannot be empty.");
     }
-    if (this.organizationType == null){
+    if (this.organizationType == null){ //type test case
         throw new Error("Organization Type cannot be empty.");
     }
-    if(this.organizationType != null && this.orgnizationName != null){
-        this.canCreateEvent = true;
+    if(this.organizationType != null && this.orgnizationName != null){ //if name and type are filled
+        this.canCreateEvent = true; //organizer has been created and given permissons
         this.canManageUsers = true;
         const crypto = require('crypto');
         const hash = crypto.hash('sha256');
         hash.update(this.userEmail);
-        this.organizerKey = hash.digest('hex');
+        this.organizerKey = hash.digest('hex'); //unique organizer identifier
     }
-    else{
-        this.canCreateEvent = false;
+    else{ //invalid information provided, user is not an organizer
+        this.canCreateEvent = false; 
         this.canManageUsers = false;
         this.organizerKey = 0;
     }
     next();
 });
-const organizer = standardUser.discriminator("organizer", organizerSchema);
+const organizer = standardUser.discriminator("organizer", organizerSchema); 
 module.exports = organizer;
