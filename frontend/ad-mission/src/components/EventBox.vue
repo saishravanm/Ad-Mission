@@ -1,3 +1,5 @@
+
+<!--Frontend code to define the dimensions of the event box-->
 <style scoped>
 @font-face {
     font-family: Oswald;
@@ -38,6 +40,7 @@
 </style>
 
 
+<!--Define the props (instance variables to populate the event object)-->
 <script>
 export default{
     name: 'Event',
@@ -61,6 +64,8 @@ export default{
     }
 }
 </script>
+
+<!--Write the HTML code to display the value of each prop onto the event object-->
 <template>
 <div class="div">
     <div class="div-2">EVENT NAME: {{ eventName }}<br />DATE:{{ eventDate }}<br />VENUE:{{ eventVenue }}</div>
