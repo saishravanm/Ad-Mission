@@ -16,12 +16,19 @@ const organizerSchema = mongoose.Schema({
         ref: 'eventSchema' //reference eventSchema to get data
     },
     canCreateEvent:{ //boolean for permissions to create event
-        type: true,
+        type: Boolean,
     },
     canManageUsers:{ //boolean for permissions to manage users
-        type: true,
+        type: Boolean,
+    },
+    organizerKey:{
+        type: Number,
+        unique: true,
     }
-    // Add more organizer-specific fields as needed
+},
+{
+    disciminatorKey: 'userType',
+    timestamps: true,
 });
 
 organizerSchema.pre("save", async function (next) {
@@ -31,6 +38,20 @@ organizerSchema.pre("save", async function (next) {
     if (this.organizationType == null){
         throw new Error("Organization Type cannot be empty.");
     }
+    if(this.organizationType != null && this.orgnizationName != null){
+        this.canCreateEvent = true;
+        this.canManageUsers = true;
+        const crypto = require('crypto');
+        const hash = crypto.hash('sha256');
+        hash.update(this.userEmail);
+        this.organizerKey = hash.digest('hex');
+    }
+    else{
+        this.canCreateEvent = false;
+        this.canManageUsers = false;
+        this.organizerKey = 0;
+    }
+    next();
 });
 const organizer = standardUser.discriminator("organizer", organizerSchema);
 module.exports = organizer;
