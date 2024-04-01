@@ -1,3 +1,4 @@
+//Vinay Verma (vxv220026)
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const standardUser = require("./standarduser.js");
@@ -45,6 +46,7 @@ organizerSchema.pre("save", async function (next) {
         const hash = crypto.hash('sha256');
         hash.update(this.userEmail);
         this.organizerKey = hash.digest('hex'); //unique organizer identifier
+        //write code to get a list of events from the database
     }
     else{ //invalid information provided, user is not an organizer
         this.canCreateEvent = false; 
