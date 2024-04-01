@@ -1,3 +1,6 @@
+<!-- Raj Thapa -->
+<!-- This is the compnent page for reset password -->
+
 <template>
     <div class="div">
       <div class="div-2">AD-Mission</div>
