@@ -1,3 +1,5 @@
+<!-- Raj Thapa -->
+
 <template>
     <div class="div">
       <div class="div-2">
@@ -50,6 +52,7 @@
     methods: {
       async handleRegistration() {
         try {
+          //calls registration function on the backend to handle user registration
           const response = await axios.post('http://localhost:8000/api/registration', {
             userEmail: this.email,
             password: this.password,

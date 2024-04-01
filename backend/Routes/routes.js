@@ -15,6 +15,7 @@ router.get("/accountinfo/:useremail", async(req,res) => {
     res.status(200).json({"userId":user.id, "userEmail":user.userEmail, "Phone Number":user.phoneNumber});
 });
 
+// this function registers the new user by adding info to the database (Raj Thapa)
 router.post("/registration", async (req, res) => {
     await User.create({
         userEmail: req.body.userEmail,
@@ -35,6 +36,7 @@ router.post("/event_creation", async(req, res) => {
     res.status(200).json({"message": "Event created successfully!"})
 })
 
+// login function that finds the user by useremail, matches the password and returns if user login is successful (Raj Thapa)
 router.post("/login", async (req, res) => {
     try {
         const user = await User.findOne({ userEmail: req.body.userEmail });
@@ -58,6 +60,7 @@ router.post("/login", async (req, res) => {
     }
 });
 
+// Resets the password by finding user based on email (Raj Thapa)
 router.post('/reset-password', async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
@@ -74,6 +77,7 @@ router.post('/reset-password', async (req, res) => {
       return res.status(400).json({ message: 'Incorrect old password' });
     }
 
+    //Compares the old and new password using bcrypt
     const salt = await bcrypt.genSalt(10);
     const hashedNewPassword = await bcrypt.hash(newPassword, salt);
 

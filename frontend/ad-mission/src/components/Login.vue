@@ -1,3 +1,6 @@
+<!-- Raj Thapa -->
+<!-- This is login page component -->
+
 <template>
     <div class="div">
       <div class="div-2">
@@ -43,6 +46,7 @@
     methods: {
       async handleLogin() {
         try {
+          // call login function in the backend to handle user login
           const response = await axios.post('http://localhost:8000/api/login', {
             userEmail: this.email,
             password: this.password,
@@ -63,11 +67,15 @@
   .div {
     background-color: #000;
     display: flex;
+    width: 1200px;
+    height: 100vh;
     align-items: center;
     font-weight: 200;
     white-space: nowrap;
     justify-content: center;
-    padding: 80px 60px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    
   }
   @media (max-width: 991px) {
     .div {
@@ -81,7 +89,6 @@
     border-width: 1px;
     background-color: #000;
     display: flex;
-    margin-top: 189px;
     width: 718px;
     max-width: 100%;
     flex-direction: column;
