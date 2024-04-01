@@ -4,10 +4,9 @@
 <template>
     <div class="div">
       <div class="div-2">
-        <div class="div-3">
-          <div class="div-4">Email:</div>
-          <div class="div-5">AD-MISSION</div>
-        </div>
+        <div class="div-5">AD-MISSION</div>
+
+        <div class="div-4">Email:</div>
         <input
           class="input-field"
           type="email"
@@ -110,15 +109,12 @@
     gap: 20px;
   }
   @media (max-width: 991px) {
-    .div-3 {
-      white-space: initial;
-    }
+    
   }
   .div-4 {
     color: #d9d9d9;
-    align-self: end;
-    margin-top: 106px;
     font: 40px Oswald, sans-serif;
+    margin-bottom: 10px;
   }
   @media (max-width: 991px) {
     .div-4 {
@@ -126,9 +122,8 @@
     }
   }
   .div-5 {
-    position: center;
     height: auto;
-    align-self: start;
+    align-self: center;
     font-size: 40px;
     color: #fff;
     flex: 1;

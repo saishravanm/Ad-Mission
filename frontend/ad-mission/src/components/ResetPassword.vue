@@ -5,11 +5,6 @@
     <div class="div">
       <div class="div-2">AD-Mission</div>
       <div class="div-3">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/1e6dda971b807d93a8bea09aaf1625035363f7f08c439bd86843e38d15089863?apiKey=e7db2ab1be9c42fa88e927d21db16051&"
-          class="img"
-        />
         <div class="div-4">Reset Password</div>
         <div class="div-5">Email:</div>
         <input
@@ -98,6 +93,7 @@
     flex-direction: column;
     font-weight: 800;
     text-align: center;
+    width: 1200px;
   }
   .div-2 {
     background-color: #373636;
@@ -116,19 +112,21 @@
     }
   }
   .div-3 {
+    background-color: #7a7a7a;
     display: flex;
     flex-direction: column;
     fill: #7a7a7a;
     overflow: hidden;
     position: relative;
     display: flex;
-    min-height: 862px;
+    min-height: fit-content;
     width: 100%;
     align-items: start;
     font-size: 20px;
     color: #000;
     line-height: 312%;
-    padding: 80px;
+    padding: 40px;
+    align-items: center;
   }
   @media (max-width: 991px) {
     .div-3 {
@@ -136,18 +134,9 @@
       padding: 0 20px;
     }
   }
-  .img {
-    position: absolute;
-    inset: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
   .div-4 {
-    position: relative;
+    align-self: auto;
     color: #fff;
-    margin-top: 22px;
     font: italic 40px/156% Montserrat, -apple-system, Roboto, Helvetica, sans-serif;
   }
   @media (max-width: 991px) {
@@ -159,7 +148,6 @@
     position: relative;
     font-family: Montserrat, sans-serif;
     font-style: italic;
-    margin-top: 59px;
   }
   @media (max-width: 991px) {
     .div-5 {
@@ -169,7 +157,7 @@
   .input-field {
     position: relative;
     background-color: rgba(217, 217, 217, 1);
-    margin-top: 17px;
+
     width: 371px;
     max-width: 100%;
     height: 56px;
@@ -186,7 +174,6 @@
     position: relative;
     font-family: Montserrat, sans-serif;
     font-style: italic;
-    margin-top: 72px;
   }
   @media (max-width: 991px) {
     .div-7 {
@@ -197,7 +184,6 @@
     position: relative;
     font-family: Montserrat, sans-serif;
     font-style: italic;
-    margin-top: 68px;
   }
   @media (max-width: 991px) {
     .div-9 {
@@ -211,14 +197,13 @@
     background-color: rgba(217, 217, 217, 1);
     white-space: nowrap;
     margin: 34px 0 42px;
-    padding: 24px 17px 12px;
+    padding: 12px 17px 12px;
     border: none;
     cursor: pointer;
   }
   @media (max-width: 991px) {
     .div-11 {
       white-space: initial;
-      margin: 0 0 40px 6px;
     }
   }
   .div-12 {

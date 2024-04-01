@@ -3,10 +3,8 @@
 <template>
     <div class="div">
       <div class="div-2">
-        <div class="div-3">
-          <div class="div-4">Email:</div>
-          <div class="div-5">AD-MISSION</div>
-        </div>
+        <div class="div-5">AD-MISSION</div>
+        <div class="div-4">Email:</div>
         <input
           class="input-field"
           type="email"
@@ -74,6 +72,7 @@
   .div {
     background-color: #000;
     display: flex;
+    width: 1200px;
     justify-content: center;
     align-items: center;
     padding: 80px 60px;
@@ -90,21 +89,17 @@
     flex-direction: column;
   }
   
-  .div-3 {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-  
   .div-4 {
     color: #d9d9d9;
     font: 40px Oswald, sans-serif;
+    margin-bottom: 10px;
   }
   
   .div-5 {
+    height: auto;
+    align-self: center;
+    font-size: 40px;
     color: #fff;
-    font-size: 20px;
     flex: 1;
     padding-bottom: 43px;
   }
