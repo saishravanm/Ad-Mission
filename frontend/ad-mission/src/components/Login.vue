@@ -127,7 +127,7 @@
     font-size: 40px;
     color: #fff;
     flex: 1;
-    padding-bottom: 43px;
+    padding-bottom: 0px;
   }
   @media (max-width: 991px) {
     .div-5 {

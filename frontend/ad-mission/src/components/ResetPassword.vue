@@ -3,7 +3,7 @@
 
 <template>
     <div class="div">
-      <div class="div-2">AD-Mission</div>
+      <!-- <div class="div-2">AD-Mission</div> -->
       <div class="div-3">
         <div class="div-4">Reset Password</div>
         <div class="div-5">Email:</div>
@@ -34,10 +34,9 @@
           placeholder="Confirm your new password"
           v-model="confirmNewPassword"
         />
-        <button class="div-11" @click="resetPassword">RESET</button>
+        <button class="button" @click="resetPassword">RESET</button>
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </div>
-      <div class="div-12"></div>
     </div>
   </template>
   
@@ -88,132 +87,89 @@
   
   <style scoped>
   .div {
-    background-color: #fff;
+    background-color: #000;
     display: flex;
-    flex-direction: column;
-    font-weight: 800;
-    text-align: center;
     width: 1200px;
-  }
-  .div-2 {
-    background-color: #373636;
-    width: 100%;
-    align-items: start;
-    color: #fff;
-    white-space: nowrap;
-    padding: 16px 60px 26px 92px;
-    font: italic 35px/178% Montserrat, -apple-system, Roboto, Helvetica, sans-serif;
-  }
-  @media (max-width: 991px) {
-    .div-2 {
-      max-width: 100%;
-      white-space: initial;
-      padding: 0 20px 0 30px;
-    }
+    justify-content: center;
+    align-items: center;
+    padding: 80px 60px;
+    min-height: 100vh;
   }
   .div-3 {
-    background-color: #7a7a7a;
+    border: 1px solid rgba(217, 217, 217, 1);
+    background-color: #000;
+    width: 718px;
+    max-width: 100%;
+    padding: 61px;
     display: flex;
     flex-direction: column;
-    fill: #7a7a7a;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    min-height: fit-content;
-    width: 100%;
-    align-items: start;
-    font-size: 20px;
-    color: #000;
-    line-height: 312%;
-    padding: 40px;
-    align-items: center;
   }
+  .div-4 {
+    align-self: center;
+    color: #d9d9d9;
+    font: 40px Oswald, sans-serif;
+    margin-bottom: 10px;
+  }
+
+  .div-5, .div-6, .div-7, .div-9 {
+    color: #d9d9d9;
+    font: 30px Oswald, sans-serif;
+    margin-bottom: 10px;
+  }
+
+  .input-field {
+    border: 1px solid rgba(255, 255, 255, 1);
+    background-color: #000;
+    width: 100%;
+    height: 54px;
+    padding: 0 10px;
+    font-size: 16px;
+    color: #d9d9d9;
+    margin-bottom: 20px;
+  }
+  
+  .button {
+    font-family: Oswald, sans-serif;
+    border: 2px solid rgba(255, 255, 255, 1);
+    background-color: #000;
+    padding: 9px 20px 9px;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    width: 30%;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+
   @media (max-width: 991px) {
+    .div {
+      padding: 0 20px;
+    }
+  
+    .div-2 {
+      margin-top: 40px;
+      padding: 0 20px;
+    }
+  
     .div-3 {
-      max-width: 100%;
+      flex-wrap: wrap;
+    }
+  
+    .div-4,
+    .div-7 {
+      margin-top: 40px;
+    }
+  
+    .div-9 {
+      flex-wrap: wrap;
+    }
+  
+    .button {
       padding: 0 20px;
     }
   }
-  .div-4 {
-    align-self: auto;
-    color: #fff;
-    font: italic 40px/156% Montserrat, -apple-system, Roboto, Helvetica, sans-serif;
-  }
-  @media (max-width: 991px) {
-    .div-4 {
-      margin-left: 6px;
-    }
-  }
-  .div-5 {
-    position: relative;
-    font-family: Montserrat, sans-serif;
-    font-style: italic;
-  }
-  @media (max-width: 991px) {
-    .div-5 {
-      margin: 40px 0 0 6px;
-    }
-  }
-  .input-field {
-    position: relative;
-    background-color: rgba(217, 217, 217, 1);
-
-    width: 371px;
-    max-width: 100%;
-    height: 56px;
-    padding: 0 10px;
-    font-size: 16px;
-    color: #000;
-  }
-  @media (max-width: 991px) {
-    .input-field {
-      margin-left: 6px;
-    }
-  }
-  .div-7, .div-6 {
-    position: relative;
-    font-family: Montserrat, sans-serif;
-    font-style: italic;
-  }
-  @media (max-width: 991px) {
-    .div-7 {
-      margin: 40px 0 0 6px;
-    }
-  }
-  .div-9 {
-    position: relative;
-    font-family: Montserrat, sans-serif;
-    font-style: italic;
-  }
-  @media (max-width: 991px) {
-    .div-9 {
-      margin: 40px 0 0 6px;
-    }
-  }
-  .div-11 {
-    position: relative;
-    font-family: Montserrat, sans-serif;
-    font-style: italic;
-    background-color: rgba(217, 217, 217, 1);
-    white-space: nowrap;
-    margin: 34px 0 42px;
-    padding: 12px 17px 12px;
-    border: none;
-    cursor: pointer;
-  }
-  @media (max-width: 991px) {
-    .div-11 {
-      white-space: initial;
-    }
-  }
-  .div-12 {
-    background-color: #373636;
-    min-height: 92px;
-    width: 100%;
-  }
-  @media (max-width: 991px) {
-    .div-12 {
-      max-width: 100%;
-    }
-  }
+   
   </style>

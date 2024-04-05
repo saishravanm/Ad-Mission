@@ -101,7 +101,6 @@
     font-size: 40px;
     color: #fff;
     flex: 1;
-    padding-bottom: 43px;
   }
   
   .input-field {
