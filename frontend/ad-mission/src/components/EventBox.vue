@@ -70,7 +70,7 @@ export default{
 <template>
 <div class="div">
     <div class="div-2">EVENT NAME: {{ eventName }}<br />DATE:{{ eventDate }}<br />VENUE:{{ eventVenue }}</div>
-    <div class="div-3">FIND TICKETS</div>
+    <button class="div-3" @click="$parent.toggleComponent()">FIND TICKETS</button>
   </div>
 
 </template>

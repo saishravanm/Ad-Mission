@@ -28,7 +28,7 @@
 // Importing Axios library for making HTTP requests
 import axios from 'axios';
 // Importing EventBox component for rendering individual events
-import EventBox from './components/EventBox.vue';
+import EventBox from './EventBox.vue';
 
 export default {
   // Registering EventBox component for use within this component

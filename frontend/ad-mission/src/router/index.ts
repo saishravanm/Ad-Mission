@@ -6,7 +6,7 @@ const router = createRouter({
     {
       path: '/event_list',
       name: 'event list',
-      component: () => import('../EventList.vue')
+      component: () => import('../views/EventListPage.vue')
     },
     {
       path: '/userAuth',
