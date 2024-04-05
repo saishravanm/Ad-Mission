@@ -10,6 +10,7 @@
           type="email"
           placeholder="Enter your email"
           v-model="email"
+          required
         />
         <div class="div-7">Password:</div>
         <input
@@ -17,6 +18,7 @@
           type="password"
           placeholder="Enter your password"
           v-model="password"
+          required
         />
         <div class="div-7">Phone Number:</div>
         <input
@@ -24,11 +26,11 @@
           type="tel"
           placeholder="Enter your phone number"
           v-model="phoneNumber"
+          required
         />
         <div class="div-9">
           <button class="button" @click="handleRegistration">Register</button>
-          <button class="button" @click="$parent.toggleComponent('Login')">Login</button>
-
+          <button class="button" @click="$parent.toggleComponent('Login')">BackToLogin</button>
         </div>
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </div>
@@ -50,6 +52,10 @@
     methods: {
       async handleRegistration() {
         try {
+          if (!this.email || !this.password || !this.phoneNumber) {
+            this.errorMessage = "Please fill out all required fields.";
+            return; 
+          }
           //calls registration function on the backend to handle user registration
           const response = await axios.post('http://localhost:8000/api/registration', {
             userEmail: this.email,
@@ -129,7 +135,7 @@
   
   .button {
     font-family: Oswald, sans-serif;
-    border: 1px solid rgba(255, 255, 255, 1);
+    border: 2px solid rgba(255, 255, 255, 1);
     background-color: #000;
     padding: 16px 38px 9px;
     font-size: 16px;

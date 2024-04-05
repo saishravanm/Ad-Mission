@@ -34,7 +34,10 @@
           placeholder="Confirm your new password"
           v-model="confirmNewPassword"
         />
-        <button class="button" @click="resetPassword">RESET</button>
+        <div class="div-0">
+          <button class="button" @click="resetPassword">RESET</button>
+          <button class="button" @click="$parent.toggleComponent('Login')">BackToLogin</button>
+        </div>
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </div>
     </div>
@@ -142,6 +145,13 @@
   .error-message {
     color: red;
     margin-top: 10px;
+  }
+
+  .div-0 {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 31px;
   }
 
   @media (max-width: 991px) {

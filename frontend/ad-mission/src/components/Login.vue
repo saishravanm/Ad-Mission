@@ -12,6 +12,7 @@
           type="email"
           placeholder="Enter your email"
           v-model="email"
+          required
         />
         <div class="div-7">Password:</div>
         <input
@@ -19,6 +20,7 @@
           type="password"
           placeholder="Enter your password"
           v-model="password"
+          required
         />
         <div class="div-9">
           <button class="button" @click="handleLogin">Login</button>
@@ -45,6 +47,10 @@
     methods: {
       async handleLogin() {
         try {
+          if (!this.email || !this.password) {
+            this.errorMessage = "Please fill out all required fields.";
+            return; 
+          }
           // call login function in the backend to handle user login
           const response = await axios.post('http://localhost:8000/api/login', {
             userEmail: this.email,
@@ -179,7 +185,7 @@
     font-family: Oswald, sans-serif;
     border-color: rgba(255, 255, 255, 1);
     border-style: solid;
-    border-width: 1px;
+    border-width: 2px;
     background-color: #000;
     align-items: start;
     padding: 16px 38px 9px;
@@ -192,5 +198,9 @@
       white-space: initial;
       padding: 0 20px;
     }
+  }
+  .error-message {
+    color: red;
+    margin-top: 10px;
   }
   </style>
