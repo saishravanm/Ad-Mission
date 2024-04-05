@@ -4,12 +4,12 @@ body{
 }
 </style>
 
-<script>
+<script setup lang="ts">
     import SeatList from "../components/SeatList.vue"
 </script>
 
 <template>
-    <SeatList>
-        
-    </SeatList>
+  <main>
+    <SeatList />
+  </main>
 </template>
