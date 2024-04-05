@@ -3,7 +3,8 @@
 
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const userSchema = mongoose.Schema({
+const date = new Date();
+const standarduserSchema = mongoose.Schema({
     userEmail: {
         type: String
     },
@@ -12,13 +13,37 @@ const userSchema = mongoose.Schema({
     },
     phoneNumber: {
         type: Number
+    },
+    addressStreet: {
+        type: String
+    },
+    addressCity: {
+        type: String
+    },
+    addressState: {
+        type: String
+    },
+    addressZIP: {
+        type: Number
+    },
+    firstName: {
+        type: String
+    },
+    lastName: {
+        type: String
+    },
+    birthday: {
+        type: Date
+    },
+    isOrganizer: {
+        type: Boolean
     }
+
 });
 
-userSchema.pre("save", async function (next) {
+standarduserSchema.pre("save", async function (next) {
     const user = this;
     if (!user.isModified("password")) return next();
-
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(user.password, salt);
@@ -29,4 +54,4 @@ userSchema.pre("save", async function (next) {
     }
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", standarduserSchema);

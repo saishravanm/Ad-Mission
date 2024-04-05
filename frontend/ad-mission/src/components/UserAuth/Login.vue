@@ -28,6 +28,7 @@
           <button class="button" @click="$parent.toggleComponent('ResetPassword')">Reset Password</button>
 
         </div>
+        <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </div>
     </div>
@@ -42,6 +43,7 @@
         email: '',
         password: '',
         errorMessage: '',
+        successMessage: ''
       };
     },
     methods: {
@@ -58,9 +60,12 @@
           });
   
           console.log(response.data.message);
+          this.errorMessage = '';
+          this.successMessage = response.data.message;
           // Redirect or handle successful login
         } catch (error) {
           console.error(error);
+          this.successMessage = '';
           this.errorMessage = error.response.data.message;
         }
       },
@@ -203,4 +208,9 @@
     color: red;
     margin-top: 10px;
   }
+  .success-message {
+    color: green;
+    margin-top: 10px;
+  }
+
   </style>

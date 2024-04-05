@@ -35,9 +35,10 @@
           v-model="confirmNewPassword"
         />
         <div class="div-0">
-          <button class="button" @click="resetPassword">RESET</button>
+          <button class="button" @click="resetPassword">Reset</button>
           <button class="button" @click="$parent.toggleComponent('Login')">BackToLogin</button>
         </div>
+        <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </div>
     </div>
@@ -53,7 +54,8 @@
         oldPassword: '',
         newPassword: '',
         confirmNewPassword: '',
-        errorMessage: ''
+        errorMessage: '',
+        successMessage: ''
       };
     },
     methods: {
@@ -77,10 +79,12 @@
           });
   
           console.log(response.data.message);
-          //this.$parent.toggleComponent('Login');
+          this.errorMessage = '';
+          this.successMessage = response.data.message;
 
         } catch (error) {
           console.error(error);
+          this.successMessage = '';
           this.errorMessage = error.response.data.message;
         }
       }
@@ -144,6 +148,11 @@
   
   .error-message {
     color: red;
+    margin-top: 10px;
+  }
+
+  .success-message {
+    color: green;
     margin-top: 10px;
   }
 
