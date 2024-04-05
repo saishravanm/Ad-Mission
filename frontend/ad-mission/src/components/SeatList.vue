@@ -1,25 +1,24 @@
 <template>
-    <!-- Main container for displaying seats -->
-    <div>
-      <!-- Conditional rendering based on whether seats data is available -->
-      <div v-if="seats">
-        <!-- Display total number of seats -->
-        <p>Total Seats: {{ seats.length }}</p>
-        <!-- Iterate over each seat to render seats component -->
-        <Seat
-          v-for="seat in seats"
-          :key="seat.id"
-          :seatNum="seat.seatNum"
-          :seatRow="seat.seatRow"
-          :seatColumn="seat.seatColumn"
-          :seatPrice="seat.seatPrice"
-          :isFilled="seat.isFilled"
-        />
-      </div>
-      <!-- Display a message indicating seats are loading if seats data is not available yet -->
-      <div v-else>
-        Loading seats...
-      </div>
+  <!-- Main container for displaying seats -->
+
+    <!-- Conditional rendering based on whether seats data is available -->
+    <div v-if="seats">
+      <!-- Display total number of seats -->
+      <p>Total Seats: {{ seats.length }}</p>
+      <!-- Iterate over each seat to render seats component -->
+      <Seat
+        v-for="seat in seats"
+        :key="seat.id"
+        :seatNum="seat.seatNum"
+        :seatRow="seat.seatRow"
+        :seatColumn="seat.seatColumn"
+        :seatPrice="seat.seatPrice"
+        :isFilled="seat.isFilled"
+      />
+    </div>
+    <!-- Display a message indicating seats are loading if seats data is not available yet -->
+    <div v-else>
+      Loading seats...
     </div>
 </template>
 
