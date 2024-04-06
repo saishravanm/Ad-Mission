@@ -39,11 +39,7 @@ export default {
   components: {
     Seat
   },
-  methods: {
-        toggleComponent(component) {
-        this.currentComponent = component
-        }
-    },
+ 
   // Data property to hold the seats fetched from the server
   data() {
     return {

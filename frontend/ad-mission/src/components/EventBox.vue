@@ -44,7 +44,7 @@
 
 <!--Define the props (instance variables to populate the event object)-->
 <script>
-import SeatList from './SeatList.vue'
+import SeatList from './SeatListView.vue'
 export default{
     name: 'Event',
     props:{
@@ -69,7 +69,11 @@ export default{
           required: true
         }
     },
-    
+    methods: {
+        returneventName() {
+          return this.eventName;
+        }
+    }
 }
 </script>
 
@@ -77,7 +81,7 @@ export default{
 <template>
 <div class="div">
     <div class="div-2">EVENT NAME: {{ eventName }}<br />DATE:{{ eventDate }}<br />VENUE:{{ eventVenue }} <br /> SEATS: {{ seatNum }}</div>
-    <button class="button" @click="$parent.toggleComponent('SeatList')">FIND TICKETS</button>
+    <button class="button" @click="$parent.$parent.toggleSeat('SeatListView',this.eventName)">FIND TICKETS</button>
     <!--SeatList
       :eventName -->
   </div>

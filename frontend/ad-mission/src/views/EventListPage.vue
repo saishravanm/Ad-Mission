@@ -1,20 +1,25 @@
 <script lang="ts">
+import { eventNames } from 'process'
 import EventList from '../components/EventList.vue'
-import SeatList from '../components/SeatList.vue'
+import SeatList from '@/components/SeatList.vue'
+import SeatListView from '@/components/SeatListView.vue'
 
 export default{
 name: 'EventListPage',
     components: {
-        EventList
+        EventList,
+        SeatListView,
     },
     data() {
         return {
-        currentComponent: 'EventList'
+        currentComponent: 'EventList',
+        eventName: "" 
         }
     },
     methods: {
-        toggleComponent(component) {
+        toggleSeat(component, eventName) {
         this.currentComponent = component
+        this.eventName = eventName
         }
     }
   }
@@ -27,7 +32,10 @@ body{
 
 <template>
 <body>
-    <component :is="currentComponent"></component>
+    <component :is="currentComponent"
+               :eventName=eventName
+    />
+
 </body>
      
 

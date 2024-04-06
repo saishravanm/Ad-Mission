@@ -11,7 +11,7 @@ const router = createRouter({
     {
       path: '/seat_list',
       name: 'seat list',
-      component: () => import('../views/SeatListView.vue')
+      component: () => import('../components/SeatListView.vue')
     },
     {
       path: '/userAuth',
