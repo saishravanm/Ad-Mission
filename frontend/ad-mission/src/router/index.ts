@@ -9,6 +9,11 @@ const router = createRouter({
       component: () => import('../views/EventListPage.vue')
     },
     {
+      path: '/seat_list',
+      name: 'seat list',
+      component: () => import('../views/SeatListView.vue')
+    },
+    {
       path: '/userAuth',
       name: 'userAuth',
       component: () => import('../views/UserAuth.vue')
