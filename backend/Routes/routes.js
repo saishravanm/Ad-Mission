@@ -132,10 +132,30 @@ router.post("/event_creation", async(req, res) => {
         eventDate: req.body.eventDate,
         eventTime: req.body.eventTime,
         eventDescription: req.body.eventDescription,
+        seatNum: req.body.seatNum
     });
     res.status(200).json({"message": "Event created successfully!"})
 })
-
-
+router.get('/getevents', async (req, res) => {
+    try {  
+      var results = []
+      const eventList = await Event.find({});
+      res.json(eventList);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+router.get('/getevent/:eventName', async(req, res) =>{
+    try {
+        const event = await Event.findOne({ eventName: req.params.eventName });
+        if (!event) {
+            return res.status(400).json({ message: "Event not found!" });
+        }
+        res.json(event)
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+})
 
 module.exports = router;

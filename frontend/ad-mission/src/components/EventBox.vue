@@ -27,7 +27,7 @@
   color: #d9d9d9;
   font: 200 35px Oswald, sans-serif;
 }
-.div-3 {
+.button {
   border-color: rgba(255, 255, 255, 1);
   border-style: solid;
   border-width: 1px;
@@ -37,12 +37,14 @@
   margin: auto 0;
   padding: 10px 6px;
   font: 300 23px Oswald, sans-serif;
+  cursor:pointer;
 }
 </style>
 
 
 <!--Define the props (instance variables to populate the event object)-->
 <script>
+import SeatList from './SeatList.vue'
 export default{
     name: 'Event',
     props:{
@@ -61,16 +63,23 @@ export default{
         eventTime:{
             type: String, 
             required: true
+        },
+        seatNum:{
+          type: Number,
+          required: true
         }
-    }
+    },
+    
 }
 </script>
 
 <!--Write the HTML code to display the value of each prop onto the event object-->
 <template>
 <div class="div">
-    <div class="div-2">EVENT NAME: {{ eventName }}<br />DATE:{{ eventDate }}<br />VENUE:{{ eventVenue }}</div>
-    <button class="div-3" @click="$parent.toggleComponent()">FIND TICKETS</button>
+    <div class="div-2">EVENT NAME: {{ eventName }}<br />DATE:{{ eventDate }}<br />VENUE:{{ eventVenue }} <br /> SEATS: {{ seatNum }}</div>
+    <button class="button" @click="$parent.toggleComponent('SeatList')">FIND TICKETS</button>
+    <!--SeatList
+      :eventName -->
   </div>
 
 </template>

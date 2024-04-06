@@ -15,6 +15,7 @@
           :eventDate="event.eventDate"
           :eventVenue="event.eventLocation"
           :eventTime="event.eventTime"
+          :seatNum="event.seatNum"
         />
       </div>
       <!-- Display a message indicating events are loading if events data is not available yet -->

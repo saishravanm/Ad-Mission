@@ -1,5 +1,23 @@
-<script setup lang="ts">
+<script lang="ts">
 import EventList from '../components/EventList.vue'
+import SeatList from '../components/SeatList.vue'
+
+export default{
+name: 'EventListPage',
+    components: {
+        EventList
+    },
+    data() {
+        return {
+        currentComponent: 'EventList'
+        }
+    },
+    methods: {
+        toggleComponent(component) {
+        this.currentComponent = component
+        }
+    }
+  }
 </script>
 <style>
 body{
@@ -9,8 +27,7 @@ body{
 
 <template>
 <body>
-    <EventList>
-    </EventList> 
+    <component :is="currentComponent"></component>
 </body>
      
 

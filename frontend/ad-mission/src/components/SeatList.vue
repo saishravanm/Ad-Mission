@@ -29,24 +29,36 @@ import axios from 'axios';
 import Seat from './Seat.vue';
 
 export default {
+  props:{
+    eventName:{
+      type: String, 
+      required: true
+    }
+  },
   // Registering seats component for use within this component
   components: {
     Seat
   },
+  methods: {
+        toggleComponent(component) {
+        this.currentComponent = component
+        }
+    },
   // Data property to hold the seats fetched from the server
   data() {
     return {
       seats: null
     };
   },
-
+  
   mounted() {
     // Making an HTTP GET request to fetch seats data from the server
-    axios.get("http://localhost:8000/api/getseats")
+    axios.get("http://localhost:8000/api/getevent/"+this.eventName)
 
       .then(response => {
         // Storing the fetched seats data in the 'seats' data property
-        this.seats = response.data;
+        this.event = response.data;
+        this.seats = this.event.seatList;
       })
     
       .catch(error => {

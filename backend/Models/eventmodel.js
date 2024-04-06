@@ -3,8 +3,8 @@
 const mongoose = require("mongoose");
 //use bcrypt in case of encryption necessary
 const bcrypt = require("bcrypt");
-//const User = require("../Models/usermodel.js");
-
+const User = require("../Models/usermodel.js");
+const Seat = require("./seatmodel.js")
 //Instantiate new "Date" object
 const date = new Date();
 //Create a new schema to be stored in the mongodb database
@@ -25,16 +25,29 @@ const eventSchema = mongoose.Schema({
     eventDescription:{
         type: String
     },
-    associatedUser:{
-        type: String
-    }
+    associatedUsers:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    seatNum:{
+        type: Number
+    },
+    seatList:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Seat'
+    }]
 });
 
 //This function runs before the "save" function is called. This is used to do any input validation to ensure that only valid parameters are passed to the event object before being stored in the database. 
 eventSchema.pre("save",async function (next){
     const event = this
     //assign the userID of the caller to event.associatedUser
-    
+    for(let i = 0; i < event.seatNum; i++)
+    {
+        const s = new Seat;
+        s.seatNum = i;
+        event.seatList.push(s);
+    }
     //check if the year, day, or month has passed for a newly created event
     if(event.eventDate.getFullYear() < date.getFullYear()) {
         throw new Error("Event Year has passed!")
