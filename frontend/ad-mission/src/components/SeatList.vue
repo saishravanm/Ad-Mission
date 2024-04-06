@@ -1,10 +1,10 @@
 <template>
   <!-- Main container for displaying seats -->
-
+  
     <!-- Conditional rendering based on whether seats data is available -->
     <div v-if="seats">
       <!-- Display total number of seats -->
-      <p>Total Seats: {{ seats.length }}</p>
+      <p> {{ seats.length }} Seats</p>
       <!-- Iterate over each seat to render seats component -->
       <Seat
         v-for="seat in seats"
@@ -18,7 +18,7 @@
     </div>
     <!-- Display a message indicating seats are loading if seats data is not available yet -->
     <div v-else>
-      Loading seats...
+      No Seats Data Available...
     </div>
 </template>
 

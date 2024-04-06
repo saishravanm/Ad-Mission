@@ -18,6 +18,24 @@ router.get("/accountinfo/:useremail", async(req,res) => {
     res.status(200).json({"userId":user.id, "userEmail":user.userEmail, "Phone Number":user.phoneNumber});
 });
 
+//RETURN SEAT
+router.get("/get_seat/:seatNum"), async(req, res) =>{
+    const seat = await Seat.findOne({
+        seatNum: req.params.seatNum
+    });
+    res.status(200).json({"seatNum":seat.seatNum,"seatRow":seat.seatRow,"seatColumn":seat.seatColumn,"seatPrice":seat.seatPrice,"isFilled":seat.isFilled})
+}
+//RETURNS SEATS LIST
+router.get('/getseats', async (req, res) => {
+    try {  
+      var results = []
+      const seatList = await Seat.find({});
+      res.json(seatList);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+
 // this function registers the new user by adding info to the database (Raj Thapa)
 router.post("/registration", async (req, res) => {
     try {
@@ -118,6 +136,19 @@ router.post("/event_creation", async(req, res) => {
     res.status(200).json({"message": "Event created successfully!"})
 })
 
+//SEAT CREATION
+
+router.post("/seat_reservation", async(req, res) => {
+    await Seat.create({
+        seatNum: req.body.seatName,
+        seatRow: req.body.seatRow,
+        seatColumn: req.body.seatColumn,
+        seatPrice: req.body.seatPrice,
+        isFilled: req.body.isFilled,
+        associatedUser: req.body.associatedUser
+    });
+    res.status(200).json({"message": "Seat created successfully!"})
+})
 
 
 module.exports = router;
