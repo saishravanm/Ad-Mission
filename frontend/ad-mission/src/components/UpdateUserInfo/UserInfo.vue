@@ -44,25 +44,7 @@
           <input class="input-field" type="text" placeholder="Enter New Email" v-model="newEmail" required>
           <div class="div-change"> Confirm Email:</div>
           <input class="input-field" type="text" placeholder="Confirm New Email" v-model="confirmEmail" required>
-        </div>
-
-        <div class="div-input">Password:</div>
-          <div class="user-box">
-           <p class="user-data">{{ password }} 
-            <button class="change-button" @click="changePassword()">
-                <img src="../../assets/edit-icon.png" alt="Edit Button" height="40" width="40">
-            </button>
-          </p>
-        </div>
-        <div v-if="changePass" class="change-name">
-          <div class="div-change">Current Password</div>
-          <input class="input-field" type="text" placeholder="Enter Old Password" v-model="confirmPassword" required>
-          <div class="div-change"> New Password:</div>
-          <input class="input-field" type="text" placeholder="Enter New Password" v-model="newPassword" required>
-          <div class="div-change"> Confirm New Password:</div>
-          <input class="input-field" type="text" placeholder="Confirm New Password" v-model="confirmNewPassword" required>
-        </div>
-        
+        </div> 
         <div class="div-input">Phone Number:</div>
           <div class="user-box">
            <p class="user-data">{{ phoneNumber}}
@@ -115,7 +97,6 @@ export default {
       firstName: 'Vinay',
       lastName: 'Verma',
       email: 'vstrike15@gmail.com',
-      password: '*******',
       phoneNumber: '512-648-9689',
       street: '145 Obsidian Drive',
       city: 'Dripping Springs',
@@ -127,9 +108,6 @@ export default {
       newEmail: '',
       confirmEmail:'',
       newPhoneNumber: '',
-      newPassword: '',
-      confirmPassword: '',
-      confirmNewPassword: '',
       newStreet:'',
       newCity:'',
       newState:'',
@@ -153,7 +131,6 @@ export default {
           this.firstName = response.data.firstName;
           this.lastName = response.data.lastName;
           this.userEmail = response.data.userEmail;
-          this.password= response.data.password;
           this.phoneNumber = response.data.phoneNumber;
           this.street = response.data.street;
           this.city = response.data.city;
@@ -174,9 +151,6 @@ export default {
     changeEmailAddress(){
       this.changeEmail = !this.changeEmail;
     },
-    changePassword(){
-      this.changePass = !this.changePass;
-    },
     changePhoneNumber(){
       this.changePhone = !this.changePhone;
     },
@@ -190,12 +164,6 @@ export default {
         }
         else{
           this.newEmail = this.email;
-        }
-        if(this.confirmPassword == this.password && this.newPassword == this.confirmNewPassword && this.newPassword != this.password){
-          this.password = this.newPassword;
-        }
-        else {
-          this.newPassword = this.password;
         }
         if (this.newFirst != this.firstName && this.newFirst != ''){
           this.firstName = this.newFirst;
@@ -232,7 +200,6 @@ export default {
           firstName: this.newFirst,
           lastName: this.newLast,
           email: this.newEmail,
-          password: this.newPassword,
           phoneNumber: this.newPhoneNumber,
           street: this.newStreet,
           city: this.newCity,
@@ -250,9 +217,6 @@ export default {
         if(this.changeEmail){
           this.changeEmailAddress();
         }
-        if(this.changePass){
-          this.changePassword();
-        }
         if (this.changePhone){
           this.changePhoneNumber();
         }
@@ -263,9 +227,6 @@ export default {
         this.newLast = '';
         this.newEmail = '';
         this.confirmEmail = '';
-        this.newPassword = '';
-        this.confirmNewPassword = '';
-        this.confirmPassword = '';
         this.newPhoneNumber = '';
         this.newStreet = '';
         this.newCity = '';

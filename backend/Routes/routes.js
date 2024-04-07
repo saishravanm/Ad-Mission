@@ -22,7 +22,6 @@ router.get("/userData/:userID", async(req, res) => {
     res.status(200).json({
         "userID": user.id, 
         "userEmail": user.userEmail, 
-        "password": user.password, 
         "phoneNumber": user.phoneNumber,
         "addressStreet": user.addressStreet,
         "addressCity": user.addressCity,
@@ -36,10 +35,10 @@ router.get("/userData/:userID", async(req, res) => {
 //this function updates the users data.
 router.post("/updateUser", async(req, res) => {
     try{
-        const {id, firstName, lastName, email, password, phoneNumber, street, city, state, zip} = req.body;
+        const {id, firstName, lastName, email, phoneNumber, street, city, state, zip} = req.body;
         const user = await User.findOneAndUpdate(
             {"_id": id },
-            {"$set": {"firstName": firstName, "lastName": lastName, "userEmail": email, "password": password, 
+            {"$set": {"firstName": firstName, "lastName": lastName, "userEmail": email, 
                         "phoneNumber": phoneNumber, "addressStreet": street,
                     "addressCity": city, "addressState": state, "addressZIP": zip }},
             {returnNewDocument: true}
