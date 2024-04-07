@@ -115,7 +115,6 @@ export default {
       changeFirst: false,
       changeLast: false,
       changeEmail: false,
-      changePass: false,
       changePhone: false,
       changeAdd: false,
       errorMessage: '',
