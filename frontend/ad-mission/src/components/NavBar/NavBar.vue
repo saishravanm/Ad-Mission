@@ -5,7 +5,7 @@
     </div>
     <div class="contents">
       <template v-if="authStore.isAuthenticated">
-        <span>{{ authStore.user.name }}</span>
+        <ProfileDropdown />
       </template>
       <template v-else>
         <a href="/userAuth">
@@ -22,8 +22,12 @@
   
 <script>
   import { useAuthStore } from '@/stores/auth.ts';
+  import ProfileDropdown from './ProfileDrop.vue';
 
   export default {
+    components: {
+      ProfileDropdown,
+    },
     setup() {
       const authStore = useAuthStore();
       console.log(authStore.isAuthenticated);
@@ -64,6 +68,7 @@
   .contents {
     display: flex;
     gap: 40px;
+    padding-right: 40px;
   }
   .img {
     aspect-ratio: 1;

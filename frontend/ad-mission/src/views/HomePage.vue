@@ -1,4 +1,4 @@
-<script>
+<script lang='ts'>
     import Navbar from '../components/NavBar/NavBar.vue';
 
     export default {

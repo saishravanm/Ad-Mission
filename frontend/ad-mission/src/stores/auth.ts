@@ -16,10 +16,17 @@ export const useAuthStore = defineStore({
     login(): void {
       //this.user = user;
       this.isAuthenticated = true;
+      localStorage.setItem('isAuthenticated', JSON.stringify(this.isAuthenticated));
     },
     logout() : void {
       this.user = null;
       this.isAuthenticated = false;
+    },
+    loadAuthStateFromLocalStorage(): void {
+      const authStateString = localStorage.getItem('isAuthenticated');
+      if (authStateString) {
+        this.isAuthenticated = JSON.parse(authStateString);
+      }
     },
   },
 });
