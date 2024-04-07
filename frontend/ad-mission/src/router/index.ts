@@ -7,6 +7,11 @@ const router = createRouter({
       path: '/userAuth',
       name: 'userAuth',
       component: () => import('../views/UserAuth.vue')
+    },
+    {
+      path: '/updateUserInfo',
+      name: 'updateUserInfo',
+      component: () => import('../views/UpdateUserInfo.vue')
     }
   ]
 })
