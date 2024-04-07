@@ -16,7 +16,44 @@ router.get("/accountinfo/:useremail", async(req,res) => {
     });
     res.status(200).json({"userId":user.id, "userEmail":user.userEmail, "Phone Number":user.phoneNumber});
 });
-
+//this function gets the user data based on their ID
+router.get("/userData/:userID", async(req, res) => {
+    const user = await User.findOne({_id: req.params.userID});
+    res.status(200).json({
+        "userID": user.id, 
+        "userEmail": user.userEmail, 
+        "password": user.password, 
+        "phoneNumber": user.phoneNumber,
+        "addressStreet": user.addressStreet,
+        "addressCity": user.addressCity,
+        "addressState": user.addressState,
+        "addressZip": user.addressZip,
+        "firstName": user.firstName,
+        "lastName": user.lastName,
+        "birthday": user.birthday,
+    });
+});
+//this function updates the users data.
+router.post("/updateUser", async(req, res) => {
+    try{
+        const {id, firstName, lastName, email, password, phoneNumber, street, city, state, zip} = req.body;
+        const user = await User.findOneAndUpdate(
+            {"_id": id },
+            {"$set": {"firstName": firstName, "lastName": lastName, "userEmail": email, "password": password, 
+                        "phoneNumber": phoneNumber, "addressStreet": street,
+                    "addressCity": city, "addressState": state, "addressZIP": zip }},
+            {returnNewDocument: true}
+        );
+        if (!user){
+            return res.status(404).json({error: "User not found"});
+        }
+        res.json(user);
+    }
+    catch(error){
+        console.error("Error updating user: ", error);
+        res.status(500).json({error: 'Internal server error'});
+    }
+});
 // this function registers the new user by adding info to the database (Raj Thapa)
 router.post("/registration", async (req, res) => {
     try {
