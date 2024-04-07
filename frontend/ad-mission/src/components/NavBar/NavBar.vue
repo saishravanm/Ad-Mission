@@ -20,7 +20,7 @@
   </div>
 </template>
   
-<script>
+<script lang="ts">
   import { useAuthStore } from '@/stores/auth.ts';
   import ProfileDropdown from './ProfileDrop.vue';
 
@@ -30,7 +30,6 @@
     },
     setup() {
       const authStore = useAuthStore();
-      console.log(authStore.isAuthenticated);
 
       const goToHomepage = () => {
         // Redirect to homepage 

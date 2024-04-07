@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 interface User {
   id: number; 
   email: string;
+  name: string;
   isOrganizer: boolean;
 }
 
@@ -13,14 +14,17 @@ export const useAuthStore = defineStore({
     isAuthenticated: false,
   }),
   actions: {
-    login(): void {
-      //this.user = user;
+    login(user): void {
+      this.user = user;
       this.isAuthenticated = true;
       localStorage.setItem('isAuthenticated', JSON.stringify(this.isAuthenticated));
+      localStorage.setItem('user', JSON.stringify(this.user));
     },
     logout() : void {
       this.user = null;
       this.isAuthenticated = false;
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('user');
     },
     loadAuthStateFromLocalStorage(): void {
       const authStateString = localStorage.getItem('isAuthenticated');
@@ -28,5 +32,11 @@ export const useAuthStore = defineStore({
         this.isAuthenticated = JSON.parse(authStateString);
       }
     },
+    loadUser(): void {
+      const authStateString = localStorage.getItem('user');
+      if (authStateString) {
+        this.user = JSON.parse(authStateString);
+      }
+    }
   },
 });

@@ -34,7 +34,7 @@
     </div>
   </template>
   
-<script>
+<script lang="ts">
   import axios from 'axios';
   import { useAuthStore } from '@/stores/auth.ts';
   
@@ -65,10 +65,9 @@
           this.successMessage = response.data.message;
 
           // Store user information in the auth store
-          console.log(response);
+          const { _id, userEmail,firstName, isOrganizer } = response.data.userData;
           const authStore = useAuthStore();
-          authStore.login(); 
-          console.log(authStore.isAuthenticated);
+          authStore.login({_id, userEmail, firstName, isOrganizer});
           window.location.href = '/'; 
 
         } catch (error) {

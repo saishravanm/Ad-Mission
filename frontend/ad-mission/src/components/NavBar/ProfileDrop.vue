@@ -1,10 +1,10 @@
 <template>
   <div class="dropdown">
     <button class="dropdown-toggle" @click="toggleDropdown">
-      User
+      {{ user.firstName }}
     </button>
     <div v-show="isOpen" class="dropdown-menu">
-      <a href="#" class="dropdown-item">
+      <a href="#" class="dropdown-item" @click="updateProfile">
         <i class="fas fa-user"></i>
         Update Profile
       </a>
@@ -12,7 +12,7 @@
         <i class="fas fa-edit"></i>
         Transactions
       </a>
-      <a href="#" class="dropdown-item">
+      <a href="#" class="dropdown-item " @click="signOut">
         <i class="fas fa-sign-out-alt"></i>
         Sign Out
       </a>
@@ -21,16 +21,39 @@
 </template>
 
 <script lang="ts">
+  import { useAuthStore } from '@/stores/auth.ts';
   export default {
     data() {
       return {
         isOpen: false,
       };
     },
+    computed: {
+      user() {
+        return useAuthStore().user; // Load user data from the authStore
+      }
+    },
     methods: {
       toggleDropdown() {
         this.isOpen = !this.isOpen;
       },
+      updateProfile() {
+        const authStore = useAuthStore();
+        const userId = authStore.user._id;
+        console.log(userId);
+
+        const response = await axios.post('http://localhost:8000/api/login', {
+            userEmail: this.email,
+            password: this.password,
+          });
+
+          
+      },
+      signOut() {
+        //Sign Out the user
+          const authStore = useAuthStore();
+          authStore.logout(); 
+      }
     },
   };
 </script>
