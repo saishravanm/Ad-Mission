@@ -2,12 +2,13 @@
 <!-- This is a component to display user information -->
 
 <template>
-      <div class="div">
+  <div class="div">
+
       <div class="div-2">
         <div class="div-5">Update Account Information</div>
         <div class="div-input">First Name:</div>
         <div class="user-box">
-            <p class="user-data">{{ firstName}}
+            <p class="user-data">{{ userData.firstName}}
               <button class="change-button" @click="changeFirstName()">
                 <img src="../../assets/edit-icon.png" alt="Edit Button" height="40" width="40">
               </button>
@@ -20,7 +21,7 @@
 
         <div class="div-input">Last Name:</div>
         <div class="user-box">
-            <p class="user-data">{{ lastName }}
+            <p class="user-data">{{ userData.lastName }}
               <button class="change-button" @click="changeLastName()">
                 <img src="../../assets/edit-icon.png" alt="Edit Button" height="40" width="40">
             </button>
@@ -33,7 +34,7 @@
 
         <div class="div-input">Email:</div>
           <div class="user-box">
-            <p class="user-data">{{ email }}
+            <p class="user-data">{{ userData.email }}
               <button class="change-button" @click="changeEmailAddress()">
                 <img src="../../assets/edit-icon.png" alt="Edit Button" height="40" width="40">
               </button>
@@ -47,7 +48,7 @@
         </div> 
         <div class="div-input">Phone Number:</div>
           <div class="user-box">
-           <p class="user-data">{{ phoneNumber}}
+           <p class="user-data">{{ userData.phoneNumber}}
             <button class="change-button" @click="changePhoneNumber()">
                 <img src="../../assets/edit-icon.png" alt="Edit Button" height="40" width="40">
             </button>
@@ -61,7 +62,7 @@
 
         <div class="div-input">Address:</div>
          <div class="user-box">
-            <p class="user-data">{{ street + ', ' + city + ', ' + state + ' ' + zip }}
+            <p class="user-data">{{ userData.street + ', ' + userData.city + ', ' + userData.state + ' ' + userData.zip }}
               <button class="change-button" @click="changeAddress()">
                 <img src="../../assets/edit-icon.png" alt="Edit Button" height="40" width="40">
               </button>
@@ -77,7 +78,7 @@
 
         <div class="div-input">Birthday:</div>
         <div class="user-box">
-            <p class="user-data">{{ birthday }}</p>
+            <p class="user-data">{{ userData.birthday }}</p>
         </div>
         <button class="save-button" @click="saveChanges()">
           <p>Save Changes</p>
@@ -93,25 +94,29 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      id: '',
-      firstName: 'Vinay',
-      lastName: 'Verma',
-      email: 'vstrike15@gmail.com',
-      phoneNumber: '512-648-9689',
-      street: '145 Obsidian Drive',
-      city: 'Dripping Springs',
-      state: 'TX',
-      zip: '78620',
-      birthday: '08/15/2004', 
-      newFirst:'',
-      newLast:'',
-      newEmail: '',
-      confirmEmail:'',
-      newPhoneNumber: '',
-      newStreet:'',
-      newCity:'',
-      newState:'',
-      newZip:'',
+      userData: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        addressStreet: '',
+        addressCity: '',
+        addressState: '',
+        addressZip: '',
+        birthday: ''
+      },
+      newUserData: {
+        firstName: '',
+        lastName: '',
+        newEmail: '',
+        confirmEmail: '',
+        phoneNumber: '',
+        addressStreet: '',
+        addressCity: '',
+        addressState: '',
+        addressZip: '',
+        birthday: ''
+      },
       changeFirst: false,
       changeLast: false,
       changeEmail: false,
@@ -125,17 +130,17 @@ export default {
     async getUserData(userID) {
         // call login function in the backend to handle user login
         try{
-          const response = await axios.get('http://localhost:8000/api/userData/${userID}');
-          this.id = userID;
-          this.firstName = response.data.firstName;
-          this.lastName = response.data.lastName;
-          this.userEmail = response.data.userEmail;
-          this.phoneNumber = response.data.phoneNumber;
-          this.street = response.data.street;
-          this.city = response.data.city;
-          this.state = response.data.state;
-          this.zip = response.data.zip;
-          this.birthday = response.data.birthday;
+          const response = await axios.get('http://localhost:8000/api/userData');
+          console.log(response);
+          this.userData.firstName = response.data.firstName;
+          this.userData.lastName = response.data.lastName;
+          this.userData.email = response.data.userEmail;
+          this.userData.phoneNumber = response.data.phoneNumber;
+          this.userData.street = response.data.addressStreet;
+          this.userData.city = response.data.addressCity;
+          this.userData.state = response.data.addressState;
+          this.userData.zip = response.data.addressZip;
+          this.userData.birthday = response.data.birthday;
         }
         catch(error){
           console.error("Error fetching user data:", error);
@@ -158,7 +163,7 @@ export default {
     },
     async saveChanges(){
       try{
-        if(this.newEmail == this.confirmEmail && this.newEmail != this.email && this.newEmail != ''){
+        if(this.newUserData.newEmail == this.newUserData.confirmEmail && this.newEmail != this.email && this.newEmail != ''){
           this.email = this.newEmail;
         }
         else{

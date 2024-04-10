@@ -17,21 +17,27 @@ router.get("/accountinfo/:useremail", async(req,res) => {
     res.status(200).json({"userId":user.id, "userEmail":user.userEmail, "Phone Number":user.phoneNumber});
 });
 //this function gets the user data based on their ID
-router.get("/userData/:userID", async(req, res) => {
-    const user = await User.findOne({_id: req.params.userID});
+router.get("/userData", async(req, res) => {
+    //const authStore = useAuthStore(); 
+    //const userID = authStore.user._id; 
+    const userID = '661071fc950226dbe8ff056a';
+
+    const user = await User.findOne({_id: userID});
+    console.log(user);
     res.status(200).json({
-        "userID": user.id, 
+        "userID": user._id, 
         "userEmail": user.userEmail, 
         "phoneNumber": user.phoneNumber,
         "addressStreet": user.addressStreet,
         "addressCity": user.addressCity,
         "addressState": user.addressState,
-        "addressZip": user.addressZip,
+        "addressZip": user.addressZIP,
         "firstName": user.firstName,
         "lastName": user.lastName,
         "birthday": user.birthday,
     });
 });
+
 //this function updates the users data.
 router.post("/updateUser", async(req, res) => {
     try{
