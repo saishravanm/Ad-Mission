@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-  import { useAuthStore } from '@/stores/auth.ts';
+  import { useAuthStore } from '@/stores/auth';
   export default {
     data() {
       return {
@@ -38,16 +38,15 @@
         this.isOpen = !this.isOpen;
       },
       updateProfile() {
-        const authStore = useAuthStore();
-        const userId = authStore.user._id;
-        console.log(userId);
+        //Work in progress to call updateProfile
+        // const authStore = useAuthStore();
+        // const userId = authStore.user._id;
+        // console.log(userId);
 
-        const response = await axios.post('http://localhost:8000/api/login', {
-            userEmail: this.email,
-            password: this.password,
-          });
-
-          
+        // const response = await axios.post('http://localhost:8000/api/login', {
+        //     userEmail: this.email,
+        //     password: this.password,
+        //   });  
       },
       signOut() {
         //Sign Out the user
