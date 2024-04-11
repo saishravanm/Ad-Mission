@@ -100,10 +100,7 @@ body {
     <br></br>
     <br></br>
     <main>
-      
-      <SeatList
-        :eventName=eventName
-      />
+     
     </main>
     <br></br>
     <div class="legend">

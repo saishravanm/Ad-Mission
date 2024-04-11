@@ -68,11 +68,6 @@ export default{
           type: Number,
           required: true
         }
-    },
-    methods: {
-        returneventName() {
-          return this.eventName;
-        }
     }
 }
 </script>
