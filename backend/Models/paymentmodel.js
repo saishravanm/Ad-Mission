@@ -60,10 +60,11 @@ const paymentSchema = mongoose.Schema({
     }
 });
 
-// Middleware to check if the user is new and autocomplete their information
+// check if the user is new and autocomplete their information
 paymentSchema.pre('save', async function(next) {
     // Check if there are any existing payments made by the user
     const existingPayment = await this.constructor.findOne({ userId: this.userId }).sort({ paymentDate: -1 });
+    //find user id from database and sort the payment date in descending order, which gets most recent payment
 
     // If the user has made a previous payment, autocomplete their information
     if (existingPayment) {
