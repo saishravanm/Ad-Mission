@@ -1,28 +1,30 @@
 
 
 <template>
-  <div class="form-container">
-    <h1 class="form-title">Ad Mission</h1>
-    <form @submit.prevent="submitForm">
-      <div>
-        <label for="cardNumber">Card Number:</label>
-        <input type="text" id="cardNumber" v-model="cardNumber" required>
-      </div>
-      <div>
-        <label for="expiry">Expiry Date:</label>
-        <input type="text" id="expiry" placeholder="MM/YYYY" v-model="expiry" required>
-      </div>
-      <div>
-        <label for="cvv">CVV:</label>
-        <input type="text" id="cvv" v-model="cvv" required>
-      </div>
-      <div>
-        <label for="name">Cardholder Name:</label>
-        <input type="text" id="name" v-model="cardholderName" required>
-      </div>
-      <button type="submit">Submit Payment</button>
-    </form>
-  </div>
+  <div class="app-container">
+    <div class="form-container">
+      <h1 class="form-title">Ad Mission</h1>
+     <form @submit.prevent="submitForm">
+        <div>
+          <label for="cardNumber">Card Number:</label>
+          <input type="text" id="cardNumber" v-model="cardNumber" required>
+        </div>
+        <div>
+          <label for="expiry">Expiry Date:</label>
+          <input type="text" id="expiry" placeholder="MM/YYYY" v-model="expiry" required>
+        </div>
+        <div>
+          <label for="cvv">CVV:</label>
+          <input type="text" id="cvv" v-model="cvv" required>
+        </div>
+        <div>
+          <label for="name">Cardholder Name:</label>
+          <input type="text" id="name" v-model="cardholderName" required>
+        </div>
+        <button type="submit">Submit Payment</button>
+      </form>
+    </div>
+    </div>
 </template>
 
 
@@ -74,15 +76,23 @@ export default {
 
 
 <style scoped>
+
+
 /* Form container */
 .form-container {
-  max-width: 400px;
-  margin: 0 auto;
+  width: 600px;
+  margin: 0 auto; /* Centering the form horizontally */
   padding: 20px;
   background-color: #333; /* Dark gray background */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: #eee; /* Light text */
+  
+  /* Centering the form vertically */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* Form labels */
