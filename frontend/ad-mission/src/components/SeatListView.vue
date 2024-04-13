@@ -75,6 +75,7 @@ body {
   }
 }
 
+
 </style>
 
 <script>
@@ -118,8 +119,11 @@ body {
           <span class="legend-label">Available</span>
         </div>
       </div>
+      <div class="gallery-bottom">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/2a3f3f72cfbc0e3dc1a243b7e1b7b9b4510497fcabfdabd82a8a44e2202ea2fb?apiKey=2e752dba96d84337be028933d4224675&" alt="Gallery image 3" class="gallery-image" />
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/2a3f3f72cfbc0e3dc1a243b7e1b7b9b4510497fcabfdabd82a8a44e2202ea2fb?apiKey=2e752dba96d84337be028933d4224675&" alt="Gallery image 4" class="gallery-image" />
+      </div>
     </div>
-    <aside class="venue-details">VENUE DETAILS</aside>
-    
-
+  </div>
+  <aside class="venue-details">VENUE DETAILS</aside>
 </template>
