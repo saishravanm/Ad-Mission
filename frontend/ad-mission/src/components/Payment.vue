@@ -78,16 +78,17 @@ export default {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
+  background-color: #333; /* Dark gray background */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #eee; /* Light text */
 }
 
 /* Form labels */
 label {
   display: block;
   margin-bottom: 8px;
-  color: #333;
+  color: #eee; /* Light text */
 }
 
 /* Form input fields */
@@ -95,9 +96,11 @@ input[type="text"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid #555; /* Darker border */
   border-radius: 4px;
   transition: border-color 0.3s ease;
+  background-color: #444; /* Darker input background */
+  color: #eee; /* Light text */
 }
 
 input[type="text"]:focus {
@@ -110,8 +113,8 @@ button[type="submit"] {
   display: block;
   width: 100%;
   padding: 12px;
-  background-color: #5cb3fd; /* Light blue button background */
-  color: #fff;
+  background-color: #fff; /* gray button background */
+  color: #0c0c0c;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -119,8 +122,10 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #4ca6e8; /* Darker blue on hover */
+  background-color: #0c0c0c; /* Darker gray on hover */
+  color: #fff; /* Light text on hover */
   transform: scale(1.1); /* Enlarge the button on hover */
 }
 </style>
+
 
