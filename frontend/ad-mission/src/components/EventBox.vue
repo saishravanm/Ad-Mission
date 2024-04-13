@@ -44,7 +44,7 @@
 
 <!--Define the props (instance variables to populate the event object)-->
 <script>
-import { useEventStore } from '@/stores/auth';
+import { useEventStore } from '../stores/auth';
 export default{
     name: 'Event',
     props:{
@@ -70,11 +70,10 @@ export default{
         }
     },
     methods:{
-      setCurrent(){
-        const x = this.eventName;
+      setCurrent(eN){
+        const x = eN;
         const eventStore = useEventStore();
         eventStore.setCurrentEventName({x});
-        $parent.$parent.toggleSeat('SeatListView')
       }
     }
 }
@@ -85,7 +84,7 @@ export default{
 <template>
 <div class="div">
     <div class="div-2">EVENT NAME: {{ eventName }}<br />DATE:{{ eventDate }}<br />VENUE:{{ eventVenue }} <br /> SEATS: {{ seatNum }}</div>
-    <button class="button" @click="setCurrent()">FIND TICKETS</button>
+    <button class="button" @click="setCurrent(eventName);$parent.$parent.toggleSeat('SeatListView')">FIND TICKETS</button>
     <!--SeatList
       :eventName -->
   </div>

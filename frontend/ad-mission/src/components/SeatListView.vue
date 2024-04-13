@@ -78,7 +78,7 @@ body {
 </style>
 
 <script>
-    import SeatList from "./SeatList.vue"
+    import SeatList from "./SeatList.vue";
     export default{
       props:{
     eventName:{
@@ -86,6 +86,9 @@ body {
       required: true
     }
   },
+  components:{
+    SeatList
+  }
     }
 </script>
 
@@ -100,7 +103,9 @@ body {
     <br></br>
     <br></br>
     <main>
-     
+     <SeatList
+      :eventName="this.eventName"
+     />
     </main>
     <br></br>
     <div class="legend">

@@ -20,6 +20,7 @@ name: 'EventListPage',
         const eventStore = useEventStore()
         this.currentComponent = component
         this.eventName = eventStore.loadCurrentEventName()
+        console.log(this.eventName)
         }
     }
   }

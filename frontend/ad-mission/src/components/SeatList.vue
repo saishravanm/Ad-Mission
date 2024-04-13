@@ -55,6 +55,7 @@ export default {
         // Storing the fetched seats data in the 'seats' data property
         this.event = response.data;
         this.seats = this.event.seatList;
+        console.log(this.seats)
       })
     
       .catch(error => {
