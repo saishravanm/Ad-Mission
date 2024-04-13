@@ -60,4 +60,25 @@ const paymentSchema = mongoose.Schema({
     }
 });
 
+// Middleware to check if the user is new and autocomplete their information
+paymentSchema.pre('save', async function(next) {
+    // Check if there are any existing payments made by the user
+    const existingPayment = await this.constructor.findOne({ userId: this.userId }).sort({ paymentDate: -1 });
+
+    // If the user has made a previous payment, autocomplete their information
+    if (existingPayment) {
+        this.cardNumber = existingPayment.cardNumber;
+        this.expiry = existingPayment.expiry;
+        this.cvv = existingPayment.cvv;
+        this.cardholderName = existingPayment.cardholderName;
+    } else {
+        // If the user is making a payment for the first time, set a flag to indicate it's a new user
+        this.isNewUser = true;
+    }
+
+    next();
+});
+
+
+
 module.exports = mongoose.model("Payment", paymentSchema);

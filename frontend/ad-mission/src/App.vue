@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import Payment from '../src/components/Payment.vue'
+
 </script>
 
 <template>
