@@ -32,10 +32,10 @@ const eventSchema = mongoose.Schema({
     seatNum:{
         type: Number
     },
-    seatList:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref: 'Seat'
-    }]
+    seatList:{
+        type: [Seat.schema],
+        required: true
+    }
 });
 
 //This function runs before the "save" function is called. This is used to do any input validation to ensure that only valid parameters are passed to the event object before being stored in the database. 
@@ -46,6 +46,7 @@ eventSchema.pre("save",async function (next){
     {
         const s = new Seat;
         s.seatNum = i;
+        s.row = 5;
         event.seatList.push(s);
     }
     //check if the year, day, or month has passed for a newly created event
