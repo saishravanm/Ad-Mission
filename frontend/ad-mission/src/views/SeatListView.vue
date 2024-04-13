@@ -75,6 +75,7 @@ body {
   }
 }
 
+
 </style>
 
 <script setup lang="ts">
@@ -82,31 +83,37 @@ body {
 </script>
 
 <template>
-  <!-- Adding .main-container class to wrap all content -->
-  <div class="main-container">
-    <header class="seating-chart-header">
-      <h1 class="seating-chart-title">SEATINGCHART</h1>
-      <h2 class="event-name">EVENT NAME - VENUE</h2>
-    </header>
-    <br></br>
-    <br></br>
-    <br></br>
-    <main>
-      <SeatList/>
-    </main>
-    <br></br>
-    <div class="legend">
-        <div class="legend-item">
-          <div class="legend-box reserved"></div>
-          <span class="legend-label">Reserved</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-box available"></div>
-          <span class="legend-label">Available</span>
+  <div class="gallery">
+    <div class="gallery-container">
+      <div class="gallery-top">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/2a3f3f72cfbc0e3dc1a243b7e1b7b9b4510497fcabfdabd82a8a44e2202ea2fb?apiKey=2e752dba96d84337be028933d4224675&" alt="Gallery image 1" class="gallery-image" />
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/2a3f3f72cfbc0e3dc1a243b7e1b7b9b4510497fcabfdabd82a8a44e2202ea2fb?apiKey=2e752dba96d84337be028933d4224675&" alt="Gallery image 2" class="gallery-image" />
+      </div>
+      <div class="main-container">
+        <header class="seating-chart-header">
+          <h1 class="seating-chart-title">SEATINGCHART</h1>
+          <h2 class="event-name">EVENT NAME - VENUE</h2>
+        </header>
+        <main>
+          <SeatList />
+        </main>
+        <br></br>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-box reserved"></div>
+            <span class="legend-label">Reserved</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-box available"></div>
+            <span class="legend-label">Available</span>
+          </div>
         </div>
       </div>
+      <div class="gallery-bottom">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/2a3f3f72cfbc0e3dc1a243b7e1b7b9b4510497fcabfdabd82a8a44e2202ea2fb?apiKey=2e752dba96d84337be028933d4224675&" alt="Gallery image 3" class="gallery-image" />
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/2a3f3f72cfbc0e3dc1a243b7e1b7b9b4510497fcabfdabd82a8a44e2202ea2fb?apiKey=2e752dba96d84337be028933d4224675&" alt="Gallery image 4" class="gallery-image" />
+      </div>
     </div>
-    <aside class="venue-details">VENUE DETAILS</aside>
-    
-
+  </div>
+  <aside class="venue-details">VENUE DETAILS</aside>
 </template>

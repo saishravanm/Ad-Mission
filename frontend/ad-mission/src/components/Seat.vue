@@ -4,12 +4,23 @@
   background-color: #fff;
   min-height: 36px;
   max-width: 38px;
+  border-color: #9e9c9c;
+  border-width: 2px;
+  border-style: solid;
 }
 .div-black {
   border-color: rgba(255, 255, 255, 1);
   border-style: solid;
-  border-width: 1px;
-  background-color: #000;
+  border-width: 2px;
+  background-color: #070707;
+  min-height: 36px;
+  max-width: 38px;
+}
+.backgroundColor{
+  border-color: rgb(10, 10, 10);
+  border-style: solid;
+  border-width: 2px;
+  background-color: #3046a7;
   min-height: 36px;
   max-width: 38px;
 }
@@ -18,9 +29,9 @@
 <template>
   <div>
     <!-- If isFilled is true, render .div-white -->
-    <div v-if="isFilled" class="div-white"></div>
+    <div v-if="isFilled" class="div-black" v-on:mouseover="preselect()" v-on:click="handleClick()"></div>
     <!-- If isFilled is false, render .div-black -->
-    <div v-else class="div-black"></div>
+    <div v-else class="div-white" v-on:mouseover="preselect()" v-on:click="handleClick()"></div>
   </div>
 </template>
 
@@ -48,20 +59,25 @@ export default {
     isFilled: {
       type: Boolean,
       required: true
+    },
+    associatedUser: {
+      type: String
     }
   },
   methods: {
-    handleSeatClick() {
-      // Emit a custom event to indicate that the seat was clicked,, CAN'T GET THIS METHOD TO WORK
-      // Should show seat-details when clicked
-      this.$emit('seat-click', {
-        seatNum: this.seatNum,
-        seatRow: this.seatRow,
-        seatColumn: this.seatColumn,
-        seatPrice: this.seatPrice,
-        isFilled: this.isFilled
-      });
-    }
-  }
+    handleClick() {
+      // Display seat details in a popup
+      alert(`
+        Seat Number: ${this.seatNum}
+        Seat Row: ${this.seatRow}
+        Seat Column: ${this.seatColumn}
+        Seat Price: ${this.seatPrice}
+        Is Filled: ${this.isFilled ? 'Yes' : 'No'}
+      `);
+    }, 
+    //preselect() {
+      
+   // }
+  } 
 };
 </script>

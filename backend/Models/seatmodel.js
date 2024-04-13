@@ -1,21 +1,21 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const seatSchema = mongoose.Schema({
-    seatRow: {
-        type: String
+    seatNum: {
+        type: Number
     },
-    seatColumn: {
-        type: Number 
+    seatRow: {
+        type: String 
     },
     //Whether seat is available or not
-    isFilled:{
-        type: Boolean
-    },
-    seatNum:{
+    seatColumn:{
         type: Number
     },
     seatPrice:{
         type: Number
+    },
+    isFilled:{
+        type: Boolean
     },
     associatedUser:{
         type: String
