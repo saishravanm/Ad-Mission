@@ -1,25 +1,41 @@
+<style>
+.seating-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.seat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
+
 <template>
-  <!-- Main container for displaying seats -->
-  
-    <!-- Conditional rendering based on whether seats data is available -->
-    <div v-if="seats">
-      <!-- Display total number of seats -->
-      <p> {{ seats.length }} Seats</p>
-      <!-- Iterate over each seat to render seats component -->
-      <Seat
-        v-for="seat in seats"
-        :key="seat.id"
-        :seatNum="seat.seatNum"
-        :seatRow="seat.seatRow"
-        :seatColumn="seat.seatColumn"
-        :seatPrice="seat.seatPrice"
-        :isFilled="seat.isFilled"
-      />
+  <div v-if="seats">
+    <p>{{ seats.length }} Seats</p>
+    <div class="seating-chart">
+      <div class="row" v-for="row in numRows">
+        <div class="seat" v-for="col in numCols" :key="`seat-${(row - 1) * numCols + col}`">
+          <Seat
+            :seatNum="(row - 1) * numCols + col"
+            :seatRow="String.fromCharCode(64 + row)"
+            :seatColumn="col"
+            :seatPrice="seats[(row - 1) * numCols + col - 1].seatPrice"
+            :isFilled="seats[(row - 1) * numCols + col - 1].isFilled"
+          />
+        </div>
+      </div>
     </div>
-    <!-- Display a message indicating seats are loading if seats data is not available yet -->
-    <div v-else>
-      No Seats Data Available...
-    </div>
+  </div>
+  <div v-else>No Seats Data Available...</div>
 </template>
 
 <script>
@@ -62,6 +78,14 @@ export default {
         
         console.error('Error fetching seats:', error);
       });
+  },
+  computed: {
+  numRows() {
+    return Math.ceil(this.seats.length / 5); // Assuming 5 seats per row
+  },
+  numCols() {
+    return 5; // Assuming 5 seats per row
   }
+}
 };
 </script>

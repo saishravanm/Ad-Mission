@@ -16,6 +16,7 @@ const seatSchema = mongoose.Schema({
     },
     isFilled:{
         type: Boolean
+        
     },
     associatedUser:{
         type: String

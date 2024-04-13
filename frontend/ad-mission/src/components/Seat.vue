@@ -1,18 +1,18 @@
 
 <style scoped>
 .div-white {
-  background-color: #fff;
+  background-color: #f8f6f6;
   min-height: 36px;
   max-width: 38px;
-  border-color: #9e9c9c;
+  border-color: #777171;
   border-width: 2px;
   border-style: solid;
 }
 .div-black {
-  border-color: rgba(255, 255, 255, 1);
+  border-color: rgb(3, 0, 8);
   border-style: solid;
   border-width: 2px;
-  background-color: #070707;
+  background-color: #d0d5e2;
   min-height: 36px;
   max-width: 38px;
 }
@@ -24,14 +24,41 @@
   min-height: 36px;
   max-width: 38px;
 }
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.legend-box {
+  width: 38px;
+  height: 36px;
+}
+
+.legend-box.reserved {
+  background-color: #000;
+  border: 1px solid #fff;
+}
+
+.legend-box.available {
+  background-color: #fff;
+}
 </style>
 
 <template>
   <div>
     <!-- If isFilled is true, render .div-white -->
-    <div v-if="isFilled" class="div-black" v-on:mouseover="preselect()" v-on:click="handleClick()"></div>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-box reserved">
+          <div v-if="isFilled" class="div-black" v-on:mouseover="preselect()" v-on:click="handleClick()"></div>
+          <div v-else class="div-white" v-on:mouseover="preselect()" v-on:click="handleClick()"></div>
+        </div>
+      </div>
+    </div>
+    
     <!-- If isFilled is false, render .div-black -->
-    <div v-else class="div-white" v-on:mouseover="preselect()" v-on:click="handleClick()"></div>
   </div>
 </template>
 

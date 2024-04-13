@@ -46,7 +46,9 @@ eventSchema.pre("save",async function (next){
     {
         const s = new Seat;
         s.seatNum = i;
-        s.row = 5;
+        s.row = 0;
+        s.isFilled = false
+        s.column = NULL
         event.seatList.push(s);
     }
     //check if the year, day, or month has passed for a newly created event
