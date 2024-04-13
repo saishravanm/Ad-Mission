@@ -1,8 +1,7 @@
 <script lang="ts">
-import { eventNames } from 'process'
-import EventList from '../components/EventList.vue'
-import SeatList from '@/components/SeatList.vue'
 import SeatListView from '@/components/SeatListView.vue'
+import { useEventStore } from '@/stores/auth'
+import EventList from '../components/EventList.vue'
 
 export default{
 name: 'EventListPage',
@@ -17,9 +16,10 @@ name: 'EventListPage',
         }
     },
     methods: {
-        toggleSeat(component, eventName) {
+        toggleSeat(component) {
+        const eventStore = useEventStore()
         this.currentComponent = component
-        this.eventName = eventName
+        this.eventName = eventStore.loadCurrentEventName()
         }
     }
   }

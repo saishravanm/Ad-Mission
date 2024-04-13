@@ -8,14 +8,12 @@ interface User {
 }
 
 interface Event{
-  associated_user: User
   name: string; 
-  user_registered_seat: Seat
-  isRegistered: boolean;
 }
 
 interface Seat{
   associated_user: User;
+  associated_event: Event;
   seat_num: number;
   isFilled: boolean; 
   seatPrice: number;
@@ -53,23 +51,21 @@ export const useAuthStore = defineStore({
 });
 export const useEventStore = defineStore({
   id: "auth",
-  state: ():{event: Event | null; isRegistered: boolean; associated_user: null;  user_registered_seat: null} => ({
+  state: ():{event: Event | null} => ({
     event:null,
-    isRegistered:false,
-    associated_user: null, 
-    user_registered_seat: null,
   }),
   actions:{
-    register(user, event,seat): void{
-      this.event = event; 
-      event.associated_user = user;
-      event.user_registered_seat = seat;
-      localStorage.setItem('associatedUser',JSON.stringify(event.associated_user))
-      localStorage.setItem('seat', JSON.stringify(event.user_registered_seat))
-      localStorage.setItem('event',JSON.stringify(event))
-
+    setCurrentEventName(event): void{
+      this.event = event
+      localStorage.setItem('selectedEvent',JSON.stringify(event.name))
     },
-    
+    loadCurrentEventName(): string{
+      const currentEventName = localStorage.getItem('selectedEvent');
+      if(currentEventName){
+      return currentEventName;
+      }
+      return " ";
+    }
   }
 
 });

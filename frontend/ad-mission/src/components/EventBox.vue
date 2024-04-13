@@ -44,7 +44,7 @@
 
 <!--Define the props (instance variables to populate the event object)-->
 <script>
-import SeatList from './SeatListView.vue'
+import { useEventStore } from '@/stores/auth';
 export default{
     name: 'Event',
     props:{
@@ -68,15 +68,24 @@ export default{
           type: Number,
           required: true
         }
+    },
+    methods:{
+      setCurrent(){
+        const x = this.eventName;
+        const eventStore = useEventStore();
+        eventStore.setCurrentEventName({x});
+        $parent.$parent.toggleSeat('SeatListView')
+      }
     }
 }
+
 </script>
 
 <!--Write the HTML code to display the value of each prop onto the event object-->
 <template>
 <div class="div">
     <div class="div-2">EVENT NAME: {{ eventName }}<br />DATE:{{ eventDate }}<br />VENUE:{{ eventVenue }} <br /> SEATS: {{ seatNum }}</div>
-    <button class="button" @click="$parent.$parent.toggleSeat('SeatListView',this.eventName)">FIND TICKETS</button>
+    <button class="button" @click="setCurrent()">FIND TICKETS</button>
     <!--SeatList
       :eventName -->
   </div>
