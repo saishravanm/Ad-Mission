@@ -4,9 +4,8 @@
 <template>
     <div class="div">
       <div class="div-2">
-        <div class="div-5">AD-MISSION</div>
-
-        <div class="div-4">Email:</div>
+        <div class="div-5">Shopping Cart</div>
+        <div class="div-4">Current cart:</div>
         <input
           class="input-field"
           type="email"
@@ -14,18 +13,17 @@
           v-model="email"
           required
         />
-        <div class="div-7">Password:</div>
-        <input
-          class="input-field"
-          type="password"
-          placeholder="Enter your password"
-          v-model="password"
-          required
-        />
+        <div class="div-7">
+          <div class="left">
+            Total:
+          </div>
+          <div class="right">
+            price
+          </div>
+        </div>
         <div class="div-9">
-          <button class="button" @click="handleLogin">Login</button>
-          <button class="button" @click="$parent.toggleComponent('Registration')">Registration</button>
-          <button class="button" @click="$parent.toggleComponent('ResetPassword')">Reset Password</button>
+          <button class="button" @click="handleLogin">Cancel</button>
+          <button class="button" @click="$parent.toggleComponent('ResetPassword')">Proceed to Checkout</button>
 
         </div>
         <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
@@ -131,7 +129,7 @@
   }
   .div-4 {
     color: #d9d9d9;
-    font: 40px Oswald, sans-serif;
+    font: 25px Oswald, sans-serif;
     margin-bottom: 10px;
   }
   @media (max-width: 991px) {
@@ -165,15 +163,19 @@
     color: #d9d9d9;
   }
   .div-7 {
-    color: #d9d9d9;
     align-self: stretch;
-    margin-top: 47px;
-    font: 40px Oswald, sans-serif;
+    display: flex;
+    margin-top: 31px;
+    gap: 20px;
+    font-size: 25px;
+    color: #fff;
+    justify-content: space-between;
+    padding: 0 2px;
   }
-  @media (max-width: 991px) {
+  @media (max-width: 1991px) {
     .div-7 {
       max-width: 100%;
-      margin-top: 40px;
+      white-space: initial;
     }
   }
   .div-9 {
@@ -181,7 +183,7 @@
     display: flex;
     margin-top: 31px;
     gap: 20px;
-    font-size: 40px;
+    font-size: 25px;
     color: #fff;
     justify-content: space-between;
     padding: 0 2px;
@@ -210,6 +212,12 @@
       white-space: initial;
       padding: 0 20px;
     }
+  }
+  .left {
+    text-align: left;
+  }
+  .right {
+    text-align: right;
   }
   .error-message {
     color: red;
