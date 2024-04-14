@@ -22,6 +22,7 @@
 
 <script lang="ts">
   import { useAuthStore } from '@/stores/auth';
+  import router from "@/router/index";
   export default {
     data() {
       return {
@@ -38,15 +39,7 @@
         this.isOpen = !this.isOpen;
       },
       updateProfile() {
-        //Work in progress to call updateProfile
-        // const authStore = useAuthStore();
-        // const userId = authStore.user._id;
-        // console.log(userId);
-
-        // const response = await axios.post('http://localhost:8000/api/login', {
-        //     userEmail: this.email,
-        //     password: this.password,
-        //   });  
+        router.push({ name: 'updateUserInfo' });
       },
       signOut() {
         //Sign Out the user

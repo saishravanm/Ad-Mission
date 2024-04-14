@@ -12,8 +12,8 @@
   }
 
   interface Seat{
-    associated_user: User;
-    associated_event: Event;
+    associated_user_name: string;
+    associated_event_name: string;
     seat_num: number;
     seatPrice: number;
   }
@@ -43,8 +43,20 @@
           this.isAuthenticated = JSON.parse(authStateString);
         }
       },
-      
-      
+      loadUser(): void {
+        const authStateString = localStorage.getItem('user');
+        if (authStateString) {
+          this.user = JSON.parse(authStateString);
+        }
+      },
+      loadCurrentUserName(): string{
+        const currentUser = localStorage.getItem('user');
+        if(currentUser){
+        const ret = JSON.parse(currentUser);
+        return ret.user;
+        }
+        return " ";
+      }
     },
 
   });
@@ -85,6 +97,7 @@
         if (selectedSeatString) {
           this.selectedSeat = JSON.parse(selectedSeatString);
         }
+        console.log(selectedSeatString)
       },
       clearSelectedSeat(): void {
         this.selectedSeat = null;
