@@ -55,7 +55,8 @@
           
 
         <div class="div-9">
-          <button class="button" @click="handleRegistration">Create Event</button>        </div>
+          <button class="button" @click="handleCreation">Create Event</button>        
+        </div>
         <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </div>
@@ -78,7 +79,7 @@
       };
     },
     methods: {
-      async handleRegistration() {
+      async handleCreation() {
         try {
           // Date object for date validation
           const date = new Date();
@@ -104,35 +105,36 @@
             this.errorMessage = "Description cannot be empty" ;
             return false;
           }
-          if (!this.seatNum.trim()) {
+          if (!this.seatNum || isNaN(this.seatNum)) {
             this.errorMessage = "Number of seats cannot be empty" ;
             return false;
           }
-          if(this.eventDate.getFullYear() < date.getFullYear()) {
+          const eDate = new Date(this.eventDate);
+          if(eDate.getFullYear() < date.getFullYear()) {
              this.errorMessage="Event Year has passed!"
              return false;
-            }
-            
-            if(this.eventName.length > 20 || this.eventName.length < 5)
-             {
-                 this.errorMessage=("Invalid Event Name! Either too long(Over 20 characters) or too short(less than 5)")
-                 return false;
-             }
-             if(this.eventDescription < 0 || this.eventDescription.length > 250)
+          }
+          
+          if(this.eventName.length > 20 || this.eventName.length < 5)
             {
-             this.errorMessage=("Invalid Event Description! Either too long (over 250 characters) or too short (less than 5)")
-             return false;
+                this.errorMessage=("Invalid Event Name! Either too long(Over 20 characters) or too short(less than 5)")
+                return false;
             }
+            if(this.eventDescription < 0 || this.eventDescription.length > 250)
+          {
+            this.errorMessage=("Invalid Event Description! Either too long (over 250 characters) or too short (less than 5)")
+            return false;
+          }
           // Creating an object literal to hold all data fields
           const eventData = {
             eventName: this.eventName,
             eventLocation: this.eventLocation,
-            eventDate: this.eventData,
+            eventDate: this.eventDate,
             eventTime: this.eventTime,
             eventDescription: this.eventDescription,
             seatNum: this.seatNum,
           };
-          
+          console.log(eventData);
           //calls registration creation  on the backend to handle event creation
           const response = await axios.post('http://localhost:8000/api/event_creation', eventData);
           this.errorMessage = '';
@@ -148,6 +150,7 @@
           this.errorMessage = '';
         } catch (error) {
           this.successMessage = '';
+          console.log(error);
           this.errorMessage = error.response.data.error;
         }
       },
