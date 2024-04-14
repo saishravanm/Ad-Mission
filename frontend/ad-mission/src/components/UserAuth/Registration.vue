@@ -133,6 +133,10 @@
             this.errorMessage = "UserEmail cannot be empty" ;
             return false;
           }
+          if (!/\S+@\S+\.\S+/.test(this.userEmail)) {
+            this.errorMessage = "Invalid Email Format";
+            return;
+          }
           if (!this.password.trim()) {
             this.errorMessage = "Password cannot be empty" ;
             return false;

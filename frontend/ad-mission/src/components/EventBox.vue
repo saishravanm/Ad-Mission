@@ -13,7 +13,7 @@
   border-width: 1px;
   background-color: #000;
   display: flex;
-  max-width: 689px;
+  width: 65em;
   gap: 20px;
   justify-content: space-between;
   padding: 24px 0 24px 15px;
@@ -35,6 +35,7 @@
   color: #fff;
   justify-content: center;
   margin: auto 0;
+  margin-right: 15px;
   padding: 10px 6px;
   font: 300 23px Oswald, sans-serif;
   cursor:pointer;

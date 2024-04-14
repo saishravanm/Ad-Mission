@@ -14,6 +14,6 @@ app.use(router)
 
 const authStore = useAuthStore()
 authStore.loadAuthStateFromLocalStorage()
-//authStore.loadUser()
+authStore.loadUser()
 
 app.mount('#app')

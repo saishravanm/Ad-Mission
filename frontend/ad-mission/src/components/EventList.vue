@@ -8,7 +8,8 @@
         <!-- Display total number of events -->
         <p>Total Events: {{ events.length }}</p>
         <!-- Iterate over each event to render EventBox component -->
-        <EventBox
+        <div>
+          <EventBox
           v-for="event in events"
           :key="event.id"
           :eventName="event.eventName"
@@ -17,6 +18,8 @@
           :eventTime="event.eventTime"
           :seatNum="event.seatNum"
         />
+        </div>
+        
       </div>
       <!-- Display a message indicating events are loading if events data is not available yet -->
       <div v-else>
