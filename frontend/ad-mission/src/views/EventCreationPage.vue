@@ -148,7 +148,7 @@
           this.errorMessage = '';
         } catch (error) {
           this.successMessage = '';
-          //this.errorMessage = error.response.data.error;
+          this.errorMessage = error.response.data.error;
         }
       },
     },

@@ -130,7 +130,7 @@ router.post("/event_creation", async(req, res) => {
         const { eventName, eventLocation, eventDate, eventTime, eventDescription, seatNum} = req.body;
         const existingEvent = await Event.findOne({ eventName });
         if (existingEvent) {
-            return res.status(400).json({ "error": "Event already exists" });
+             res.status(400).json({ "error": "Event already exists" });
         }
     await Event.create({
         eventName,
@@ -141,11 +141,11 @@ router.post("/event_creation", async(req, res) => {
         seatNum
     });
     
-    return res.status(200).json({"message": "Event created successfully!"})
+     res.status(200).json({"message": "Event created successfully!"})
     }
     catch(error){
         console.error(error);
-        return res.status(500).json({"error": "An error occurred while creating the event."});
+         res.status(500).json({"error": "An error occurred while creating the event."});
     }
 })
 router.get('/getevents', async (req, res) => {
