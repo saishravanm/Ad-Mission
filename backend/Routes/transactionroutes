@@ -1,0 +1,63 @@
+const express = require("express");
+const router = express.Router();
+const User = require("../Models/usermodel.js");
+const Event = require("../Models/eventmodel.js");
+const bcrypt = require("bcrypt");
+const Transaction = require("../Models/transactionmodel.js"); // Adjust path as necessary
+const useAuthStore = require("../stores/auth") 
+// Assuming this is setup correctly to import useAuthStore
+
+// Middleware to get user from auth store
+async function getUser(req, res, next) {
+    const authStore = useAuthStore();
+    req.user = authStore.user; // Attach user to request
+    next();
+}
+
+// Get transaction details
+router.get("/transactions/:transactionId", getUser, async (req, res) => {
+    try {
+        const transaction = await Transaction.findById(req.params.transactionId);
+        if (!transaction) {
+            return res.status(404).json({ message: "Transaction not found!" });
+        }
+
+        // Check if the logged-in user matches the userEmail in the transaction
+        if (req.user.email !== transaction.userEmail) {
+            return res.status(403).json({ message: "Unauthorized access to this transaction." });
+        }
+
+        res.status(200).json(transaction);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+// Create a new transaction
+router.post("/transactions", getUser, async (req, res) => {
+    try {
+        if (!req.body.eventName || !req.body.eventLocation || !req.body.eventDate || !req.body.seatNumber || !req.body.amount) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
+
+        // Create transaction with user email from auth store
+        const newTransaction = new Transaction({
+            userEmail: req.user.email, // User email from auth store
+            eventName: req.body.eventName,
+            eventLocation: req.body.eventLocation,
+            eventDate: req.body.eventDate,
+            seatNumber: req.body.seatNumber,
+            amount: req.body.amount,
+        });
+
+        const savedTransaction = await newTransaction.save();
+        res.status(201).json({ message: "Transaction created successfully!", transaction: savedTransaction });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+module.exports = router;
+
