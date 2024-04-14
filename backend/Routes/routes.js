@@ -118,5 +118,6 @@ router.post("/event_creation", async(req, res) => {
 })
 
 
+//add 2 functions for payment here (get and post)
 
 module.exports = router;
