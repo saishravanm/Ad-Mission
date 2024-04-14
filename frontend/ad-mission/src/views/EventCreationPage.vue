@@ -63,7 +63,7 @@
   </template>
   
   <script>
-  import axios from 'axios';  
+  import axios from 'axios';
   export default {
     data() {
       return {
@@ -148,7 +148,7 @@
           this.errorMessage = '';
         } catch (error) {
           this.successMessage = '';
-          this.errorMessage = error.response.data.error;
+          //this.errorMessage = error.response.data.error;
         }
       },
     },

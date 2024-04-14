@@ -126,15 +126,27 @@ router.post('/reset-password', async (req, res) => {
 //EVENT ROUTE SECTION
 
 router.post("/event_creation", async(req, res) => {
+    try{
+        const { eventName, eventLocation, eventDate, eventTime, eventDescription, seatNum} = req.body;
+        const existingEvent = await Event.findOne({ eventName });
+        if (existingEvent) {
+            return res.status(400).json({ "error": "Event already exists" });
+        }
     await Event.create({
-        eventName: req.body.eventName,
-        eventLocation: req.body.eventLocation,
-        eventDate: req.body.eventDate,
-        eventTime: req.body.eventTime,
-        eventDescription: req.body.eventDescription,
-        seatNum: req.body.seatNum
+        eventName,
+        eventLocation,
+        eventDate,
+        eventTime,
+        eventDescription,
+        seatNum
     });
-    res.status(200).json({"message": "Event created successfully!"})
+    
+    return res.status(200).json({"message": "Event created successfully!"})
+    }
+    catch(error){
+        console.error(error);
+        return res.status(500).json({"error": "An error occurred while creating the event."});
+    }
 })
 router.get('/getevents', async (req, res) => {
     try {  
