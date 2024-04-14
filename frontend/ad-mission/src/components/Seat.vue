@@ -65,7 +65,7 @@
             :class="{'div-black': isFilled, 'div-white': !isFilled}"
             @mouseover="preselect"
             @mouseleave="handleMouseLeave"
-            @click="handleClick"
+            @click="handleClick(seatNum,seatPrice)"
           ></div>
         </div>
         <div v-show="isHovering" class="popup">
@@ -82,6 +82,10 @@
 
 
 <script>
+import { useSeatStore } from '@/stores/auth';
+import { useEventStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth';
+import { errorMessages } from 'vue/compiler-sfc';
 export default {
   name: 'Seat',
   props: {
@@ -111,7 +115,8 @@ export default {
   },
   data() {
     return {
-      isHovering: false
+      isHovering: false,
+      errorMessage: " ",
     }
   },
   methods: {
@@ -121,8 +126,24 @@ export default {
     handleMouseLeave() {
       this.isHovering = false;
     },
-    handleClick() {
-      confirm('would you like to reserve this seat?');
+    handleClick(sN,sP) {
+      const userStore = useAuthStore()
+      if(userStore.isAuthenticated)
+      {
+        confirm('would you like to reserve this seat?');
+  
+  const seatStore = useSeatStore()
+  const eventStore = useEventStore() 
+  const currentUserName = userStore.loadCurrentUserName()
+  const currentEventName = eventStore.loadCurrentEventName()
+  seatStore.storeSelectedSeat({currentUserName,currentEventName,sN,sP})
+
+  seatStore.loadSelectedSeatFromLocalStorage()
+      }
+      else{
+        this.errorMessage = "You have not logged in! Please Sign in or register!"
+      }
+      
     }
   }
 };
