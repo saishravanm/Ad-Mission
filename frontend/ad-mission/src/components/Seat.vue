@@ -9,10 +9,10 @@
   border-style: solid;
 }
 .div-black {
-  border-color: rgb(3, 0, 8);
+  border-color: #FFF(3, 0, 8);
   border-style: solid;
   border-width: 2px;
-  background-color: #d0d5e2;
+  background-color: #000;
   min-height: 36px;
   max-width: 38px;
 }

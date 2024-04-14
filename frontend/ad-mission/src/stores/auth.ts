@@ -15,7 +15,6 @@
     associated_user: User;
     associated_event: Event;
     seat_num: number;
-    isFilled: boolean; 
     seatPrice: number;
   }
 
@@ -67,6 +66,30 @@
         }
         return " ";
       }
-    }
+    },
+    
+  });
 
+  export const useSeatStore = defineStore({
+    id: 'seat',
+    state: (): { selectedSeat: Seat | null } => ({
+      selectedSeat: null,
+    }),
+    actions: {
+      storeSelectedSeat(seat: Seat): void {
+        this.selectedSeat = seat;
+        localStorage.setItem('selectedSeat', JSON.stringify(seat));
+      },
+      loadSelectedSeatFromLocalStorage(): void {
+        const selectedSeatString = localStorage.getItem('selectedSeat');
+        if (selectedSeatString) {
+          this.selectedSeat = JSON.parse(selectedSeatString);
+        }
+      },
+      clearSelectedSeat(): void {
+        this.selectedSeat = null;
+        localStorage.removeItem('selectedSeat');
+        
+      },
+    },
   });

@@ -48,7 +48,7 @@ eventSchema.pre("save",async function (next){
         s.seatNum = i;
         s.row = 0;
         s.isFilled = false
-        s.column = NULL
+        s.column = 0;
         event.seatList.push(s);
     }
     //check if the year, day, or month has passed for a newly created event
