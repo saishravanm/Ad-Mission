@@ -84,6 +84,7 @@
           <p>Save Changes</p>
           <img src="../../assets/save-icon.png" alt="Save Button" height="40" width="40">
         </button>
+        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </div>
   </div>
 </template>
@@ -125,7 +126,6 @@ export default {
       changePhone: false,
       changeAdd: false,
       errorMessage: '',
-      successMessage: '',
     };
   },
   methods: {
@@ -178,6 +178,31 @@ export default {
           state: this.newUserData.state,
           zip: this.newUserData.zip,
         };
+
+        if (newData.email) {
+          if (!/\S+@\S+\.\S+/.test(newData.email)) {
+            this.errorMessage = "Invalid Email Format";
+            return;
+          }
+          if (this.newUserData.confirmEmail != newData.email) {
+            this.errorMessage = "Email doesn't match";
+            return;
+          }
+        }
+
+        if (newData.phoneNumber) {
+          if (!/^\d{10}$/.test(newData.phoneNumber)) {
+            this.errorMessage = "Invalid Phone";
+            return;
+          }
+        }
+
+        if (newData.zip) {
+          if (!/^\d{5}$/.test(newData.zip)) {
+            this.errorMessage = "Invalid Zip";
+            return;
+          }
+        }
 
         const response = await axios.put('http://localhost:8000/api/updateUser', newData);
         window.location.reload();
