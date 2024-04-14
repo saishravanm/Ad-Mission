@@ -4,14 +4,9 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/event_list',
-      name: 'event list',
-      component: () => import('../views/EventListPage.vue')
-    },
-    {
-      path: '/seat_list',
-      name: 'seat list',
-      component: () => import('../components/SeatListView.vue')
+      path: '/',
+      name: 'homepage',
+      component: () => import('../views/HomePage.vue')
     },
     {
       path: '/userAuth',

@@ -25,6 +25,7 @@ name: 'EventListPage',
     }
   }
 </script>
+
 <style>
 body{
     background-color: black;
@@ -32,7 +33,7 @@ body{
 </style>
 
 <template>
-<body>
+<body style="width: fit-content;">
     <component :is="currentComponent"
                :eventName=eventName
     />

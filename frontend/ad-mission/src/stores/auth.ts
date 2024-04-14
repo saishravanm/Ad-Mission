@@ -43,7 +43,12 @@
           this.isAuthenticated = JSON.parse(authStateString);
         }
       },
-      
+      loadUser(): void {
+        const authStateString = localStorage.getItem('user');
+        if (authStateString) {
+          this.user = JSON.parse(authStateString);
+        }
+      }
       
     },
 
