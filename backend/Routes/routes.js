@@ -17,13 +17,13 @@ router.get("/accountinfo/:useremail", async(req,res) => {
     res.status(200).json({"userId":user.id, "userEmail":user.userEmail, "Phone Number":user.phoneNumber});
 });
 //this function gets the user data based on their ID
-router.get("/userData", async(req, res) => {
-    //const authStore = useAuthStore(); 
-    //const userID = authStore.user._id; 
-    const userID = '661071fc950226dbe8ff056a';
+router.post("/userData", async(req, res) => {
+    const userID = req.query.userId;
+    if (!userID) {
+        return res.status(404).json({ error: "User not found" });
+    }
 
     const user = await User.findOne({_id: userID});
-    console.log(user);
     res.status(200).json({
         "userID": user._id, 
         "userEmail": user.userEmail, 
@@ -39,19 +39,36 @@ router.get("/userData", async(req, res) => {
 });
 
 //this function updates the users data.
-router.post("/updateUser", async(req, res) => {
+router.put("/updateUser", async(req, res) => {
     try{
-        const {id, firstName, lastName, email, phoneNumber, street, city, state, zip} = req.body;
-        const user = await User.findOneAndUpdate(
-            {"_id": id },
-            {"$set": {"firstName": firstName, "lastName": lastName, "userEmail": email, 
-                        "phoneNumber": phoneNumber, "addressStreet": street,
-                    "addressCity": city, "addressState": state, "addressZIP": zip }},
-            {returnNewDocument: true}
-        );
-        if (!user){
-            return res.status(404).json({error: "User not found"});
+        const { id, firstName, lastName, email, phoneNumber, street, city, state, zip } = req.body;
+        
+        // Input validation
+        if (!id) {
+            return res.status(400).json({ error: "Please provide user ID" });
         }
+
+        // Construct the update object dynamically
+        const updateObject = {};
+        if (firstName) updateObject.firstName = firstName;
+        if (lastName) updateObject.lastName = lastName;
+        if (email) updateObject.userEmail = email;
+        if (phoneNumber) updateObject.phoneNumber = phoneNumber;
+        if (street) updateObject.addressStreet = street;
+        if (city) updateObject.addressCity = city;
+        if (state) updateObject.addressState = state;
+        if (zip) updateObject.addressZIP = zip;
+
+        const user = await User.findOneAndUpdate(
+            { "_id": id },
+            { "$set": updateObject },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
         res.json(user);
     }
     catch(error){

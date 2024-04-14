@@ -1,4 +1,4 @@
-<!-- Vinay Verma -->
+<!-- Vinay Verma & Raj Thapa-->
 <!-- This is a component to display user information -->
 
 <template>
@@ -16,7 +16,7 @@
         </div>
         <div v-if="changeFirst">
           <div class="div-change">New First Name:</div>
-          <input class="input-field" type="text" placeholder="Enter First Name" v-model="newFirst" required>
+          <input class="input-field" type="text" placeholder="Enter First Name" v-model="newUserData.firstName" required>
         </div>
 
         <div class="div-input">Last Name:</div>
@@ -29,7 +29,7 @@
         </div>
         <div v-if="changeLast">
           <div class="div-change">New Last Name:</div>
-          <input class="input-field" type="text" placeholder="Enter Last Name" v-model="newLast" required>
+          <input class="input-field" type="text" placeholder="Enter Last Name" v-model="newUserData.lastName" required>
         </div>
 
         <div class="div-input">Email:</div>
@@ -42,9 +42,9 @@
         </div>
         <div v-if="changeEmail">
           <div class="div-change"> New Email:</div>
-          <input class="input-field" type="text" placeholder="Enter New Email" v-model="newEmail" required>
+          <input class="input-field" type="text" placeholder="Enter New Email" v-model="newUserData.email" required>
           <div class="div-change"> Confirm Email:</div>
-          <input class="input-field" type="text" placeholder="Confirm New Email" v-model="confirmEmail" required>
+          <input class="input-field" type="text" placeholder="Confirm New Email" v-model="newUserData.confirmEmail" required>
         </div> 
         <div class="div-input">Phone Number:</div>
           <div class="user-box">
@@ -56,7 +56,7 @@
         </div>
         <div v-if="changePhone" class="change-name">
           <div class="div-change">New Phone Number:</div>
-          <input class="input-field" type="text" placeholder="Enter New Phone Number" v-model="newPhoneNumber"  required>
+          <input class="input-field" type="text" placeholder="Enter New Phone Number" v-model="newUserData.phoneNumber"  required>
         </div>
 
 
@@ -70,10 +70,10 @@
         </div>
         <div v-if="changeAdd" class="change-name">
           <div class="div-change">New Address:</div>
-          <input class="input-field" type="text" placeholder="Street" v-model="newStreet" required>
-          <input class="input-field" type="text" placeholder="City" v-model="newCity" required>
-          <input class="input-field" type="text" placeholder="State" v-model="newState" required>
-          <input class="input-field" type="text" placeholder="Zip" v-model="newZip" required>
+          <input class="input-field" type="text" placeholder="Street" v-model="newUserData.street" required>
+          <input class="input-field" type="text" placeholder="City" v-model="newUserData.city" required>
+          <input class="input-field" type="text" placeholder="State" v-model="newUserData.state" required>
+          <input class="input-field" type="text" placeholder="Zip" v-model="newUserData.zip" required>
         </div>
 
         <div class="div-input">Birthday:</div>
@@ -88,33 +88,35 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import axios from 'axios';
+import { useAuthStore } from '@/stores/auth.ts';
 
 export default {
   data() {
     return {
+      id: null,
       userData: {
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
-        addressStreet: '',
-        addressCity: '',
-        addressState: '',
-        addressZip: '',
+        street: '',
+        city: '',
+        state: '',
+        zip: '',
         birthday: ''
       },
       newUserData: {
         firstName: '',
         lastName: '',
-        newEmail: '',
+        email: '',
         confirmEmail: '',
         phoneNumber: '',
-        addressStreet: '',
-        addressCity: '',
-        addressState: '',
-        addressZip: '',
+        street: '',
+        city: '',
+        state: '',
+        zip: '',
         birthday: ''
       },
       changeFirst: false,
@@ -127,11 +129,13 @@ export default {
     };
   },
   methods: {
-    async getUserData(userID) {
+    async getUserData() {
         // call login function in the backend to handle user login
         try{
-          const response = await axios.get('http://localhost:8000/api/userData');
-          console.log(response);
+          const userAuth = useAuthStore();
+          const userId = userAuth.user._id;
+          const response = await axios.post(`http://localhost:8000/api/userData?userId=${userId}`);          
+          this.id = response.data.userID;
           this.userData.firstName = response.data.firstName;
           this.userData.lastName = response.data.lastName;
           this.userData.email = response.data.userEmail;
@@ -163,55 +167,20 @@ export default {
     },
     async saveChanges(){
       try{
-        if(this.newUserData.newEmail == this.newUserData.confirmEmail && this.newEmail != this.email && this.newEmail != ''){
-          this.email = this.newEmail;
-        }
-        else{
-          this.newEmail = this.email;
-        }
-        if (this.newFirst != this.firstName && this.newFirst != ''){
-          this.firstName = this.newFirst;
-        }
-        else{
-          this.newFirst = this.firstName;
-        }
-        if (this.newLast != this.lastName && this.newLast != ''){
-          this.lastName = this.newLast;
-        }
-        else{
-          this.newLast = this.lastName;
-        }
-        if (this.newPhoneNumber != '' && this.newPhoneNumber.length >= 10 && this.newPhoneNumber != this.phoneNumber){
-          this.phoneNumber = this.newPhoneNumber;
-        } 
-        else{
-          this.newPhoneNumber = this.phoneNumber;
-        }
-        if (this.newStreet != '' && this.newCity != '' && this.newState != '' && this.newZip != ''){
-                this.street = this.newStreet;
-                this.city = this.newCity;
-                this.state = this.newState;
-                this.zip = this.newZip;
-        }
-        else{
-          this.newStreet = this.street;
-          this.newCity = this.city;
-          this.newState = this.state;
-          this.newZip = this.zip;
-        }
-        const userData = {
+        const newData = {
           id: this.id,
-          firstName: this.newFirst,
-          lastName: this.newLast,
-          email: this.newEmail,
-          phoneNumber: this.newPhoneNumber,
-          street: this.newStreet,
-          city: this.newCity,
-          state: this.newState,
-          zip: this.newZip,
+          firstName: this.newUserData.firstName,
+          lastName: this.newUserData.lastName,
+          email: this.newUserData.email,
+          phoneNumber: this.newUserData.phoneNumber,
+          street: this.newUserData.street,
+          city: this.newUserData.city,
+          state: this.newUserData.state,
+          zip: this.newUserData.zip,
         };
 
-        //const response = await axios.post('http://localhost:8000./api/updateUser', userData);
+        const response = await axios.put('http://localhost:8000/api/updateUser', newData);
+        window.location.reload();
         if (this.changeFirst){
           this.changeFirstName();
         }
@@ -227,15 +196,6 @@ export default {
         if(this.changeAdd){
           this.changeAddress();
         }
-        this.newFirst = '';
-        this.newLast = '';
-        this.newEmail = '';
-        this.confirmEmail = '';
-        this.newPhoneNumber = '';
-        this.newStreet = '';
-        this.newCity = '';
-        this.newState = '';
-        this.newZip = '';
       }
       catch(error){
         console.error("Error saving changes: ", error);
