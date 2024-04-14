@@ -185,6 +185,40 @@ router.post('/reset-password', async (req, res) => {
 });
 
 //EVENT ROUTE SECTION
+router.put("/reserve_seat/:eventName/:seatNum", async(req,res) =>{
+    try{
+        const event = await Event.findOne({eventName: req.params.eventName});
+        const seatNum = req.params.seatNum;
+        const seatList = event.seatList;
+        for(var i in seatList)
+        {
+            var seat = seatList[i];
+            if(seat.seatNum == seatNum)
+            {
+                seat.isFilled = true;
+            }
+        }
+        event.seatList = seatList;
+        event.seatNum -=1;
+        //console.log(event.seatList)
+        const updated = await Event.findOneAndUpdate(
+            {"eventName":req.params.eventName},
+            {"$set":event},
+            {new: true}
+        );
+        res.status(200).json({"message": "Seat reserved successfully!"})
+        if(!event || !updated)
+        {
+            return res.status(400).json({ message: "Event not found!" });
+        }
+        
+    } catch(error){
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+})
+
+    
 
 router.post("/event_creation", async(req, res) => {
     await Event.create({

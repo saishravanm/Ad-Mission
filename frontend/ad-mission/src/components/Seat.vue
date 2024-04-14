@@ -44,26 +44,87 @@
 .legend-box.available {
   background-color: #fff;
 }
+.popup {
+  position: absolute;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 50px; /* Add this line to create vertical spacing */
+  margin-left: 40px; /* Add this line to create horizontal spacing */
+}
+
+.error-popup {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.error-popup-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 </style>
 
 <template>
   <div>
-    <!-- If isFilled is true, render .div-white -->
     <div class="legend">
       <div class="legend-item">
         <div class="legend-box reserved">
-          <div v-if="isFilled" class="div-black" v-on:mouseover="preselect()" v-on:click="handleClick()"></div>
-          <div v-else class="div-white" v-on:mouseover="preselect()" v-on:click="handleClick()"></div>
+          <div :class="{'div-black': isFilled, 'div-white': !isFilled}" @mouseover="preselect" @mouseleave="handleMouseLeave" @click="handleClick(seatNum,seatPrice)"></div>
+        </div>
+        <div v-show="isHovering" class="popup">
+          <p>Seat Number: {{ seatNum }}</p>
+          <p>Seat Row: {{ seatRow }}</p>
+          <p>Seat Column: {{ seatColumn }}</p>
+          <p>Seat Price: {{ seatPrice }}</p>
+          <p>Is Filled: {{ isFilled ? 'Yes' : 'No' }}</p>
         </div>
       </div>
     </div>
-    
-    <!-- If isFilled is false, render .div-black -->
+
+    <!-- Error Popup -->
+    <div v-if="errorMessage" class="error-popup">
+      <div class="error-popup-content">
+        <span class="close-button" @click="closeErrorPopup">&times;</span>
+        <p>{{ errorMessage }}</p>
+        <button @click="redirectToRegister">Register</button>
+      </div>
+    </div>
   </div>
 </template>
 
 
 <script>
+import { useSeatStore } from '@/stores/auth';
+import { useEventStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth';
+import router from '@/router/index';
+import { errorMessages } from 'vue/compiler-sfc';
 export default {
   name: 'Seat',
   props: {
@@ -91,20 +152,43 @@ export default {
       type: String
     }
   },
+  data() {
+    return {
+      isHovering: false,
+      errorMessage: '',
+      showErrorPopup: false
+    }
+  },
   methods: {
-    handleClick() {
-      // Display seat details in a popup
-      alert(`
-        Seat Number: ${this.seatNum}
-        Seat Row: ${this.seatRow}
-        Seat Column: ${this.seatColumn}
-        Seat Price: ${this.seatPrice}
-        Is Filled: ${this.isFilled ? 'Yes' : 'No'}
-      `);
-    }, 
-    //preselect() {
-      
-   // }
-  } 
+    preselect() {
+      this.isHovering = true;
+    },
+    handleMouseLeave() {
+      this.isHovering = false;
+    },
+    handleClick(sN, sP) {
+      const userStore = useAuthStore()
+      if (userStore.isAuthenticated) {
+        confirm('would you like to reserve this seat?');
+        const seatStore = useSeatStore()
+        const eventStore = useEventStore()
+        const currentUserName = userStore.loadCurrentUserName()
+        const currentEventName = eventStore.loadCurrentEventName()
+        seatStore.storeSelectedSeat({ currentUserName, currentEventName, sN, sP })
+        seatStore.loadSelectedSeatFromLocalStorage()
+      } else {
+        this.errorMessage = "You have not logged in! Please Sign in or register!"
+        this.showErrorPopup = true
+      }
+    },
+    closeErrorPopup() {
+      this.errorMessage = ''
+      this.showErrorPopup = false
+    },
+    redirectToRegister() {
+      // Redirect the user to the registration page
+      router.push({ name: 'userAuth' })
+    }
+  }
 };
 </script>
