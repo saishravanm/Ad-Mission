@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-
 </script>
 
 <template>
-  <body>
-     <RouterView />
-   </body>
+  <RouterView />
 </template>
 
-<style>
-body{
-  background-color: #000;
-}
+<style scoped>
 </style>

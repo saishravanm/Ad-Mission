@@ -5,8 +5,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'payment',
-      component: () => import('../../src/components/Payment.vue')
+      name: 'homepage',
+      component: () => import('../views/HomePage.vue')
+    },
+    {
+      path: '/userAuth',
+      name: 'userAuth',
+      component: () => import('../views/UserAuth.vue')
     }
   ]
 })

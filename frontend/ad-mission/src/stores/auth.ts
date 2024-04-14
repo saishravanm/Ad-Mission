@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore } from 'pinia'
 
 interface User {
   id: number; 
@@ -14,17 +14,17 @@ export const useAuthStore = defineStore({
     isAuthenticated: false,
   }),
   actions: {
-    login(user: User): void {
-        this.user = user;
-        this.isAuthenticated = true;
-        localStorage.setItem('isAuthenticated', JSON.stringify(this.isAuthenticated));
-        localStorage.setItem('user', JSON.stringify(this.user));
+    login(user): void {
+      this.user = user;
+      this.isAuthenticated = true;
+      localStorage.setItem('isAuthenticated', JSON.stringify(this.isAuthenticated));
+      localStorage.setItem('user', JSON.stringify(this.user));
     },
     logout() : void {
-        this.user = null;
-        this.isAuthenticated = false;
-        localStorage.removeItem('isAuthenticated');
-        localStorage.removeItem('user');
+      this.user = null;
+      this.isAuthenticated = false;
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('user');
     },
     loadAuthStateFromLocalStorage(): void {
       const authStateString = localStorage.getItem('isAuthenticated');
