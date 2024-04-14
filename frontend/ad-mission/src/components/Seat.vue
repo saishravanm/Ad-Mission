@@ -44,21 +44,39 @@
 .legend-box.available {
   background-color: #fff;
 }
+.popup {
+  position: absolute;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 50px; /* Add this line to create vertical spacing */
+  margin-left: 40px; /* Add this line to create horizontal spacing */
+}
+
 </style>
 
 <template>
   <div>
-    <!-- If isFilled is true, render .div-white -->
     <div class="legend">
       <div class="legend-item">
         <div class="legend-box reserved">
-          <div v-if="isFilled" class="div-black" v-on:mouseover="preselect()" v-on:click="handleClick()"></div>
-          <div v-else class="div-white" v-on:mouseover="preselect()" v-on:click="handleClick()"></div>
+          <div
+            :class="{'div-black': isFilled, 'div-white': !isFilled}"
+            @mouseover="preselect"
+            @mouseleave="handleMouseLeave"
+            @click="handleClick"
+          ></div>
+        </div>
+        <div v-show="isHovering" class="popup">
+          <p>Seat Number: {{ seatNum }}</p>
+          <p>Seat Row: {{ seatRow }}</p>
+          <p>Seat Column: {{ seatColumn }}</p>
+          <p>Seat Price: {{ seatPrice }}</p>
+          <p>Is Filled: {{ isFilled ? 'Yes' : 'No' }}</p>
         </div>
       </div>
     </div>
-    
-    <!-- If isFilled is false, render .div-black -->
   </div>
 </template>
 
@@ -91,20 +109,21 @@ export default {
       type: String
     }
   },
+  data() {
+    return {
+      isHovering: false
+    }
+  },
   methods: {
+    preselect() {
+      this.isHovering = true;
+    },
+    handleMouseLeave() {
+      this.isHovering = false;
+    },
     handleClick() {
-      // Display seat details in a popup
-      alert(`
-        Seat Number: ${this.seatNum}
-        Seat Row: ${this.seatRow}
-        Seat Column: ${this.seatColumn}
-        Seat Price: ${this.seatPrice}
-        Is Filled: ${this.isFilled ? 'Yes' : 'No'}
-      `);
-    }, 
-    //preselect() {
-      
-   // }
-  } 
+      confirm('would you like to reserve this seat?');
+    }
+  }
 };
 </script>
