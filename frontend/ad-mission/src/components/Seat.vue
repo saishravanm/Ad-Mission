@@ -54,6 +54,40 @@
   margin-left: 40px; /* Add this line to create horizontal spacing */
 }
 
+.error-popup {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.error-popup-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 </style>
 
 <template>
@@ -61,12 +95,7 @@
     <div class="legend">
       <div class="legend-item">
         <div class="legend-box reserved">
-          <div
-            :class="{'div-black': isFilled, 'div-white': !isFilled}"
-            @mouseover="preselect"
-            @mouseleave="handleMouseLeave"
-            @click="handleClick(seatNum,seatPrice)"
-          ></div>
+          <div :class="{'div-black': isFilled, 'div-white': !isFilled}" @mouseover="preselect" @mouseleave="handleMouseLeave" @click="handleClick(seatNum,seatPrice)"></div>
         </div>
         <div v-show="isHovering" class="popup">
           <p>Seat Number: {{ seatNum }}</p>
@@ -77,6 +106,15 @@
         </div>
       </div>
     </div>
+
+    <!-- Error Popup -->
+    <div v-if="errorMessage" class="error-popup">
+      <div class="error-popup-content">
+        <span class="close-button" @click="closeErrorPopup">&times;</span>
+        <p>{{ errorMessage }}</p>
+        <button @click="redirectToRegister">Register</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -85,6 +123,7 @@
 import { useSeatStore } from '@/stores/auth';
 import { useEventStore } from '@/stores/auth';
 import { useAuthStore } from '@/stores/auth';
+import router from '@/router/index';
 import { errorMessages } from 'vue/compiler-sfc';
 export default {
   name: 'Seat',
@@ -116,7 +155,8 @@ export default {
   data() {
     return {
       isHovering: false,
-      errorMessage: " ",
+      errorMessage: '',
+      showErrorPopup: false
     }
   },
   methods: {
@@ -126,24 +166,28 @@ export default {
     handleMouseLeave() {
       this.isHovering = false;
     },
-    handleClick(sN,sP) {
+    handleClick(sN, sP) {
       const userStore = useAuthStore()
-      if(userStore.isAuthenticated)
-      {
+      if (userStore.isAuthenticated) {
         confirm('would you like to reserve this seat?');
-  
-  const seatStore = useSeatStore()
-  const eventStore = useEventStore() 
-  const currentUserName = userStore.loadCurrentUserName()
-  const currentEventName = eventStore.loadCurrentEventName()
-  seatStore.storeSelectedSeat({currentUserName,currentEventName,sN,sP})
-
-  seatStore.loadSelectedSeatFromLocalStorage()
-      }
-      else{
+        const seatStore = useSeatStore()
+        const eventStore = useEventStore()
+        const currentUserName = userStore.loadCurrentUserName()
+        const currentEventName = eventStore.loadCurrentEventName()
+        seatStore.storeSelectedSeat({ currentUserName, currentEventName, sN, sP })
+        seatStore.loadSelectedSeatFromLocalStorage()
+      } else {
         this.errorMessage = "You have not logged in! Please Sign in or register!"
+        this.showErrorPopup = true
       }
-      
+    },
+    closeErrorPopup() {
+      this.errorMessage = ''
+      this.showErrorPopup = false
+    },
+    redirectToRegister() {
+      // Redirect the user to the registration page
+      router.push({ name: 'userAuth' })
     }
   }
 };
