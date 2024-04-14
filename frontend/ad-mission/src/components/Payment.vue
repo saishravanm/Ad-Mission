@@ -31,9 +31,10 @@
 <script>
 
   import { useAuthStore } from "../stores/auth";
-  //Wherever u need user info
+  //to store user info
   const authStore = useAuthStore();
   const user = authStore.user; //This gives user object with attributes _id, email, name, role, token
+
 
 export default {
   data() {
