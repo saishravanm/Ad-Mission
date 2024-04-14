@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../Models/usermodel.js");
 const Event = require("../Models/eventmodel.js");
+const Seat = require("../Models/seatmodel.js");
 const bcrypt = require("bcrypt");
 
 router.get("/", async(req, res) => {
@@ -16,6 +17,24 @@ router.get("/accountinfo/:useremail", async(req,res) => {
     });
     res.status(200).json({"userId":user.id, "userEmail":user.userEmail, "Phone Number":user.phoneNumber});
 });
+
+//RETURN SEAT
+router.get("/get_seat/:seatNum"), async(req, res) =>{
+    const seat = await Seat.findOne({
+        seatNum: req.params.seatNum
+    });
+    res.status(200).json({"seatNum":seat.seatNum,"seatRow":seat.seatRow,"seatColumn":seat.seatColumn,"seatPrice":seat.seatPrice,"isFilled":seat.isFilled})
+}
+//RETURNS SEATS LIST
+router.get('/getseats', async (req, res) => {
+    try {  
+      var results = []
+      const seatList = await Seat.find({});
+      res.json(seatList);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
 
 // this function registers the new user by adding info to the database (Raj Thapa)
 router.post("/registration", async (req, res) => {
@@ -113,10 +132,30 @@ router.post("/event_creation", async(req, res) => {
         eventDate: req.body.eventDate,
         eventTime: req.body.eventTime,
         eventDescription: req.body.eventDescription,
+        seatNum: req.body.seatNum
     });
     res.status(200).json({"message": "Event created successfully!"})
 })
-
-
+router.get('/getevents', async (req, res) => {
+    try {  
+      var results = []
+      const eventList = await Event.find({});
+      res.json(eventList);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+router.get('/getevent/:eventName', async(req, res) =>{
+    try {
+        const event = await Event.findOne({ eventName: req.params.eventName });
+        if (!event) {
+            return res.status(400).json({ message: "Event not found!" });
+        }
+        res.json(event)
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+})
 
 module.exports = router;
