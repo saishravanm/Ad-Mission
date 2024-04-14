@@ -14,14 +14,14 @@ const router = createRouter({
       component: () => import('../views/UserAuth.vue')
     },
     {
-      path: '/updateUserInfo',
-      name: 'updateUserInfo',
-      component: () => import('../views/UpdateUserInfo.vue')
-    },
-    {
       path: '/event_creation',
       name: 'eventCreation',
       component: () => import('../views/EventCreationPage.vue')
+    },
+    {
+      path: '/updateUserInfo',
+      name: 'updateUserInfo',
+      component: () => import('../views/UpdateUserInfo.vue')
     }
   ]
 })
