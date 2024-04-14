@@ -1,13 +1,23 @@
 <script lang='ts'>
   import Navbar from '../components/NavBar/NavBar.vue';
   import EventListPage from './EventListPage.vue';
+  import EventCreationPage from './EventCreationPage.vue';
+  import { useAuthStore } from '@/stores/auth.ts';
 
   export default {
     components: {
       Navbar,
-      EventListPage
+      EventListPage,
+      EventCreationPage
+    },
+    computed: {
+      isOrganizer() {
+        const user = useAuthStore().user;
+        return user && user.isOrganizer === true;
+      }
     }
   }
+
 </script>
 
 <template>
@@ -21,7 +31,13 @@
           </div>
 
           <div class="div-8">
+            <template v-if="isOrganizer">
+              <EventCreationPage></EventCreationPage>
+            </template>
+  
+            <template v-else>
               <EventListPage></EventListPage>
+            </template>
           </div>
         </div>
       </div>
