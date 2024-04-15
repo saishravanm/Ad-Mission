@@ -169,13 +169,17 @@ export default {
     handleClick(sN, sP) {
       const userStore = useAuthStore()
       if (userStore.isAuthenticated) {
-        confirm('would you like to reserve this seat?');
+        const registration_confirm =confirm('would you like to reserve this seat?');
         const seatStore = useSeatStore()
         const eventStore = useEventStore()
         const currentUserName = userStore.loadCurrentUserName()
         const currentEventName = eventStore.loadCurrentEventName()
         seatStore.storeSelectedSeat({ currentUserName, currentEventName, sN, sP })
-        seatStore.loadSelectedSeatFromLocalStorage()
+        if(registration_confirm)
+        {
+          router.push({name:'cartPayment'})
+        }
+        
       } else {
         this.errorMessage = "You have not logged in! Please Sign in or register!"
         this.showErrorPopup = true
