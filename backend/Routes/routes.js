@@ -1,23 +1,37 @@
 const express = require("express");
 const router = express.Router();
+<<<<<<< Updated upstream
 const User = require("../Models/usermodel.js");
 const Event = require("../Models/eventmodel.js");
 const Seat = require("../Models/seatmodel.js");
+=======
+const Transaction = require("../Models/transactionmodel.js"); // Adjust path as necessary
+const useAuthStore = require("../stores/auth"); // Custom middleware for user authentication
+>>>>>>> Stashed changes
 const bcrypt = require("bcrypt");
 
-router.get("/", async(req, res) => {
-    res.status(200).json({"test": "This is a test"});
-})
+// Middleware to get user from auth store
+async function getUser(req, res, next) {
+    const authStore = useAuthStore();
+    req.user = authStore.user; // Attach user to request
+    next();
+}
 
-// USER ROUTE SECTION
-
-router.get("/accountinfo/:useremail", async(req,res) => {
-    const user = await User.findOne({
-        userEmail: req.params.useremail
-    });
-    res.status(200).json({"userId":user.id, "userEmail":user.userEmail, "Phone Number":user.phoneNumber});
+// Get all transactions for the logged-in user
+router.get("/transaction", getUser, async (req, res) => {
+    try {
+        const transactions = await Transaction.find({ userEmail: req.user.email });
+        if (!transactions || transactions.length === 0) {
+            return res.status(404).json({ message: "No transactions found for this user." });
+        }
+        res.status(200).json(transactions);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
 });
 
+<<<<<<< Updated upstream
 //this function gets the user data based on their ID
 router.post("/userData", async(req, res) => {
     const userID = req.query.userId;
@@ -99,64 +113,33 @@ router.get('/getseats', async (req, res) => {
 
 // this function registers the new user by adding info to the database (Raj Thapa)
 router.post("/registration", async (req, res) => {
+=======
+// Create a new transaction
+router.post("/transaction", getUser, async (req, res) => {
+>>>>>>> Stashed changes
     try {
-        // Extract user information from the request body
-        const { userEmail, password, phoneNumber, addressStreet, addressCity, addressState, addressZIP, firstName, lastName, birthday, isOrganizer } = req.body;
-        
-        // Lookup if user already exists
-        const existingUser = await User.findOne({ userEmail });
-        if (existingUser) {
-            return res.status(400).json({ "error": "Username already exists" });
+        if (!req.body.eventName || !req.body.eventLocation || !req.body.eventDate || !req.body.seatNumber || !req.body.amount) {
+            return res.status(400).json({ message: "Missing required fields" });
         }
 
-        // Create the new user in the database
-        await User.create({
-            userEmail,
-            password,
-            phoneNumber,
-            addressStreet,
-            addressCity,
-            addressState,
-            addressZIP,
-            firstName,
-            lastName,
-            birthday,
-            isOrganizer
+        const newTransaction = new Transaction({
+            userEmail: req.user.email, // Assuming userEmail is available in user details
+            eventName: req.body.eventName,
+            eventLocation: req.body.eventLocation,
+            eventDate: req.body.eventDate,
+            seatNumber: req.body.seatNumber,
+            amount: req.body.amount
         });
 
-        // Respond with success message
-        return res.status(200).json({"message": "User registered successfully!"});
+        const savedTransaction = await newTransaction.save();
+        res.status(201).json({ message: "Transaction created successfully!", transaction: savedTransaction });
     } catch (error) {
-        // If an error occurs during user registration, respond with an error message
         console.error(error);
-        return res.status(500).json({"error": "An error occurred while registering the user."});
+        res.status(500).json({ message: "Internal server error" });
     }
 });
 
-// login function that finds the user by useremail, matches the password and returns if user login is successful (Raj Thapa)
-router.post("/login", async (req, res) => {
-    try {
-        const user = await User.findOne({ userEmail: req.body.userEmail });
-
-        if (!user) {
-            return res.status(400).json({ message: "Username/Password error!" });
-        }
-
-        const passwordMatch = await bcrypt.compare(req.body.password, user.password);
-
-        if (passwordMatch) {
-            // Passwords match, user is authenticated
-            return res.status(200).json({userData: user, message: "Logged in successfully!" });
-        } else {
-            // Passwords do not match
-            return res.status(400).json({ message: "Username/Password error!" });
-        }
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Internal server error" });
-    }
-});
-
+<<<<<<< Updated upstream
 // Resets the password by finding user based on email (Raj Thapa)
 router.post('/reset-password', async (req, res) => {
   try {
@@ -266,3 +249,6 @@ router.get('/getevent/:eventName', async(req, res) =>{
 })
 
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> Stashed changes

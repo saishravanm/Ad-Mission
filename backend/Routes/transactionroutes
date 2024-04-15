@@ -4,8 +4,7 @@ const User = require("../Models/usermodel.js");
 const Event = require("../Models/eventmodel.js");
 const bcrypt = require("bcrypt");
 const Transaction = require("../Models/transactionmodel.js"); // Adjust path as necessary
-const useAuthStore = require("../stores/auth") 
-// Assuming this is setup correctly to import useAuthStore
+const useAuthStore = require("../stores/auth.ts"); // Assuming this is setup correctly to import useAuthStore
 
 // Middleware to get user from auth store
 async function getUser(req, res, next) {
@@ -14,20 +13,14 @@ async function getUser(req, res, next) {
     next();
 }
 
-// Get transaction details
-router.get("/transactions/:transactionId", getUser, async (req, res) => {
+// Get all transactions for the logged-in user
+router.get("/transactions", getUser, async (req, res) => {
     try {
-        const transaction = await Transaction.findById(req.params.transactionId);
-        if (!transaction) {
-            return res.status(404).json({ message: "Transaction not found!" });
+        const transactions = await Transaction.find({ userEmail: req.user.email });
+        if (!transactions || transactions.length === 0) {
+            return res.status(404).json({ message: "No transactions found for this user." });
         }
-
-        // Check if the logged-in user matches the userEmail in the transaction
-        if (req.user.email !== transaction.userEmail) {
-            return res.status(403).json({ message: "Unauthorized access to this transaction." });
-        }
-
-        res.status(200).json(transaction);
+        res.status(200).json(transactions);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal server error" });
@@ -41,14 +34,13 @@ router.post("/transactions", getUser, async (req, res) => {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
-        // Create transaction with user email from auth store
         const newTransaction = new Transaction({
-            userEmail: req.user.email, // User email from auth store
+            userEmail: req.user.email, // Assuming userEmail is available in user details
             eventName: req.body.eventName,
             eventLocation: req.body.eventLocation,
             eventDate: req.body.eventDate,
             seatNumber: req.body.seatNumber,
-            amount: req.body.amount,
+            amount: req.body.amount
         });
 
         const savedTransaction = await newTransaction.save();
@@ -60,4 +52,3 @@ router.post("/transactions", getUser, async (req, res) => {
 });
 
 module.exports = router;
-
