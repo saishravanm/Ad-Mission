@@ -3,28 +3,20 @@ const router = express.Router();
 const User = require("../Models/usermodel.js");
 const Event = require("../Models/eventmodel.js");
 const Seat = require("../Models/seatmodel.js");
-const Transaction = require("../Models/transactionmodel.js"); // Adjust path as necessary
+const Transaction = require("../Models/transactionmodel.js");
 const bcrypt = require("bcrypt");
 
-// Middleware to get user from auth store
-async function getUser(req, res, next) {
-    const authStore = useAuthStore();
-    req.user = authStore.user; // Attach user to request
-    next();
-}
+router.get("/", async(req, res) => {
+    res.status(200).json({"test": "This is a test"});
+})
 
-// Get all transactions for the logged-in user
-router.get("/transaction", getUser, async (req, res) => {
-    try {
-        const transactions = await Transaction.find({ userEmail: req.user.email });
-        if (!transactions || transactions.length === 0) {
-            return res.status(404).json({ message: "No transactions found for this user." });
-        }
-        res.status(200).json(transactions);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal server error" });
-    }
+// USER ROUTE SECTION
+
+router.get("/accountinfo/:useremail", async(req,res) => {
+    const user = await User.findOne({
+        userEmail: req.params.useremail
+    });
+    res.status(200).json({"userId":user.id, "userEmail":user.userEmail, "Phone Number":user.phoneNumber});
 });
 
 //this function gets the user data based on their ID
@@ -107,36 +99,64 @@ router.get('/getseats', async (req, res) => {
   });
 
 // this function registers the new user by adding info to the database (Raj Thapa)
-// Create a new transaction
-router.get("/get_transactions/:userEmail", async (req, res) => {
+router.post("/registration", async (req, res) => {
     try {
-        const transactions = await Transaction.find({ userEmail: req.params.userEmail });
-        res.json(transactions);
-        console.log(transactions)
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal server error" });
-    }
-});
+        // Extract user information from the request body
+        const { userEmail, password, phoneNumber, addressStreet, addressCity, addressState, addressZIP, firstName, lastName, birthday, isOrganizer } = req.body;
+        
+        // Lookup if user already exists
+        const existingUser = await User.findOne({ userEmail });
+        if (existingUser) {
+            return res.status(400).json({ "error": "Username already exists" });
+        }
 
-router.post("/create_transactions", async (req, res) => {
-    try {
-        console.log("i")
-        await Transaction.create({
-            userEmail: req.body.userEmail, 
-            eventName: req.body.eventName,
-            eventDate: new Date(),
-            seatNumber: req.body.seatNumber,
-            amount: req.body.amount
+        // Create the new user in the database
+        await User.create({
+            userEmail,
+            password,
+            phoneNumber,
+            addressStreet,
+            addressCity,
+            addressState,
+            addressZIP,
+            firstName,
+            lastName,
+            birthday,
+            isOrganizer
         });
 
-        res.status(200).json({ message: "Transaction created successfully!"});
+        // Respond with success message
+        return res.status(200).json({"message": "User registered successfully!"});
     } catch (error) {
+        // If an error occurs during user registration, respond with an error message
         console.error(error);
-        res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({"error": "An error occurred while registering the user."});
     }
 });
 
+// login function that finds the user by useremail, matches the password and returns if user login is successful (Raj Thapa)
+router.post("/login", async (req, res) => {
+    try {
+        const user = await User.findOne({ userEmail: req.body.userEmail });
+
+        if (!user) {
+            return res.status(400).json({ message: "Username/Password error!" });
+        }
+
+        const passwordMatch = await bcrypt.compare(req.body.password, user.password);
+
+        if (passwordMatch) {
+            // Passwords match, user is authenticated
+            return res.status(200).json({userData: user, message: "Logged in successfully!" });
+        } else {
+            // Passwords do not match
+            return res.status(400).json({ message: "Username/Password error!" });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
 
 // Resets the password by finding user based on email (Raj Thapa)
 router.post('/reset-password', async (req, res) => {
@@ -199,8 +219,6 @@ router.put("/reserve_seat/:eventName/:seatNum", async(req,res) =>{
     }
 })
 
-    
-
 router.post("/event_creation", async(req, res) => {
     try{
         const { eventName, eventLocation, eventDate, eventTime, eventDescription, seatNum} = req.body;
@@ -224,6 +242,7 @@ router.post("/event_creation", async(req, res) => {
          res.status(500).json({"error": "An error occurred while creating the event."});
     }
 })
+
 router.get('/getevents', async (req, res) => {
     try {  
       var results = []
@@ -232,7 +251,8 @@ router.get('/getevents', async (req, res) => {
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
-  });
+});
+
 router.get('/getevent/:eventName', async(req, res) =>{
     try {
         const event = await Event.findOne({ eventName: req.params.eventName });
@@ -244,6 +264,33 @@ router.get('/getevent/:eventName', async(req, res) =>{
         console.error(error);
         return res.status(500).json({ message: "Internal server error" });
     }
-})
+});
+
+router.get("/get_transactions/:userEmail", async (req, res) => {
+    try {
+        const transactions = await Transaction.find({ userEmail: req.params.userEmail });
+        res.json(transactions);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.post("/create_transactions", async (req, res) => {
+    try {
+        await Transaction.create({
+            userEmail: req.body.userEmail, 
+            eventName: req.body.eventName,
+            eventDate: new Date(),
+            seatNumber: req.body.seatNumber,
+            amount: req.body.amount
+        });
+
+        res.status(200).json({ message: "Transaction created successfully!"});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 
 module.exports = router;
