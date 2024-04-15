@@ -9,10 +9,14 @@ const router = createRouter({
       component: () => import('../views/HomePage.vue')
     },
     {
-      
       path: '/userAuth',
       name: 'userAuth',
       component: () => import('../views/UserAuth.vue')
+    },
+    {
+      path: '/event_creation',
+      name: 'eventCreation',
+      component: () => import('../views/EventCreationPage.vue')
     },
     {
       path: '/updateUserInfo',
