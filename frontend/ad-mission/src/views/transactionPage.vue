@@ -13,7 +13,11 @@
         <p>Amount Paid: ${{ transaction.amount.toFixed(2) }}</p>
       </div>
     </section>
+    
     <p v-else class="no-transactions">No transactions found.</p>
+    <button class="save-button" @click="goToHomePage()">
+          Go To HomePage
+        </button>
   </div>
 </template>
 
@@ -22,6 +26,7 @@
 import { defineComponent } from 'vue';
 import axios from 'axios';
 import { useAuthStore } from '@/stores/auth';
+import router from '@/router';
 
 export default defineComponent({
   name: 'TicketComponent',
@@ -39,6 +44,7 @@ export default defineComponent({
   mounted() {
     this.fetchTransactions();
   },
+  
   methods: {
     async fetchTransactions() {
       try {
@@ -52,6 +58,9 @@ export default defineComponent({
         console.error('Failed to fetch transactions:', error);
         // Handle errors, possibly with a user notification
       }
+    },
+    goToHomePage() {
+      router.push({ name: 'homepage' });
     }
   }
 });
@@ -60,6 +69,27 @@ export default defineComponent({
 
 
 <style scoped>
+.save-button p{
+  color: #fff;
+  display: flex;
+  margin-right: 30px;
+  justify-content: center;
+  align-self: center;
+}
+.save-button{
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  font: 20px Oswald, sans-serif;
+  color: #fff;
+  position: relative;
+  bottom: 1px;
+  padding-top: 50px;
+  margin-bottom: 1px;
+}
 .ticket-container {
   background-color: #000;
   display: flex;

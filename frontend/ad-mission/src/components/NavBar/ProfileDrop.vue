@@ -8,7 +8,7 @@
         <i class="fas fa-user"></i>
         Update Profile
       </a>
-      <a href="#" class="dropdown-item">
+      <a href="#" class="dropdown-item" @click="toggleTransactions">
         <i class="fas fa-edit"></i>
         Transactions
       </a>
@@ -45,6 +45,9 @@
         //Sign Out the user
           const authStore = useAuthStore();
           authStore.logout(); 
+      },
+      toggleTransactions(){
+        router.push({name: 'transaction'})
       }
     },
   };

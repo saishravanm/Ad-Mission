@@ -10,10 +10,6 @@ const transactionSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    eventLocation: {
-        type: String,
-        required: true
-    },
     eventDate: {
         type: Date,
         required: true

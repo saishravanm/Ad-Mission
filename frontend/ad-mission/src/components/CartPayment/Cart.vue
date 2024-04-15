@@ -19,6 +19,8 @@
           <button class="button" @click="goToHome()">Cancel</button>
           <button class="button" @click="handleCheckout()">Proceed to Checkout</button>
         </div>
+        <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
+        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </div>
     </div>
   </template>
@@ -29,11 +31,15 @@
   import {useEventStore} from '../../stores/auth.ts';
   import {useSeatStore } from '../../stores/auth.ts';
   import router from '@/router/index.ts';
+import { eventNames } from 'process';
+import { errorMessages } from 'vue/compiler-sfc';
 
   export default{
     data() {
       return {
           totalCost: 0,
+          successMessage: '',
+          errorMessage: ' ',
       };
     },
     computed: {
@@ -63,11 +69,34 @@
       },
       handleCheckout() {
         const seatStore = useSeatStore();
+        const useStore = useAuthStore();
+        const eventStore = useEventStore(); 
         if (seatStore != null && seatStore.selectedSeat != null) {
           const eventName = seatStore.selectedSeat.currentEventName;
           const seatNum = seatStore.selectedSeat.sN;
           const response = axios.put('http://localhost:8000/api/reserve_seat/'+eventName+'/'+seatNum);
+          
+          const transactionData = {
+          userEmail: useStore.user?.userEmail,
+          eventName: eventName,
+          eventDate: new Date(),
+          seatNumber: seatNum,
+          amount: 10
         }
+        try{
+        const cT = axios.post('http://localhost:8000/api/create_transactions',transactionData)
+        this.successMessage = "Transaction succesfully completed!"
+        this.errorMessage = ' '
+        setTimeout(() => {
+        // After 3 seconds, navigate to the homepage
+        router.push({ name: 'homepage' });
+        }, 3000);
+        } catch(error)
+        {
+          this.successMessage = ''
+          this.errorMessage = "Transaction was not succesfully completed!"
+        }
+      }
       }
     }
   };
@@ -75,6 +104,15 @@
   </script>
 
   <style scoped>
+    .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+
+  .success-message {
+    color: green;
+    margin-top: 10px;
+  }
   .div {
     background-color: #000;
     display: flex;
