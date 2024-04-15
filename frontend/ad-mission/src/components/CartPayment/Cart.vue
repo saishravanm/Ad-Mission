@@ -28,7 +28,6 @@
   import { useAuthStore } from '../../stores/auth.ts';
   import {useEventStore} from '../../stores/auth.ts';
   import {useSeatStore } from '../../stores/auth.ts';
-  const seatStore = useSeatStore();
 
   export default{
     data() {
@@ -38,12 +37,23 @@
     },
     computed: {
       seatNum() {
-        const seat = seatStore.loadSelectedSeatFromLocalStorage();
-        return seat.seat_num; // Load user data from the authStore
+        const seatStore = useSeatStore();
+        console.log(seatStore.selectedSeat?.sN)
+        if(seatStore.selectedSeat?.seat_num != null){
+          return seatStore.selectedSeat; // Load user data from the authStore
+        }
+        else{
+          return null;
+        }
       },
       seatPrice(){
-        const price = seatStore.loadSelectedSeatFromLocalStorage();
-        return price.seatPrice;
+        const seatStore = useSeatStore();
+        if(seatStore.selectedSeat != null){
+          return seatStore.selectedSeat.seatPrice; // Load user data from the authStore
+        }
+        else{
+          return null;
+        }
       }
     },
   };
