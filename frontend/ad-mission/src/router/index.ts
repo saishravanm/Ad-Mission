@@ -22,6 +22,11 @@ const router = createRouter({
       path: '/updateUserInfo',
       name: 'updateUserInfo',
       component: () => import('../views/UpdateUserInfo.vue')
+    }, 
+    {
+      path: '/transaction',
+      name: 'transaction',
+      component: () => import('../views/transactionPage.vue')
     },
     {
       path:'/cartPayment',
