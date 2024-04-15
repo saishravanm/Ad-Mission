@@ -174,13 +174,13 @@ router.put("/reserve_seat/:eventName/:seatNum", async(req,res) =>{
         for(var i in seatList)
         {
             var seat = seatList[i];
-            if(seat.seatNum == seatNum)
+            if(seat.seatNum  == seatNum - 1)
             {
                 seat.isFilled = true;
             }
         }
         event.seatList = seatList;
-        event.seatNum -=1;
+        //event.seatNum -=1;
         //console.log(event.seatList)
         const updated = await Event.findOneAndUpdate(
             {"eventName":req.params.eventName},
