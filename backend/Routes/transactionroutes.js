@@ -4,17 +4,9 @@ const User = require("../Models/usermodel.js");
 const Event = require("../Models/eventmodel.js");
 const bcrypt = require("bcrypt");
 const Transaction = require("../Models/transactionmodel.js"); // Adjust path as necessary
-const useAuthStore = require("../stores/auth.ts"); // Assuming this is setup correctly to import useAuthStore
-
-// Middleware to get user from auth store
-async function getUser(req, res, next) {
-    const authStore = useAuthStore();
-    req.user = authStore.user; // Attach user to request
-    next();
-}
 
 // Get all transactions for the logged-in user
-router.get("/transactions", getUser, async (req, res) => {
+router.get("/get_transactions", getUser, async (req, res) => {
     try {
         const transactions = await Transaction.find({ userEmail: req.user.email });
         if (!transactions || transactions.length === 0) {
@@ -28,14 +20,14 @@ router.get("/transactions", getUser, async (req, res) => {
 });
 
 // Create a new transaction
-router.post("/transactions", getUser, async (req, res) => {
+router.post("/create_transactions", async (req, res) => {
     try {
         if (!req.body.eventName || !req.body.eventLocation || !req.body.eventDate || !req.body.seatNumber || !req.body.amount) {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
-        const newTransaction = new Transaction({
-            userEmail: req.user.email, // Assuming userEmail is available in user details
+        await Transaction.create({
+            userEmail: req.body.userEmail, // Assuming userEmail is available in user details
             eventName: req.body.eventName,
             eventLocation: req.body.eventLocation,
             eventDate: req.body.eventDate,
@@ -43,8 +35,7 @@ router.post("/transactions", getUser, async (req, res) => {
             amount: req.body.amount
         });
 
-        const savedTransaction = await newTransaction.save();
-        res.status(201).json({ message: "Transaction created successfully!", transaction: savedTransaction });
+        res.status(200).json({ message: "Transaction created successfully!", transaction: savedTransaction });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal server error" });

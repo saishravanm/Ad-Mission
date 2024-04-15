@@ -1,13 +1,9 @@
 const express = require("express");
 const router = express.Router();
-<<<<<<< Updated upstream
 const User = require("../Models/usermodel.js");
 const Event = require("../Models/eventmodel.js");
 const Seat = require("../Models/seatmodel.js");
-=======
 const Transaction = require("../Models/transactionmodel.js"); // Adjust path as necessary
-const useAuthStore = require("../stores/auth"); // Custom middleware for user authentication
->>>>>>> Stashed changes
 const bcrypt = require("bcrypt");
 
 // Middleware to get user from auth store
@@ -31,7 +27,6 @@ router.get("/transaction", getUser, async (req, res) => {
     }
 });
 
-<<<<<<< Updated upstream
 //this function gets the user data based on their ID
 router.post("/userData", async(req, res) => {
     const userID = req.query.userId;
@@ -112,34 +107,38 @@ router.get('/getseats', async (req, res) => {
   });
 
 // this function registers the new user by adding info to the database (Raj Thapa)
-router.post("/registration", async (req, res) => {
-=======
 // Create a new transaction
-router.post("/transaction", getUser, async (req, res) => {
->>>>>>> Stashed changes
+router.get("/get_transactions/:userEmail", async (req, res) => {
     try {
-        if (!req.body.eventName || !req.body.eventLocation || !req.body.eventDate || !req.body.seatNumber || !req.body.amount) {
-            return res.status(400).json({ message: "Missing required fields" });
-        }
-
-        const newTransaction = new Transaction({
-            userEmail: req.user.email, // Assuming userEmail is available in user details
-            eventName: req.body.eventName,
-            eventLocation: req.body.eventLocation,
-            eventDate: req.body.eventDate,
-            seatNumber: req.body.seatNumber,
-            amount: req.body.amount
-        });
-
-        const savedTransaction = await newTransaction.save();
-        res.status(201).json({ message: "Transaction created successfully!", transaction: savedTransaction });
+        const transactions = await Transaction.find({ userEmail: req.params.userEmail });
+        res.json(transactions);
+        console.log(transactions)
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal server error" });
     }
 });
 
-<<<<<<< Updated upstream
+router.post("/create_transactions", async (req, res) => {
+    try {
+        
+        await Transaction.create({
+            userEmail: req.body.userEmail, // Assuming userEmail is available in user details
+            eventName: req.body.eventName,
+            eventLocation: req.body.eventLocation,
+            eventDate: new Date(req.body.eventDate),
+            seatNumber: req.body.seatNumber,
+            amount: req.body.amount
+        });
+
+        res.status(200).json({ message: "Transaction created successfully!"});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+
 // Resets the password by finding user based on email (Raj Thapa)
 router.post('/reset-password', async (req, res) => {
   try {
@@ -249,6 +248,3 @@ router.get('/getevent/:eventName', async(req, res) =>{
 })
 
 module.exports = router;
-=======
-module.exports = router;
->>>>>>> Stashed changes

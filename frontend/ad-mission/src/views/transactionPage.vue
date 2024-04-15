@@ -1,21 +1,12 @@
 <template>
+
+  <!--Insert Navbar-->
   <div class="ticket-container">
-    <header class="ticket-header">
-      <div class="logo-container">
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/79072968352b1ea183e28304d155034abe34d5a032b948dd6fb37b7f0a73512f?apiKey=1ad0d0045c2e41ae9efd2b7342e0a4be&" alt="AD-MISSION logo" class="logo" />
-        <h1 class="company-name">AD-MISSION</h1>
-      </div>
-      <nav class="icon-nav">
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/ffd6ebdd91359f2ea9eb967668538ca6eb9e11f861b41859caf80cd72b2fd3b7?apiKey=1ad0d0045c2e41ae9efd2b7342e0a4be&" alt="Icon 1" class="icon" />
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/0c5823a81a2007fc8b4de36eb9b8e2fdea54907a2b57f0cc6e033ebca75b05ab?apiKey=1ad0d0045c2e41ae9efd2b7342e0a4be&" alt="Icon 2" class="icon" />
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/11558b15622870557d0492468da9113873d81693e3047b48768963343d78a6a6?apiKey=1ad0d0045c2e41ae9efd2b7342e0a4be&" alt="Icon 3" class="icon" />
-      </nav>
-    </header>
     <h2 class="section-title">TRANSACTION HISTORY</h2>
     <section class="transaction-details" v-if="transactions && transactions.length">
       <div v-for="transaction in transactions" :key="transaction._id" class="transaction-entry">
-        <p>User Email: {{ user.email }}</p>
-        <p>Event Name: {{ transaction.eventName }}</p>
+        <p>User Email: {{ user?.email }}</p>
+        <p>Event Name: {{ transaction}}</p>
         <p>Event Location: {{ transaction.eventLocation }}</p>
         <p>Event Date: {{ new Date(transaction.eventDate).toLocaleDateString() }}</p>
         <p>Seat Number: {{ transaction.seatNumber }}</p>
@@ -36,8 +27,8 @@ export default defineComponent({
   name: 'TicketComponent',
   computed: {
     user() {
-      
-      return useAuthStore().user;
+      const currentUser = useAuthStore();
+      return currentUser.user;
     }
   },
   data() {
@@ -51,8 +42,12 @@ export default defineComponent({
   methods: {
     async fetchTransactions() {
       try {
-        const response = await axios.get('http://localhost:8000/api/transaction');
+        const currentUser = useAuthStore();
+        if(currentUser.user != null && currentUser.user.email != null){
+          const response = await axios.get('http://localhost:8000/api/get_transactions/'+currentUser.user.email);
         this.transactions = response.data;
+        console.log(this.transactions);
+      }
       } catch (error) {
         console.error('Failed to fetch transactions:', error);
         // Handle errors, possibly with a user notification

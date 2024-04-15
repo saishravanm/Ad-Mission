@@ -15,7 +15,7 @@ const transactionSchema = mongoose.Schema({
         required: true
     },
     eventDate: {
-        type: Number,
+        type: Date,
         required: true
     },
     seatNumber: {

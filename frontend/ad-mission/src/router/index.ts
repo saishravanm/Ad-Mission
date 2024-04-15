@@ -12,7 +12,6 @@ const router = createRouter({
       path: '/userAuth',
       name: 'userAuth',
       component: () => import('../views/UserAuth.vue')
-<<<<<<< Updated upstream
     },
     {
       path: '/event_creation',
@@ -23,13 +22,11 @@ const router = createRouter({
       path: '/updateUserInfo',
       name: 'updateUserInfo',
       component: () => import('../views/UpdateUserInfo.vue')
-=======
     }, 
     {
       path: '/transaction',
       name: 'transaction',
       component: () => import('../views/transactionPage.vue')
->>>>>>> Stashed changes
     }
   ]
 })
