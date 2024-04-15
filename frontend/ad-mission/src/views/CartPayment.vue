@@ -1,30 +1,28 @@
-
-
 <template>
-    <div>
+    <div class="main">
         <div class="form-container">
-        <h1 class="form-title">Ad Mission</h1>
-        <form @submit.prevent="submitForm()">
-            <div>
-            <label for="cardNumber">Card Number:</label>
-            <input type="text" id="cardNumber" v-model="cardNumber" required>
-            </div>
-            <div>
-            <label for="expiry">Expiry Date:</label>
-            <input type="text" id="expiry" placeholder="MM/YYYY" v-model="expiry" required>
-            </div>
-            <div>
-            <label for="cvv">CVV:</label>
-            <input type="text" id="cvv" v-model="cvv" required>
-            </div>
-            <div>
-            <label for="name">Cardholder Name:</label>
-            <input type="text" id="name" v-model="cardholderName" required>
-            </div>
-            <button type="submit">Submit Payment</button>
-        </form>
+          <h1 class="form-title">Payment Method</h1>
+          <form @submit.prevent="submitForm()">
+              <div>
+              <label for="cardNumber">Card Number:</label>
+              <input type="text" id="cardNumber" v-model="cardNumber" required>
+              </div>
+              <div>
+              <label for="expiry">Expiry Date:</label>
+              <input type="text" id="expiry" placeholder="MM/YYYY" v-model="expiry" required>
+              </div>
+              <div>
+              <label for="cvv">CVV:</label>
+              <input type="text" id="cvv" v-model="cvv" required>
+              </div>
+              <div>
+              <label for="name">Cardholder Name:</label>
+              <input type="text" id="name" v-model="cardholderName" required>
+              </div>
+              <button type="submit">Submit Payment</button>
+          </form>
         </div>
-        <Cart></Cart>
+      <Cart></Cart>
     </div>
   </template>
 
@@ -36,7 +34,6 @@
     components:{
         Navbar,
         Cart, 
-        Payment
     },
     data() {
       return {
@@ -66,24 +63,39 @@
   </script>
 
   <style scoped>
+  .main{
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    background-color: #000;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    max-width: 10000%;
+  }
   .Cart{
-
+    align-self: center;
   }
   /* Form container */
   .form-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
+    max-width: 800px;
+    width: 400px;
+    margin-left: 30px;
+    margin-right: 0;
+    padding-left: 20px;
+    background-color: #000;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .form-title{
+    color: #FFF;
   }
   
   /* Form labels */
   label {
     display: block;
     margin-bottom: 8px;
-    color: #333;
+    color: #FFF;
   }
   
   /* Form input fields */
@@ -91,7 +103,7 @@
     width: 100%;
     padding: 10px;
     margin-bottom: 16px;
-    border: 1px solid #ccc;
+    border: 1px solid #FFF;
     border-radius: 4px;
     transition: border-color 0.3s ease;
   }

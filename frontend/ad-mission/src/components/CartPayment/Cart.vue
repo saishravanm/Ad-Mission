@@ -3,16 +3,16 @@
       <div class="div-2">
         <div class="div-5">Shopping Cart</div>
         <div class="div-4">Current cart:</div>
-        <div v-for="seat in seats" :key="seatid">
-            <p>Seat number: {{ seat.id }}</p>
-            <p>Price: {{ seat.price }}</p>
+        <div>
+            <p>Seat number: {{seatNum}}</p>
+            <p>Price: {{ seatPrice}}</p>
         </div>
         <div class="div-7">
           <div class="left">
             Total:
           </div>
           <div class="right">
-            {{ totalCost }}
+            {{ seatPrice}}
           </div>
         </div>
         <div class="div-9">
@@ -29,27 +29,23 @@
   import {useEventStore} from '../../stores/auth.ts';
   import {useSeatStore } from '../../stores/auth.ts';
   const seatStore = useSeatStore();
-  const seat = seatStore.
+
   export default{
     data() {
       return {
-          seats: [],
           totalCost: 0,
       };
     },
-    mounted() {
-      axios.get('data.json')
-        .then(response => {
-          this.seats = response.data;
-          this.calculateTotal();
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    },
-    methods: {
-      calculateTotal() {
-        this.totalCost = this.seats.reduce((total, seat) => total + seat.cost, 0);
+    computed: {
+      seatNum() {
+        const seat = seatStore.loadSelectedSeatFromLocalStorage();
+        return seat.seat_num; // Load user data from the authStore
+      },
+      seatPrice(){
+        const price = seatStore.loadSelectedSeatFromLocalStorage();
+        return price.seatPrice;
       }
-  }
+    },
   };
   
   </script>
@@ -58,15 +54,12 @@
   .div {
     background-color: #000;
     display: flex;
-    width: 1200px;
+    width: 800px;
+    margin-left: 400px;
     height: 100vh;
     align-items: center;
     font-weight: 200;
-    white-space: nowrap;
-    justify-content: center;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    
+    justify-content: center;  
   }
   @media (max-width: 991px) {
     .div {
@@ -74,7 +67,7 @@
       padding: 0 20px;
     }
   }
-  .div-2 {
+/** .div-2 {
     border-color: rgba(217, 217, 217, 1);
     border-style: solid;
     border-width: 1px;
@@ -85,7 +78,7 @@
     flex-direction: column;
     align-items: start;
     padding: 61px;
-  }
+  } */
   @media (max-width: 991px) {
     .div-2 {
       margin-top: 40px;

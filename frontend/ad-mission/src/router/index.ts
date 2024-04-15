@@ -18,6 +18,16 @@ const router = createRouter({
       path: '/updateUserInfo',
       name: 'updateUserInfo',
       component: () => import('../views/UpdateUserInfo.vue')
+    },
+    {
+      path:'/cartPayment',
+      name: 'cartPayment',
+      component: () => import('../views/CartPayment.vue')
+    },
+    {
+      path: '/event_list',
+      name: 'event_list',
+      component: () => import('../views/EventListPage.vue')
     }
   ]
 })
