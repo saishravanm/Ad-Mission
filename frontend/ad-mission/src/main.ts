@@ -3,6 +3,7 @@ import './assets/main.css'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import { useAuthStore } from './stores/auth'
+import { useSeatStore } from './stores/auth'
 
 import App from './App.vue'
 import router from './router'
@@ -15,5 +16,8 @@ app.use(router)
 const authStore = useAuthStore()
 authStore.loadAuthStateFromLocalStorage()
 authStore.loadUser()
+
+const seatStore = useSeatStore()
+seatStore.loadSelectedSeatFromLocalStorage()
 
 app.mount('#app')

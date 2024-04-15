@@ -97,7 +97,7 @@
         <div class="legend-box reserved">
           <div :class="{'div-black': isFilled, 'div-white': !isFilled}" @mouseover="preselect" @mouseleave="handleMouseLeave" @click="handleClick(seatNum,seatPrice)"></div>
         </div>
-        <div v-show="isHovering" class="popup">
+        <div v-show="isHovering" class="popup" style="color: black;">
           <p>Seat Number: {{ seatNum }}</p>
           <p>Seat Row: {{ seatRow }}</p>
           <p>Seat Column: {{ seatColumn }}</p>
@@ -169,13 +169,18 @@ export default {
     handleClick(sN, sP) {
       const userStore = useAuthStore()
       if (userStore.isAuthenticated) {
-        confirm('would you like to reserve this seat?');
-        const seatStore = useSeatStore()
-        const eventStore = useEventStore()
-        const currentUserName = userStore.loadCurrentUserName()
-        const currentEventName = eventStore.loadCurrentEventName()
-        seatStore.storeSelectedSeat({ currentUserName, currentEventName, sN, sP })
-        seatStore.loadSelectedSeatFromLocalStorage()
+        if (!this.isFilled) {
+          const registration_confirm =confirm('would you like to reserve this seat?');
+          const seatStore = useSeatStore()
+          const eventStore = useEventStore()
+          const currentUserName = userStore.loadCurrentUserName()
+          const currentEventName = eventStore.loadCurrentEventName()
+          seatStore.storeSelectedSeat({ currentUserName, currentEventName, sN, sP })
+          if(registration_confirm)
+          {
+            router.push({name:'cartPayment'})
+          }
+        }  
       } else {
         this.errorMessage = "You have not logged in! Please Sign in or register!"
         this.showErrorPopup = true

@@ -92,12 +92,15 @@
         this.selectedSeat = seat;
         localStorage.setItem('selectedSeat', JSON.stringify(seat));
       },
-      loadSelectedSeatFromLocalStorage(): void {
+      loadSelectedSeatFromLocalStorage(): Seat{
         const selectedSeatString = localStorage.getItem('selectedSeat');
         if (selectedSeatString) {
           this.selectedSeat = JSON.parse(selectedSeatString);
+          if (this.selectedSeat){
+            return this.selectedSeat;
+          }
         }
-        console.log(selectedSeatString)
+        console.log(selectedSeatString);
       },
       clearSelectedSeat(): void {
         this.selectedSeat = null;
