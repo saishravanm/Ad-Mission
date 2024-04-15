@@ -16,8 +16,8 @@
           </div>
         </div>
         <div class="div-9">
-          <button class="button" @click="">Cancel</button>
-          <button class="button" @click="">Proceed to Checkout</button>
+          <button class="button" @click="goToHome()">Cancel</button>
+          <button class="button" @click="handleCheckout()">Proceed to Checkout</button>
         </div>
       </div>
     </div>
@@ -28,6 +28,7 @@
   import { useAuthStore } from '../../stores/auth.ts';
   import {useEventStore} from '../../stores/auth.ts';
   import {useSeatStore } from '../../stores/auth.ts';
+  import router from '@/router/index.ts';
 
   export default{
     data() {
@@ -38,7 +39,6 @@
     computed: {
       seatNum() {
         const seatStore = useSeatStore();
-        console.log(seatStore.selectedSeat?.sN);
         if(seatStore.selectedSeat != null){
           console.log("HI");
           return seatStore.selectedSeat; // Load user data from the authStore
@@ -57,6 +57,19 @@
         }
       }
     },
+    methods: {
+      goToHome() {
+        router.push({name: 'homepage'});
+      },
+      handleCheckout() {
+        const seatStore = useSeatStore();
+        if (seatStore != null && seatStore.selectedSeat != null) {
+          const eventName = seatStore.selectedSeat.currentEventName;
+          const seatNum = seatStore.selectedSeat.sN;
+          const response = axios.put('http://localhost:8000/api/reserve_seat/'+eventName+'/'+seatNum);
+        }
+      }
+    }
   };
   
   </script>

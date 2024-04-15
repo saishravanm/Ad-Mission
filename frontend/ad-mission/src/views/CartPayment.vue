@@ -19,7 +19,6 @@
               <label for="name">Cardholder Name:</label>
               <input type="text" id="name" v-model="cardholderName" required>
               </div>
-              <button type="submit">Submit Payment</button>
           </form>
         </div>
       <Cart></Cart>
@@ -113,21 +112,4 @@
     border-color: #5cb3fd; /* Light blue border color */
   }
   
-  /* Submit button */
-  button[type="submit"] {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    background-color: #5cb3fd; /* Light blue button background */
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #4ca6e8; /* Darker blue on hover */
-    transform: scale(1.1); /* Enlarge the button on hover */
-  }
   </style>
