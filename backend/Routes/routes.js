@@ -121,9 +121,8 @@ router.get("/get_transactions/:userEmail", async (req, res) => {
 
 router.post("/create_transactions", async (req, res) => {
     try {
-        
         await Transaction.create({
-            userEmail: req.body.userEmail, // Assuming userEmail is available in user details
+            userEmail: req.body.userEmail, 
             eventName: req.body.eventName,
             eventLocation: req.body.eventLocation,
             eventDate: new Date(req.body.eventDate),

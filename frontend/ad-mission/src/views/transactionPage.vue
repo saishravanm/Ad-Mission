@@ -5,8 +5,8 @@
     <h2 class="section-title">TRANSACTION HISTORY</h2>
     <section class="transaction-details" v-if="transactions && transactions.length">
       <div v-for="transaction in transactions" :key="transaction._id" class="transaction-entry">
-        <p>User Email: {{ user?.email }}</p>
-        <p>Event Name: {{ transaction}}</p>
+        <p>User Email: {{ user.userEmail }}</p>
+        <p>Event Name: {{ transaction.eventName }}</p>
         <p>Event Location: {{ transaction.eventLocation }}</p>
         <p>Event Date: {{ new Date(transaction.eventDate).toLocaleDateString() }}</p>
         <p>Seat Number: {{ transaction.seatNumber }}</p>
@@ -43,10 +43,10 @@ export default defineComponent({
     async fetchTransactions() {
       try {
         const currentUser = useAuthStore();
-        if(currentUser.user != null && currentUser.user.email != null){
-          const response = await axios.get('http://localhost:8000/api/get_transactions/'+currentUser.user.email);
-        this.transactions = response.data;
-        console.log(this.transactions);
+        if(currentUser.user != null && currentUser.user.userEmail != null){
+          const response = await axios.get('http://localhost:8000/api/get_transactions/'+currentUser.user.userEmail);
+          this.transactions = response.data;
+          console.log(response);
       }
       } catch (error) {
         console.error('Failed to fetch transactions:', error);
