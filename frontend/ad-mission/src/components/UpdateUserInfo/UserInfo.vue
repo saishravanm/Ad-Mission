@@ -84,6 +84,9 @@
           <p>Save Changes</p>
           <img src="../../assets/save-icon.png" alt="Save Button" height="40" width="40">
         </button>
+        <button class="save-button" @click="goToHomePage()">
+          Go To HomePage
+        </button>
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </div>
   </div>
@@ -92,6 +95,7 @@
 <script lang="ts">
 import axios from 'axios';
 import { useAuthStore } from '@/stores/auth.ts';
+import router from '@/router/index.ts';
 
 export default {
   data() {
@@ -225,6 +229,10 @@ export default {
       catch(error){
         console.error("Error saving changes: ", error);
       }
+    },
+
+    goToHomePage() {
+      router.push({ name: 'homepage' });
     }
   },
   mounted(){
