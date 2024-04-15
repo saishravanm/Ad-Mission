@@ -2,17 +2,17 @@
     <div class="div">
       <div class="div-2">
         <div class="div-5">Shopping Cart</div>
-        <div class="div-4">Current cart:</div>
+        <div class="div-4">Event Name: {{seatNum.currentEventName}}</div>
         <div>
-            <p>Seat number: {{seatNum}}</p>
-            <p>Price: {{ seatPrice}}</p>
+            <p>Seat number: {{seatNum.sN}}</p>
+            <p>Price: $10.00</p>
         </div>
         <div class="div-7">
           <div class="left">
             Total:
           </div>
           <div class="right">
-            {{ seatPrice}}
+            $10.00
           </div>
         </div>
         <div class="div-9">
@@ -38,8 +38,9 @@
     computed: {
       seatNum() {
         const seatStore = useSeatStore();
-        console.log(seatStore.selectedSeat?.sN)
-        if(seatStore.selectedSeat?.seat_num != null){
+        console.log(seatStore.selectedSeat?.sN);
+        if(seatStore.selectedSeat != null){
+          console.log("HI");
           return seatStore.selectedSeat; // Load user data from the authStore
         }
         else{

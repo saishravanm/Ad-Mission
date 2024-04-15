@@ -97,7 +97,7 @@
         <div class="legend-box reserved">
           <div :class="{'div-black': isFilled, 'div-white': !isFilled}" @mouseover="preselect" @mouseleave="handleMouseLeave" @click="handleClick(seatNum,seatPrice)"></div>
         </div>
-        <div v-show="isHovering" class="popup">
+        <div v-show="isHovering" class="popup" style="color: black;">
           <p>Seat Number: {{ seatNum }}</p>
           <p>Seat Row: {{ seatRow }}</p>
           <p>Seat Column: {{ seatColumn }}</p>

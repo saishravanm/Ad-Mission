@@ -71,7 +71,7 @@
     display: flex;
     margin: 0;
     padding: 0;
-    max-width: 10000%;
+    width: 1200px;
   }
   .Cart{
     align-self: center;
