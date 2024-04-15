@@ -1,11 +1,23 @@
 <script lang='ts'>
-    import Navbar from '../components/NavBar/NavBar.vue';
+  import Navbar from '../components/NavBar/NavBar.vue';
+  import EventListPage from './EventListPage.vue';
+  import EventCreationPage from './EventCreationPage.vue';
+  import { useAuthStore } from '@/stores/auth.ts';
 
-    export default {
-        components: {
-            Navbar
-        }
+  export default {
+    components: {
+      Navbar,
+      EventListPage,
+      EventCreationPage
+    },
+    computed: {
+      isOrganizer() {
+        const user = useAuthStore().user;
+        return user && user.isOrganizer === true;
+      }
     }
+  }
+
 </script>
 
 <template>
@@ -19,9 +31,13 @@
           </div>
 
           <div class="div-8">
-            <div class="div-9">
-
-            </div>
+            <template v-if="isOrganizer">
+              <EventCreationPage></EventCreationPage>
+            </template>
+  
+            <template v-else>
+              <EventListPage></EventListPage>
+            </template>
           </div>
         </div>
       </div>
@@ -88,23 +104,7 @@
     z-index: 10;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 80px 60px;
-  }
-  @media (max-width: 991px) {
-    .div-8 {
-      max-width: 100%;
-      padding: 0 20px;
-    }
-  }
-  .div-9 {
-    width: 494px;
-    max-width: 100%;
-    margin: 176px 0 198px;
-  }
-  @media (max-width: 991px) {
-    .div-9 {
-      margin: 40px 0;
-    }
+    justify-content: left;
+    padding: 40px;
   }
   </style>

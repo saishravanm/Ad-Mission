@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../Models/usermodel.js");
 const Event = require("../Models/eventmodel.js");
+const Seat = require("../Models/seatmodel.js");
 const bcrypt = require("bcrypt");
 
 router.get("/", async(req, res) => {
@@ -16,6 +17,85 @@ router.get("/accountinfo/:useremail", async(req,res) => {
     });
     res.status(200).json({"userId":user.id, "userEmail":user.userEmail, "Phone Number":user.phoneNumber});
 });
+
+//this function gets the user data based on their ID
+router.post("/userData", async(req, res) => {
+    const userID = req.query.userId;
+    if (!userID) {
+        return res.status(404).json({ error: "User not found" });
+    }
+
+    const user = await User.findOne({_id: userID});
+    res.status(200).json({
+        "userID": user._id, 
+        "userEmail": user.userEmail, 
+        "phoneNumber": user.phoneNumber,
+        "addressStreet": user.addressStreet,
+        "addressCity": user.addressCity,
+        "addressState": user.addressState,
+        "addressZip": user.addressZIP,
+        "firstName": user.firstName,
+        "lastName": user.lastName,
+        "birthday": user.birthday,
+    });
+});
+
+//this function updates the users data.
+router.put("/updateUser", async(req, res) => {
+    try{
+        const { id, firstName, lastName, email, phoneNumber, street, city, state, zip } = req.body;
+        
+        // Input validation
+        if (!id) {
+            return res.status(400).json({ error: "Please provide user ID" });
+        }
+
+        // Construct the update object dynamically
+        const updateObject = {};
+        if (firstName) updateObject.firstName = firstName;
+        if (lastName) updateObject.lastName = lastName;
+        if (email) updateObject.userEmail = email;
+        if (phoneNumber) updateObject.phoneNumber = phoneNumber;
+        if (street) updateObject.addressStreet = street;
+        if (city) updateObject.addressCity = city;
+        if (state) updateObject.addressState = state;
+        if (zip) updateObject.addressZIP = zip;
+
+        const user = await User.findOneAndUpdate(
+            { "_id": id },
+            { "$set": updateObject },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        res.json(user);
+    }
+    catch(error){
+        console.error("Error updating user: ", error);
+        res.status(500).json({error: 'Internal server error'});
+    }
+});
+
+//RETURN SEAT
+router.get("/get_seat/:seatNum"), async(req, res) =>{
+    const seat = await Seat.findOne({
+        seatNum: req.params.seatNum
+    });
+    res.status(200).json({"seatNum":seat.seatNum,"seatRow":seat.seatRow,"seatColumn":seat.seatColumn,"seatPrice":seat.seatPrice,"isFilled":seat.isFilled})
+}
+//RETURNS SEATS LIST
+router.get('/getseats', async (req, res) => {
+    try {  
+      var results = []
+      const seatList = await Seat.find({});
+      res.json(seatList);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
 
 // this function registers the new user by adding info to the database (Raj Thapa)
 router.post("/registration", async (req, res) => {
@@ -105,18 +185,84 @@ router.post('/reset-password', async (req, res) => {
 });
 
 //EVENT ROUTE SECTION
-
-router.post("/event_creation", async(req, res) => {
-    await Event.create({
-        eventName: req.body.eventName,
-        eventLocation: req.body.eventLocation,
-        eventDate: req.body.eventDate,
-        eventTime: req.body.eventTime,
-        eventDescription: req.body.eventDescription,
-    });
-    res.status(200).json({"message": "Event created successfully!"})
+router.put("/reserve_seat/:eventName/:seatNum", async(req,res) =>{
+    try{
+        const event = await Event.findOne({eventName: req.params.eventName});
+        const seatNum = req.params.seatNum;
+        const seatList = event.seatList;
+        for(var i in seatList)
+        {
+            var seat = seatList[i];
+            if(seat.seatNum == seatNum)
+            {
+                seat.isFilled = true;
+            }
+        }
+        event.seatList = seatList;
+        event.seatNum -=1;
+        //console.log(event.seatList)
+        const updated = await Event.findOneAndUpdate(
+            {"eventName":req.params.eventName},
+            {"$set":event},
+            {new: true}
+        );
+        res.status(200).json({"message": "Seat reserved successfully!"})
+        if(!event || !updated)
+        {
+            return res.status(400).json({ message: "Event not found!" });
+        }
+        
+    } catch(error){
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
 })
 
+    
 
+router.post("/event_creation", async(req, res) => {
+    try{
+        const { eventName, eventLocation, eventDate, eventTime, eventDescription, seatNum} = req.body;
+        const existingEvent = await Event.findOne({ eventName });
+        if (existingEvent) {
+             res.status(400).json({ "error": "Event already exists" });
+        }
+    await Event.create({
+        eventName,
+        eventLocation,
+        eventDate,
+        eventTime,
+        eventDescription,
+        seatNum
+    });
+    
+     res.status(200).json({"message": "Event created successfully!"})
+    }
+    catch(error){
+        console.error(error);
+         res.status(500).json({"error": "An error occurred while creating the event."});
+    }
+})
+router.get('/getevents', async (req, res) => {
+    try {  
+      var results = []
+      const eventList = await Event.find({});
+      res.json(eventList);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+router.get('/getevent/:eventName', async(req, res) =>{
+    try {
+        const event = await Event.findOne({ eventName: req.params.eventName });
+        if (!event) {
+            return res.status(400).json({ message: "Event not found!" });
+        }
+        res.json(event)
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+})
 
 module.exports = router;
