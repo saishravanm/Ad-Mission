@@ -168,7 +168,7 @@ export default defineComponent({
   font-weight: 300;
   border: 1px solid #fff;
   padding: 20px;
-  width: 80%;
+  width: 100%;
   text-align: left;
   margin-top: 31px;
 }

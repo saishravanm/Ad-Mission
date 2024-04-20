@@ -101,7 +101,7 @@
           <p>Seat Number: {{ seatNum }}</p>
           <p>Seat Row: {{ seatRow }}</p>
           <p>Seat Column: {{ seatColumn }}</p>
-          <p>Seat Price: {{ seatPrice }}</p>
+          <p>Seat Price: $10.00</p>
           <p>Is Filled: {{ isFilled ? 'Yes' : 'No' }}</p>
         </div>
       </div>
