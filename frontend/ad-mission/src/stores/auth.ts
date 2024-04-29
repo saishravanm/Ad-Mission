@@ -56,6 +56,15 @@
         return ret.user;
         }
         return " ";
+      },
+      changeUserName(newName): void {
+        const currentUserString = localStorage.getItem('user');
+        if (currentUserString != null){
+          const currentUser = JSON.parse(currentUserString);
+          currentUser.firstName = newName;
+          localStorage.setItem('user', JSON.stringify(currentUser));
+
+        }
       }
     },
 

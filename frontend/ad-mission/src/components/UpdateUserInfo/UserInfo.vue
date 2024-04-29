@@ -209,6 +209,10 @@ export default {
         }
 
         const response = await axios.put('http://localhost:8000/api/updateUser', newData);
+        if (newData.firstName != ""){
+          const authStore = useAuthStore();
+          authStore.changeUserName(newData.firstName);
+        }
         window.location.reload();
         if (this.changeFirst){
           this.changeFirstName();
