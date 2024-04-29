@@ -77,15 +77,11 @@ export default{
         eventStore.setCurrentEventName({x});
       },
       formatDate(date) {
-        const eventDate = new Date(date);
-        const month = eventDate.getMonth() + 1; 
-        const day = eventDate.getDate();
-        const year = eventDate.getFullYear();
-
-        const formattedMonth = month < 10 ? '0' + month : month;
-        const formattedDay = day < 10 ? '0' + day : day;
-
-        return `${formattedMonth}/${formattedDay}/${year}`;
+        console.log(date);
+        const year = date.substring(0,4);
+        const month = date.substring(5,7)
+        const day = date.substring(8, 10);
+        return `${month}/${day}/${year}`;
     }
 
   }
