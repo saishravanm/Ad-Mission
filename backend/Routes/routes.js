@@ -226,6 +226,9 @@ router.post("/event_creation", async(req, res) => {
         if (existingEvent) {
              res.status(400).json({ "error": "Event already exists" });
         }
+        if (seatNum % 5 != 0){
+            throw new Error ("Seats should be multiple of 5");
+        }
     await Event.create({
         eventName,
         eventLocation,
@@ -238,8 +241,8 @@ router.post("/event_creation", async(req, res) => {
      res.status(200).json({"message": "Event created successfully!"})
     }
     catch(error){
-        console.error(error);
-         res.status(500).json({"error": "An error occurred while creating the event."});
+        // console.error(error);
+        //res.status(500).json({"error": "An error occurred while creating the event."});
     }
 })
 
@@ -281,6 +284,7 @@ router.post("/create_transactions", async (req, res) => {
         await Transaction.create({
             userEmail: req.body.userEmail, 
             eventName: req.body.eventName,
+            eventLocation: req.body.eventLocation,
             eventDate: new Date(),
             seatNumber: req.body.seatNumber,
             amount: req.body.amount

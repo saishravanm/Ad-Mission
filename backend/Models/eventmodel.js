@@ -56,7 +56,7 @@ eventSchema.pre("save",async function (next){
         throw new Error("Event Year has passed!")
         return next();
     }
-    else if((event.eventDate.getFullYear() == date.getFullYear()) && ((event.eventDate.getMonth() < date.getMonth()) || event.eventDate.getDay() < date.getDay())) {
+    else if((event.eventDate.getFullYear() == date.getFullYear()) && ((event.eventDate.getMonth() < date.getMonth()) && event.eventDate.getDay() < date.getDay())) {
         throw new Error("Event Day/Month has passed!")
         return next();
     }

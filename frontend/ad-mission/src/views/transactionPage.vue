@@ -7,8 +7,7 @@
       <div v-for="transaction in transactions" :key="transaction._id" class="transaction-entry">
         <p>User Email: {{ user.userEmail }}</p>
         <p>Event Name: {{ transaction.eventName }}</p>
-        <p>Event Location: {{ transaction.eventLocation }}</p>
-        <p>Event Date: {{ new Date(transaction.eventDate).toLocaleDateString() }}</p>
+        <p>Transaction Date: {{ new Date(transaction.eventDate).toLocaleDateString() }}</p>
         <p>Seat Number: {{ transaction.seatNumber }}</p>
         <p>Amount Paid: ${{ transaction.amount.toFixed(2) }}</p>
       </div>
@@ -50,11 +49,8 @@ export default defineComponent({
       try {
         const currentUser = useAuthStore();
         if(currentUser.user != null && currentUser.user.userEmail != null){
-          console.log("fuck");
           const response = await axios.get('http://localhost:8000/api/get_transactions/'+currentUser.user.userEmail);
-          console.log(response);
           this.transactions = response.data;
-          console.log(response);
       }
       } catch (error) {
         console.error('Failed to fetch transactions:', error);

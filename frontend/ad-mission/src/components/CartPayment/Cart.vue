@@ -17,7 +17,7 @@
         </div>
         <div class="div-9">
           <button class="button" @click="goToHome()">Cancel</button>
-          <button class="button" @click="handleCheckout()">Proceed to Checkout</button>
+          <button class="button" @click="handleCheckout()">Checkout</button>
         </div>
         <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
@@ -46,7 +46,6 @@ import { errorMessages } from 'vue/compiler-sfc';
       seatNum() {
         const seatStore = useSeatStore();
         if(seatStore.selectedSeat != null){
-          console.log("HI");
           return seatStore.selectedSeat; // Load user data from the authStore
         }
         else{
