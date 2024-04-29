@@ -54,7 +54,7 @@ export default{
             required: true
         },
         eventDate: {
-            type: String,
+            type: Date,
             required: true
         },
         eventVenue:{
@@ -75,8 +75,20 @@ export default{
         const x = eN;
         const eventStore = useEventStore();
         eventStore.setCurrentEventName({x});
-      }
+      },
+      formatDate(date) {
+        const eventDate = new Date(date);
+        const month = eventDate.getMonth() + 1; 
+        const day = eventDate.getDate();
+        const year = eventDate.getFullYear();
+
+        const formattedMonth = month < 10 ? '0' + month : month;
+        const formattedDay = day < 10 ? '0' + day : day;
+
+        return `${formattedMonth}/${formattedDay}/${year}`;
     }
+
+  }
 }
 
 </script>
@@ -84,7 +96,7 @@ export default{
 <!--Write the HTML code to display the value of each prop onto the event object-->
 <template>
 <div class="div">
-    <div class="div-2">EVENT NAME: {{ eventName }}<br />DATE:{{ eventDate }}<br />VENUE:{{ eventVenue }} <br /> SEATS: {{ seatNum }}</div>
+    <div class="div-2">EVENT NAME: {{ eventName }}<br />DATE:{{ formatDate(eventDate) }}<br />VENUE:{{ eventVenue }} <br /> SEATS: {{ seatNum }}</div>
     <button class="button" @click="setCurrent(eventName);$parent.$parent.toggleSeat('SeatListView')">FIND TICKETS</button>
     <!--SeatList
       :eventName -->
