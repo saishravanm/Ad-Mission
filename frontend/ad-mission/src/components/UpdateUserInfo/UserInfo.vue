@@ -213,22 +213,45 @@ export default {
           const authStore = useAuthStore();
           authStore.changeUserName(newData.firstName);
         }
-        window.location.reload();
+        //window.location.reload();
         if (this.changeFirst){
           this.changeFirstName();
+          this.userData.firstName = this.newUserData.firstName;
         }
         if(this.changeLast){
           this.changeLastName();
+          this.userData.lastName = this.newUserData.lastName;
         }
         if(this.changeEmail){
           this.changeEmailAddress();
+          this.userData.email = this.newUserData.email;
         }
         if (this.changePhone){
           this.changePhoneNumber();
+          this.userData.phoneNumber = this.newUserData.phoneNumber;
         }
         if(this.changeAdd){
           this.changeAddress();
+          if(this.newUserData.street != '')
+            this.userData.street = this.newUserData.street;
+          if(this.newUserData.city != '')
+            this.userData.city = this.newUserData.city;
+          if(this.newUserData.state != '')
+            this.userData.state = this.newUserData.state;
+          if(this.newUserData.zip != '')
+            this.userData.zip = this.newUserData.zip;
         }
+
+        //clear fields
+        this.newUserData.firstName = '';
+        this.newUserData.lastName = '';
+        this.newUserData.email = '';
+        this.newUserData.confirmEmail = '';
+        this.newUserData.phoneNumber = '';
+        this.newUserData.street = '';
+        this.newUserData.city = '';
+        this.newUserData.state = '';
+        this.newUserData.zip = '';
       }
       catch(error){
         console.error("Error saving changes: ", error);
